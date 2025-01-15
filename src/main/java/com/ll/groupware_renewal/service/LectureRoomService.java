@@ -2,42 +2,94 @@ package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.LectureRoom;
 import com.ll.groupware_renewal.entity.UserReservation;
+import com.ll.groupware_renewal.repository.LectureRoomJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public interface LectureRoomService {
+public class LectureRoomService {
+	@Autowired
+	private LectureRoomJpaRepository lectureRoomDao;
 
-	List<LectureRoom> SelectLectureRoomList();
+	@Override
+	public List<LectureRoom> SelectLectureRoomList() {
+		return lectureRoomDao.SelectLectureRoomList();
+	}
 
-	int SelectMaxNumOfPeople(String lectureRoomNo);
+	@Override
+	public int SelectMaxNumOfPeople(String lectureRoomNo) {
+		return lectureRoomDao.SelectMaxNumOfPeople(lectureRoomNo);
+	}
 
-	String SelectLoginUserID(String userLoginID);
+	@Override
+	public String SelectLoginUserID(String userLoginID) {
+		return lectureRoomDao.SelectLoginUserID(userLoginID);
+	}
 
-	void InsertReservation(UserReservation userReservation);
+	@Override
+	public void InsertReservation(UserReservation userReservation) {
+		lectureRoomDao.InsertReservation(userReservation);
+	}
 
-	List<UserReservation> SelectStartTime(String lectureRoomNo);
+	@Override
+	public List<UserReservation> SelectStartTime(String lectureRoomNo) {
+		return lectureRoomDao.SelectStartTime(lectureRoomNo);
+	}
 
-	int SelectReservationUserID(int userID);
+	@Override
+	public int SelectReservationUserID(int userID) {
+		return lectureRoomDao.SelectReservationUserID(userID);
+	}
 
-	String SelectUserIDForReservationConfirm(String loginID);
+	@Override
+	public String SelectUserIDForReservationConfirm(String loginID) {
+		return lectureRoomDao.SelectUserIDForReservationConfirm(loginID);
+	}
 
-	int SelectLectureRoomNo(String userID);
+	@Override
+	public int SelectLectureRoomNo(String userID) {
+		return lectureRoomDao.SelectLectureRoomNo(userID);
+	}
 
-	int SelectRoomFloor(int lectureRoomNo);
+	@Override
+	public String SelectLectureRoomLocation(int lectureRoomNo) {
+		return lectureRoomDao.SelectLectureRoomLocation(lectureRoomNo);
+	}
 
-	int SelectLectureRoomMaxNumOfPeople(int lectureRoomNo);
+	@Override
+	public int SelectLectureRoomMaxNumOfPeople(int lectureRoomNo) {
+		return lectureRoomDao.SelectLectureRoomMaxNumOfPeople(lectureRoomNo);
+	}
 
-	int SelectReservationNumOfPeople(String userID);
+	@Override
+	public int SelectReservationNumOfPeople(String userID) {
+		return lectureRoomDao.SelectReservationNumOfPeople(userID);
+	}
 
-	String SelectReservationStartTime(String userID);
+	@Override
+	public String SelectReservationStartTime(String userID) {
+		return lectureRoomDao.SelectReservationStartTime(userID);
+	}
 
-	String SelectLectureRoomLocation(int lectureRoomNo);
+	@Override
+	public int SelectRoomFloor(int lectureRoomNo) {
+		return lectureRoomDao.SelectRoomFloor(lectureRoomNo);
+	}
 
-	String SelectReservationStartTimeForException(String startTime);
+	@Override
+	public String SelectReservationStartTimeForException(String startTime) {
+		return lectureRoomDao.SelectReservationStartTimeForException(startTime);
+	}
 
-	boolean DeleteReservation(UserReservation userReservation);
+	@Override
+	public UserReservation SelectRoomInfo(String UserID, UserReservation userReservation) {
+		userReservation = lectureRoomDao.SelectRoomInfo(UserID, userReservation);
+		return userReservation;
+	}
 
-	UserReservation SelectRoomInfo(String userID, UserReservation userReservation);
-
-
+	@Override
+	public boolean DeleteReservation(UserReservation userReservation) {
+		boolean Check = lectureRoomDao.DeleteReservation(userReservation);
+		return Check;
+	}
 }

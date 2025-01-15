@@ -1,42 +1,80 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.Professor;
+import com.ll.groupware_renewal.repository.ProfessorJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 
-public interface ProfessorService {
+public class ProfessorService {
 
-	// 정보 저장
-	public void InsertInformation(Professor professor);
+	@Autowired
+	private ProfessorJpaRepository professorDao;
 
-	// 회원가입 후 userID(foreign key) 업데이트
-	public void UpdateUserID(Professor professor);
+	@Override
+	public void InsertInformation(Professor professor) {
+		professorDao.InsertInformation(professor);
+	}
 
-	//교수 학과 update
-	public void UpdateProfessorColleges(Professor professor);
-	
-	//교수 전공 update
-	public void UpdateProfessorMajor(Professor professor);
-	
-	//교수실 update
-	public void UpdateProfessorRoom(Professor professor);
+	@Override
+	public void UpdateUserID(Professor professor) {
+		professorDao.UpdateUserID(professor);
+	}
 
-	//교수실 전화번호 update
-	public void UpdateProfessorRoomNum(Professor professor);
+	@Override
+	public void UpdateProfessorColleges(Professor professor) {
+		professorDao.UpdateProfessorColleges(professor);
+	}
 
-	// 로그인 완료 화면에 띄울 데이터 select
-	public ArrayList<String> SelectProfessorProfileInfo(String userID);
+	@Override
+	public void UpdateProfessorMajor(Professor professor) {
+		professorDao.UpdateProfessorMajor(professor);
+	}
 
-	public Professor SelectProfessorInfo(String userID);
+	@Override
+	public void UpdateProfessorRoom(Professor professor) {
+		professorDao.UpdateProfessorRoom(professor);
+	}
 
-	public void InsertWithdrawalProfessor(Professor professor);
+	@Override
+	public void UpdateProfessorRoomNum(Professor professor) {
+		professorDao.UpdateProfessorRoomNum(professor);
+	}
 
-	public void DeleteWithdrawalProfessor(Professor professor);
+	@Override
+	public ArrayList<String> SelectProfessorProfileInfo(String userID) {
+		ArrayList<String> ProfessorInfo = new ArrayList<String>();
+		ProfessorInfo = professorDao.SelectProfessorProfileInfo(userID);
+		return ProfessorInfo;
+	}
 
-	public void DeleteWithdrawalProfessorList(String string);
+	@Override
+	public Professor SelectProfessorInfo(String userID) {
+		return professorDao.SelectProfessorInfo(userID);
+	}
 
-	public void UpdateProfessorLoginDate(Professor professor);
+	@Override
+	public void InsertWithdrawalProfessor(Professor professor) {
+		professorDao.InsertWithdrawalprofessor(professor);
+	}
 
-	public Professor SelectModifyProfessorInfo(int userID);
-	
+	@Override
+	public void DeleteWithdrawalProfessor(Professor professor) {
+		professorDao.DeleteWithdrawalprofessor(professor);
+	}
+
+	@Override
+	public void DeleteWithdrawalProfessorList(String string) {
+		professorDao.DeleteWithdrawalprofessorList(string);
+	}
+
+	@Override
+	public void UpdateProfessorLoginDate(Professor professor) {
+		professorDao.UpdateProfessorLoginDate(professor);
+	}
+
+	@Override
+	public Professor SelectModifyProfessorInfo(int userID) {
+		return professorDao.SelectModifyProfessorInfo(userID);
+	}
 }

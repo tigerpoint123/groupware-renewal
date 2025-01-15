@@ -3,102 +3,326 @@ package com.ll.groupware_renewal.service;
 import com.ll.groupware_renewal.entity.Professor;
 import com.ll.groupware_renewal.entity.Student;
 import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.entity.UserInfoOpen;
+import com.ll.groupware_renewal.repository.ProfessorJpaRepository;
+import com.ll.groupware_renewal.repository.StudentJpaRepository;
+import com.ll.groupware_renewal.repository.UserJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-public interface UserService {
+public class UserService {
 
-	// 회원가입
-	public void InsertForSignUp(User user);
+	@Autowired
+	private UserJpaRepository userDao;
 
-	// 중복확인
-	public boolean SelctForIDConfirm(User user);
+	@Autowired
+	private StudentJpaRepository studentDao;
 
-	// 비번 찾기
-	public boolean SelectPwdForConfirmToFindPwd(User user);
+	@Autowired
+	private ProfessorJpaRepository professorDao;
 
-	// userID(다른 테이블들의 foreign key) 찾기
-	public int SelectUserID(Student student);
-	
-	public int SelectUserID(Professor professor);
+	@Override
+	public void InsertForSignUp(User user) {
+		userDao.InsertForSignUp(user);
+	}
 
-	public String SelectForShowPassword(User user);
+	@Override
+	public boolean SelctForIDConfirm(User user) {
+		boolean Checker = userDao.SelctForIDConfirm(user);
+		return Checker;
+	}
 
-	public void UpdateLoginDate(User user);
+	@Override
+	public boolean SelectPwdForConfirmToFindPwd(User user) {
+		boolean PwdChecker = userDao.SelectPwdForConfirmToFindPwd(user);
+		return PwdChecker;
+	}
 
-	public String SelectCurrentPwd(String id);
+	@Override
+	public String SelectForShowPassword(User user) {// 임시 비밀번호 생성
+		boolean Checker = userDao.SelectForShowPassword(user);
+		Random RandomNum = new Random();
+		String Result = "";
+		if (Checker) {
+			Result = Integer.toString(RandomNum.nextInt(8) + 1);
+			for (int i = 0; i < 7; i++) {
+				Result += Integer.toString(RandomNum.nextInt(9));
+			}
+		} else {
+			Result = "false";
+		}
+		return Result;
+	}
 
-	public void UpdatePwd(User user);
+	@Override
+	public int SelectUserID(Student student) {
+		return userDao.SelectUserID(student);
+	}
 
-	public boolean SelectForPwdCheckBeforeModify(String pw, String pw2);
+	@Override
+	public int SelectUserID(Professor professor) {
+		return userDao.SelectUserID(professor);
+	}
 
-	public ArrayList<String> SelectMyPageUserInfo(String userId);
+	@Override
+	public void UpdateLoginDate(User user) {
+		userDao.UpdateLoginDate(user);
+	}
 
-	public ArrayList<String> SelectUserProfileInfo(String loginID);
+	@Override
+	public String SelectCurrentPwd(String id) {
+		return userDao.SelectCurrentPwd(id);
+	}
 
-	public void updateUserPhoneNumber(User user);
+	@Override
+	public void UpdatePwd(User user) {
+		userDao.UpdatePwd(user);
+	}
 
-	public void UpdateUserMajor(User user);
+	@Override
+	public ArrayList<String> SelectUserProfileInfo(String id) {
+		ArrayList<String> Info = new ArrayList<String>();
+		Info = userDao.SelectUserProfileInfo(id);
+		return Info;
+	}
 
-	public void UpdateUserColleges(User user);
+	@Override
+	public void updateUserPhoneNumber(User user) {
+		userDao.updateUserPhoneNumber(user);
+	}
 
-	public ArrayList<String> SelectUserInformation(String userId);
+	@Override
+	public void UpdateUserMajor(User user) {
+		userDao.updateUserMajor(user);
+	}
 
-	public void UpdateTemporaryPwd(User user);
+	@Override
+	public void UpdateUserColleges(User user) {
+		userDao.updateUserColleges(user);
+	}
 
-	public void UpdateDoWithdrawalRecoveryByAdmin(String ajaxMsg);
+	@Override
+	public ArrayList<String> SelectUserInformation(String userId) {
+		ArrayList<String> UserInfo = new ArrayList<String>();
+		UserInfo = userDao.SelectUserInformation(userId);
+		return UserInfo;
+	}
 
-	public void UpdateDormantOneToZero(String id);
+	@Override
+	public boolean SelectForPwdCheckBeforeModify(String id, String pw) {
+		return userDao.SelectForPwdCheckBeforeModify(id, pw);
+	}
 
-	public void UpdateAdminRole(String string, String optionValue);
+	@Override
+	public void UpdateTemporaryPwd(User user) {
+		userDao.UpdateTemporaryPwd(user);
 
-	public void UpdateUserRole(String string, String optionValue);
+	}
 
-	public ArrayList<String> SelectUserProfileInfoByID(String mysqlID);
+	@Override
+	public void UpdateDoWithdrawalRecoveryByAdmin(String ajaxMsg) {
+		userDao.UpdateDoWithdrawalRecoveryByAdmin(ajaxMsg);
+	}
 
-	public void UpdateUserName(User user);
+	@Override
+	public void UpdateDormantOneToZero(String id) {
+		userDao.UpdateDormantOneToZero(id);
+	}
 
-	public void UpdateOpenPhoneNum(User user);
+	@Override
+	public void UpdateUserRole(String id, String optionValue) {
+		userDao.UpdateUserRole(id, optionValue);
+	}
 
-	public void UpdateOpenGrade(User user);
+	@Override
+	public void UpdateAdminRole(String id, String optionValue) {
+		userDao.UpdateAdminRole(id, optionValue);
+	}
 
-	public User SelectUserInfo(String userLoginID);
+	@Override
+	public ArrayList<String> SelectMyPageUserInfo(String userId) {
+		ArrayList<String> Info = new ArrayList<String>();
+		ArrayList<String> UserInfo = new ArrayList<String>();
+		ArrayList<String> StudentInfo = new ArrayList<String>();
+		ArrayList<String> ProfessorInfo = new ArrayList<String>();
 
-	public String SelectOpenInfo(String userID);
+		UserInfo = userDao.SelectMyPageUserInfo(userId);
+		StudentInfo = studentDao.SelectMyPageUserInfo(UserInfo.get(0));
+		ProfessorInfo = professorDao.SelectMyPageUserInfo(UserInfo.get(0));
+		UserInfo.remove(0);
 
-	public int SelectUserIDFromBoardController(String userLoginID);
+		for (int i = 0; i < UserInfo.size(); i++) {
+			Info.add(UserInfo.get(i));
+		}
+		for (int i = 0; i < StudentInfo.size(); i++) {
+			Info.add(StudentInfo.get(i));
+		}
+		for (int i = 0; i < ProfessorInfo.size(); i++) {
+			Info.add(ProfessorInfo.get(i));
+		}
+		return Info;
+	}
 
-	public String SelectUserRole(String userLoginID);
+	@Override
+	public ArrayList<String> SelectUserProfileInfoByID(String mysqlID) {
+		ArrayList<String> Info = new ArrayList<String>();
+		ArrayList<String> UserInfo = new ArrayList<String>();
+		ArrayList<String> StudentInfo = new ArrayList<String>();
+		ArrayList<String> ProfessorInfo = new ArrayList<String>();
+		// 유저정보를 mysqlID를 던져줘서 받아온다.
+		UserInfo = userDao.SelectMyPageUserInfoByID(mysqlID);
+		// 학생정보를 mysqlID를 통해서 받아온다.
+		StudentInfo = studentDao.SelectMyPageUserInfoByID(mysqlID);
+		// 교수정보를 mysqlID를 통해서 받아온다.
+		ProfessorInfo = professorDao.SelectMyPageUserInfoByID(mysqlID);
+		// Data의 크기만큼 Info List에 채워준다.
+		for (int i = 0; i < UserInfo.size(); i++) {
+			Info.add(UserInfo.get(i));
+		}
+		// Data의 크기만큼 Info List에 채워준다.
+		for (int i = 0; i < StudentInfo.size(); i++) {
+			Info.add(StudentInfo.get(i));
+		}
+		// Data의 크기만큼 Info List에 채워준다.
+		for (int i = 0; i < ProfessorInfo.size(); i++) {
+			Info.add(ProfessorInfo.get(i));
+		}
+		return Info;
+	}
 
-	public String SelectUserName(String userLoginID);
+	@Override
+	public void UpdateUserName(User user) {
+		userDao.UpdateUserName(user);
+	}
 
-	public void UpdateWithdrawal(User user);
+	@Override
+	public void UpdateOpenPhoneNum(User user) {
+		userDao.UpdatePhoneNum(user);
+	}
 
-	public void UpdateRecoveryWithdrawal(User user);
+	@Override
+	public void UpdateOpenGrade(User user) {
+		userDao.UpdateOpenGrade(user);
+	}
 
-	public void UpdateWithdrawalByDormant(String string);
+	@Override
+	public User SelectUserInfo(String userLoginID) {
+		return userDao.SelectUserInfo(userLoginID);
+	}
 
-	public boolean SelectDormant(String loginID);
+	@Override
+	public String SelectOpenInfo(String userID) {
+		// XML화해야할지 팀원들과 얘기하기
+		// 추후 Entity로 옮겨야함
+		List<UserInfoOpen> SelectOpenInfo = userDao.SelectOpenInfo(userID);
+		String result = "Error";
 
-	public void UpdateRecoveryDormant(String loginID);
+		result = SelectOpenInfo.get(0).getOpenGrade() + "," + SelectOpenInfo.get(0).getOpenPhoneNum();
 
-	public String SelectWriter(String userLoginID);
+		if (result.contains(",비공개") || result.contains("비공개")) {
+			result = result.replaceAll(",비공개", "");
+			result = result.replaceAll("비공개", "");
+			boolean startComma = result.startsWith(",");
+			boolean endComma = result.endsWith(",");
+			if (startComma || endComma) {
+				result = result.substring(result.length() - (result.length() - 1), result.length());
+			}
+		}
 
-	public String SelectUserIDForDocument(String userLoginID);
+		return result;
 
-	public String SelectTWriterID(String tWriter);
+	}
 
-	public String SelectUserIDForMyBoard(String loginID);
+	@Override
+	public int SelectUserIDFromBoardController(String userLoginID) {
+		return userDao.SelectUserIDFromBoardController(userLoginID);
+	}
 
-	public String SelectEmailForInquiry(String userLoginID);
+	@Override
+	public String SelectUserRole(String userLoginID) {
+		return userDao.SelectUserRole(userLoginID);
+	}
 
-	public String SelectPhoneNumForInquiry(String userLoginID);
+	@Override
+	public String SelectUserName(String userLoginID) {
+		return userDao.SelectUserName(userLoginID);
+	}
 
-	public String SelectUserIDForDate(String loginID);
+	@Override
+	public void UpdateWithdrawal(User user) {
+		userDao.UpdateWithdrawalUser(user);
+	}
 
-	public String SelectIDForReview(String userLoginID);
+	@Override
+	public void UpdateRecoveryWithdrawal(User user) {
+		userDao.UpdateRecoveryWithdrawal(user);
+	}
 
-	public User SelectModifyUserInfo(String loginID);
+	@Override
+	public void UpdateWithdrawalByDormant(String ajxMsg) {
+		userDao.UpdateWithdrawalByDormant(ajxMsg);
+	}
 
+	@Override
+	public boolean SelectDormant(String loginID) {
+		boolean DormantCheck = userDao.SelectDormant(loginID);
+		return DormantCheck;
+	}
 
+	@Override
+	public void UpdateRecoveryDormant(String loginID) {
+		userDao.UpdateRecoveryDormant(loginID);
+	}
+
+	@Override
+	public String SelectWriter(String userLoginID) {
+		String Output = userDao.SelectWriter(userLoginID);
+		return Output;
+	}
+
+	@Override
+	public String SelectUserIDForDocument(String userLoginID) {
+		String Output = userDao.SelectUserIDForDocument(userLoginID);
+		return Output;
+	}
+
+	@Override
+	public String SelectTWriterID(String tWriter) {
+		return userDao.SelectTWriterID(tWriter);
+	}
+
+	@Override
+	public String SelectUserIDForMyBoard(String loginID) {
+		return userDao.SelectUserIDForMyBoard(loginID);
+	}
+
+	@Override
+	public String SelectEmailForInquiry(String userLoginID) {
+		String EmailForInquiry = userDao.SelectEmailForInquiry(userLoginID);
+		return EmailForInquiry;
+	}
+
+	@Override
+	public String SelectPhoneNumForInquiry(String userLoginID) {
+		String PhoneNumForInquiry = userDao.SelectPhoneNumForInquiry(userLoginID);
+		return PhoneNumForInquiry;
+	}
+
+	@Override
+	public String SelectUserIDForDate(String loginID) {
+		return userDao.SelectUserIDForDate(loginID);
+	}
+
+	@Override
+	public String SelectIDForReview(String userLoginID) {
+		return userDao.SelectIDForReview(userLoginID);
+	}
+
+	@Override
+	public User SelectModifyUserInfo(String loginID) {
+		return userDao.SelectModifyUserInfo(loginID);
+	}
 }

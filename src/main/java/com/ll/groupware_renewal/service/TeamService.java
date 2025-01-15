@@ -2,73 +2,177 @@ package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.Class;
 import com.ll.groupware_renewal.entity.*;
+import com.ll.groupware_renewal.repository.TeamJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public interface TeamService {
+public class TeamService {
+	@Autowired
+	TeamJpaRepository teamDao;
 
-	public void InsertTeamInfo(Team team);
+	@Override
+	public void InsertTeamInfo(Team team) {
+		teamDao.InsertTeamInfo(team);
+	}
 
-	public int SelectClassID(Class classInfo);
+	@Override
+	public int SelectClassID(Class classInfo) {
+		return teamDao.SelectClassID(classInfo);
+	}
 
-	public int SelectUserIDForTeamUser(User user);
+	@Override
+	public int SelectUserIDForTeamUser(User user) {
+		return teamDao.SelectUserIDForTeamUser(user);
+	}
 
-	public void InsertTeamUserInfo(TeamUser teamUser);
+	@Override
+	public void InsertTeamUserInfo(TeamUser teamUser) {
+		teamDao.InsertTeamUserInfo(teamUser);
+	}
 
-	public List<Class> SelectLectureInfo(String lectureName);
+	@Override
+	public List<Class> SelectLectureInfo(String lectureName) {
+		List<Class> LectureInfo = teamDao.SelectLectureInfo(lectureName);
+		return LectureInfo;
+	}
 
-	public int SelectTeamLeaderUserID(String name);
+	@Override
+	public int SelectTeamLeaderUserID(String name) {
+		return teamDao.SelectTeamLeaderUserID(name);
+	}
 
-	public List<Team> SelectTeamList();
+	@Override
+	public List<Team> SelectTeamList() {
+		List<Team> SelectTeamList = teamDao.SelectTeamList();
+		return SelectTeamList;
+	}
 
-	public Class SelectClassList(int classID);
+	@Override
+	public Class SelectClassList(int classID) {
+		Class SelectClassList = teamDao.SelectClassList(classID);
+		return SelectClassList;
+	}
 
-	public int SelectClassIDForCheckTeam(int teamID);
+	@Override
+	public int SelectClassIDForCheckTeam(int teamID) {
+		return teamDao.SelectClassIDForCheckTeam(teamID);
+	}
 
-	public List<Class> SelectClassInfoForCheckTeam(int classID);
+	@Override
+	public List<Class> SelectClassInfoForCheckTeam(int classID) {
+		return teamDao.SelectClassInfoForCheckTeam(classID);
+	}
 
-	public String SelectTeamName(int teamID);
+	@Override
+	public String SelectTeamName(int teamID) {
+		return teamDao.SelectTeamName(teamID);
+	}
 
-	public List<TeamUser> SelectTeamMemberInfo(int teamID);
+	@Override
+	public List<TeamUser> SelectTeamMemberInfo(int teamID) {
+		return teamDao.SelectTeamMemberInfo(teamID);
+	}
 
-	public String SelectLeaderName(int userID);
+	@Override
+	public String SelectLeaderName(int userID) {
+		return teamDao.SelectLeaderName(userID);
+	}
 
-	public String SelectLeaderLoginID(int userID);
+	@Override
+	public String SelectLeaderLoginID(int userID) {
+		return teamDao.SelectLeaderLoginID(userID);
+	}
 
-	public List<TeamUser> SelectMyTeamList(String loginID);
+	@Override
+	public List<TeamUser> SelectMyTeamList(String loginID) {
+		return teamDao.SelectMyTeamList(loginID);
+	}
 
-	public void DeleteTeamMemberInfo(int teamID);
+	@Override
+	public void DeleteTeamMemberInfo(int teamID) {
+		teamDao.DeleteTeamMemberInfo(teamID);
+	}
 
-	public List<Team> SelectMyTeamInfo(int teamID);
+	@Override
+	public List<Team> SelectMyTeamInfo(int teamID) {
+		return teamDao.SelectMyTeamInfo(teamID);
+	}
 
-	public List<Class> SelectClassInfo(int classID);
+	@Override
+	public List<Class> SelectClassInfo(int classID) {
+		return teamDao.SelectClassInfo(classID);
+	}
 
-	public List<TeamBoard> SelectTeamBoardListInfo(String teamID);
+	@Override
+	public List<TeamBoard> SelectTeamBoardListInfo(String teamID) {
+		return teamDao.SelectTeamBoardListInfo(teamID);
+	}
 
-	public String SelectTeamIDForDocument(String userID);
+	@Override
+	public String SelectTeamIDForDocument(String userID) {
+		return teamDao.SelectTeamIDForDocument(userID);
+	}
 
-	public String SelectTeamIDForDelete(String tUserID);
+	@Override
+	public String SelectTeamIDForDelete(String tUserID) {
+		return teamDao.SelectTeamIDForDelete(tUserID);
+	}
 
-	public List<Integer> SelectTeamNameWithLoginUser(String name);
+	@Override
+	public Integer SelectClassIDFromTeam(Integer teamID) {
+		return teamDao.SelectClassIDFromTeam(teamID);
+	}
 
-	public Integer SelectClassIDFromTeam(Integer teamID);
+	@Override
+	public List<Integer> SelectTeamNameWithLoginUser(String name) {
+		return teamDao.SelectTeamNameWithLoginUser(name);
+	}
 
-	public String SelectTeamIDForReview(String string);
+	@Override
+	public String SelectTeamIDForReview(String teamName) {
+		return teamDao.SelectTeamIDForReview(teamName);
+	}
 
-	public List<TeamUser> SelectTeamMember(String teamID);
+	@Override
+	public List<TeamUser> SelectTeamMember(String teamID) {
+		return teamDao.SelectTeamMember(teamID);
+	}
 
-	public String SelectTeamUserID(String userLoginID);
+	@Override
+	public String SelectTeamUserID(String userLoginID) {
+		return teamDao.SelectTeamUserID(userLoginID);
+	}
 
-	public void InsertUserReview(UserReview userReview);
+	@Override
+	public void InsertUserReview(UserReview userReview) {
+		teamDao.InsertUserReview(userReview);
+	}
 
-	public String SelectTeamLeaderLoginID(String teamID);
+	@Override
+	public String SelectTeamLeaderLoginID(String teamID) {
+		return teamDao.SelectTeamLeaderLoginID(teamID);
+	}
 
-	public void DeleteTeam(String teamID);
+	@Override
+	public void DeleteTeam(String teamID) {
+		teamDao.DeleteTeam(teamID);
+	}
 
-	public String SelectWriterUserID(String name);
+	@Override
+	public String SelectWriterUserID(String name) {
+		return teamDao.SelectWriterUserID(name);
+	}
 
-	public int SelectColumnCount(UserReview userReview);
+	@Override
+	public int SelectColumnCount(UserReview userReview) {
+		return teamDao.SelectColumnCount(userReview);
+	}
 
-	public String SelectTeamNameWithTeamID(int teamID);
+	@Override
+	public String SelectTeamNameWithTeamID(int teamID) {
+		// TODO Auto-generated method stub
+		return teamDao.SelectTeamNameWithTeamID(teamID);
+	}
 
 }

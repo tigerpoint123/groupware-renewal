@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Map;
 
-public interface BoardJpaRepository extends JpaRepository<Board, Integer> {
+public interface BoardJpaRepository  extends JpaRepository<Board, Integer> {
     void InsertFile(Map<String, Object> map);
     void insertFile(Map<String, Object> map);
     void InsertTeamFileInfo(Map<String, Object> map);

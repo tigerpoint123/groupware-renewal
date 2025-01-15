@@ -1,17 +1,34 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.*;
+import com.ll.groupware_renewal.repository.SearchJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public interface SearchService {
+public class SearchService {
 
-	public List<User> SelectKeyWord(SearchKeyWord searchKeyWord);
+	@Autowired
+	private SearchJpaRepository searchDao;
 
-	public Student SelectStudentInfo(int i);
+	@Override
+	public List<User> SelectKeyWord(SearchKeyWord searchKeyWord) {
+		return searchDao.SelectKeyWord(searchKeyWord);
+	}
 
-	public Professor SelectProfessorInfo(int userID);
+	@Override
+	public Student SelectStudentInfo(int userID) {
+		return searchDao.SelectStudentInfo(userID);
+	}
 
-	public List<UserReview> SelectUserReview(String userID);
+	@Override
+	public Professor SelectProfessorInfo(int userID) {
+		return searchDao.SelectProfessorInfo(userID);
+	}
+
+	@Override
+	public List<UserReview> SelectUserReview(String userID) {
+		return searchDao.SelectUserReview(userID);
+	}
 
 }

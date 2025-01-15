@@ -1,45 +1,90 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.Student;
+import com.ll.groupware_renewal.repository.StudentJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 
-public interface StudentService {
+public class StudentService {
 
-	// 정보 저장
-	public void InsertInformation(Student student);
+	@Autowired
+	private StudentJpaRepository studentDao;
 
-	// 회원가입 후 userID(foreign key) 업데이트
-	public void UpdateUserID(Student student);
+	@Override
+	public void InsertInformation(Student student) {
+		studentDao.InsertInformation(student);
+	}
 
-	// 성별 update
-	public void updateStudentGender(Student student);
+	@Override
+	public void UpdateUserID(Student student) {
+		studentDao.UpdateUserID(student);
+	}
 
-	// 학년 update
-	public void updateStudentGrade(Student student);
+	@Override
+	public void updateStudentGender(Student student) {
+		studentDao.UpdateStudentGender(student);
+	}
 
-	// 부전공
-	public void UpdateStudentDobuleMajor(Student student);
+	@Override
+	public void updateStudentGrade(Student student) {
+		studentDao.UpdateStudentGrade(student);
+	}
 
-	// 로그인 완료 화면에 띄울 데이터 select
-	public ArrayList<String> SelectStudentProfileInfo(String userID);
+	@Override
+	public void UpdateStudentDobuleMajor(Student student) {
+		studentDao.UpdateStudentDobuleMajor(student);
+	}
 
-	public void UpdateStudentGender(Student student);
+	@Override
+	public ArrayList<String> SelectStudentProfileInfo(String userID) {
+		ArrayList<String> StudentInfo = new ArrayList<String>();
+		StudentInfo = studentDao.SelectStudentProfileInfo(userID);
+		return StudentInfo;
+	}
 
-	public void UpdateStudentColleges(Student student);
+	@Override
+	public void UpdateStudentGender(Student student) {
+		studentDao.UpdateStudentGender(student);
+	}
 
-	public void UpdateStudentMajor(Student student);
+	@Override
+	public void UpdateStudentColleges(Student student) {
+		studentDao.UpdateStudentColleges(student);
+	}
 
-	public Student SelectStudentInfo(String userID);
+	@Override
+	public void UpdateStudentMajor(Student student) {
+		studentDao.UpdateStudentMajor(student);
+	}
 
-	public void InsertWithdrawalStudent(Student student);
+	@Override
+	public Student SelectStudentInfo(String userID) {
+		return studentDao.SelectStudentInfo(userID);
+	}
 
-	public void DeleteWithdrawalStudent(Student student);
+	@Override
+	public void InsertWithdrawalStudent(Student student) {
+		studentDao.InsertWithdrawalStudent(student);
+	}
 
-	public void DeleteWithdrawalStudentList(String string);
+	@Override
+	public void DeleteWithdrawalStudent(Student student) {
+		studentDao.DeleteWithdrawalStudent(student);
+	}
 
-	public void UpdateStudentLoginDate(Student student);
-	
-	public Student SelectModifyStudentInfo(int userID);
+	@Override
+	public void DeleteWithdrawalStudentList(String string) {
+		studentDao.DeleteWithdrawalStudentList(string);
+	}
 
+	@Override
+	public void UpdateStudentLoginDate(Student student) {
+		studentDao.UpdateStudentLoginDate(student);
+	}
+
+	@Override
+	public Student SelectModifyStudentInfo(int userID) {
+		return studentDao.SelectModifyStudentInfo(userID);
+	}
 }

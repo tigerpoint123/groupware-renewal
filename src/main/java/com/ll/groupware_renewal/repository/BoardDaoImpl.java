@@ -3,7 +3,6 @@ package com.ll.groupware_renewal.repository;
 import com.ll.groupware_renewal.entity.Board;
 import com.ll.groupware_renewal.entity.TeamBoard;
 import com.ll.groupware_renewal.entity.FileInfo;
-import com.ll.groupware_renewal.repository.BoardRepository;
 import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -11,11 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BoardDaoImpl implements BoardRepository {
+public class BoardDaoImpl implements BoardJpaRepository {
 	@PersistenceContext
 	private EntityManager em;
 
-	@Override
 	public void InsertBoardInfo(Board board) {
 		em.persist(board);
 	}

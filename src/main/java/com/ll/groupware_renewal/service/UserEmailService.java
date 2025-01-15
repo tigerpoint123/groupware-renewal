@@ -1,16 +1,28 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.UserEmail;
+import com.ll.groupware_renewal.repository.UserEmailDao;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public interface UserEmailService {
+public class UserEmailService {
 
-	// 메일 인증 정보 저장
-	public void InsertCertification(UserEmail userEmail);
+	@Autowired
+	UserEmailDao userEmailDao;
 
-	// 디비에 저장된 인증번호랑 비교
-	public boolean SelectForCheckCertification(String authNum);
+	@Override
+	public void InsertCertification(UserEmail userEmail) {
+		userEmailDao.InsertCertification(userEmail);
+	}
 
-	// 일정시간 후 인증번호 삭제
-	public void DeleteInfo(UserEmail userEmail);
+	@Override
+	public boolean SelectForCheckCertification(String authNum) {
+		boolean Checker = userEmailDao.SelectForCheckCertification(Integer.parseInt(authNum));
+		return Checker;
+	}
+
+	@Override
+	public void DeleteInfo(UserEmail userEmail) {
+		userEmailDao.DeleteCertification(userEmail);
+	}
 
 }
