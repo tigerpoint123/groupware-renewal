@@ -7,15 +7,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ConstantScheduleController {
+public class  ConstantScheduleController {
 
-	private String UserId;
 	private String SRole;
 	private String PRole;
 	private String ARole;
 	
 	private String Schedule;
-	private String userID;
+	private String userId;
 	private String scheduleID;
 	private String start;
 	private String end;

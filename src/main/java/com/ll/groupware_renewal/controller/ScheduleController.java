@@ -138,7 +138,7 @@ public class ScheduleController {
 	public int modifyTimeInMonth(Principal principal, @RequestBody Calender calender) {
 		Integer UserID = SelectUserIDForCalender(principal);
 		HashMap<String, String> Map = new HashMap<String, String>();
-		Map.put(this.Constant.getUserID(), Integer.toString(UserID));
+		Map.put(this.Constant.getUserId(), Integer.toString(UserID));
 		Map.put(this.Constant.getScheduleID(), calender.getId());
 		Map.put(this.Constant.getStart(), calender.getStart());
 		Map.put(this.Constant.getEnd(), calender.getEnd());
