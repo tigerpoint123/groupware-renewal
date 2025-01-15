@@ -1,1 +1,24 @@
 spring.application.name=groupware_renewal
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        # MySQL을 사용한다면:
+        # dialect: org.hibernate.dialect.MySQL8Dialect
+  
+  datasource:
+    url: jdbc:h2:~/groupware
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    # MySQL을 사용한다면:
+    # url: jdbc:mysql://localhost:3306/groupware?serverTimezone=Asia/Seoul
+    # username: root
+    # password: root
+    # driver-class-name: com.mysql.cj.jdbc.Driver

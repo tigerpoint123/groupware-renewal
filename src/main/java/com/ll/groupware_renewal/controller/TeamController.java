@@ -5,6 +5,8 @@ import com.ll.groupware_renewal.dto.Class;
 import com.ll.groupware_renewal.dto.*;
 import com.ll.groupware_renewal.function.UserInfoMethod;
 import com.ll.groupware_renewal.service.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Controller;

@@ -1,5 +1,6 @@
 package com.ll.groupware_renewal.dao;
 
+import com.ll.groupware_renewal.dto.Class;
 import com.ll.groupware_renewal.dto.*;
 
 import java.util.List;

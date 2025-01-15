@@ -2,10 +2,10 @@ package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.dao.InquiryDao;
 import com.ll.groupware_renewal.dto.Inquiry;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service

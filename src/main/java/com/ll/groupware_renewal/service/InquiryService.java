@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.dto.Inquiry;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface InquiryService {
