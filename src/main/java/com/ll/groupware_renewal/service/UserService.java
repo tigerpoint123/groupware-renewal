@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dto.Professor;
-import com.ll.groupware_renewal.dto.Student;
-import com.ll.groupware_renewal.dto.User;
+import com.ll.groupware_renewal.entity.Professor;
+import com.ll.groupware_renewal.entity.Student;
+import com.ll.groupware_renewal.entity.User;
 
 import java.util.ArrayList;
 

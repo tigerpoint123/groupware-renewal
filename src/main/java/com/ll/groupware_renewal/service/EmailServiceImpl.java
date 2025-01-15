@@ -1,10 +1,10 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.UserDao;
-import com.ll.groupware_renewal.dto.User;
-import com.ll.groupware_renewal.dto.UserEmail;
-import com.ll.groupware_renewal.email.Email;
-import com.ll.groupware_renewal.email.EmailImpl;
+import com.ll.groupware_renewal.repository.UserJpaRepository;
+import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.entity.UserEmail;
+import com.ll.groupware_renewal.util.email.Email;
+import com.ll.groupware_renewal.util.email.EmailImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.Random;
 public class EmailServiceImpl implements EmailService {
 
 	@Autowired
-	private UserDao emailDao;
+	private UserJpaRepository emailDao;
 	@Autowired
 	private EmailImpl emailImpl;
 	@Autowired

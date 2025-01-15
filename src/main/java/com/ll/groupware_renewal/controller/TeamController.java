@@ -1,9 +1,9 @@
 package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.ConstantTeamController;
-import com.ll.groupware_renewal.dto.Class;
-import com.ll.groupware_renewal.dto.*;
-import com.ll.groupware_renewal.function.UserInfoMethod;
+import com.ll.groupware_renewal.entity.Class;
+import com.ll.groupware_renewal.entity.*;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

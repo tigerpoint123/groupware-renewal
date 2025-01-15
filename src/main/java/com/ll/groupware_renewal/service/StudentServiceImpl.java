@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.StudentDao;
-import com.ll.groupware_renewal.dto.Student;
+import com.ll.groupware_renewal.repository.StudentJpaRepository;
+import com.ll.groupware_renewal.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
-	private StudentDao studentDao;
+	private StudentJpaRepository studentDao;
 
 	@Override
 	public void InsertInformation(Student student) {

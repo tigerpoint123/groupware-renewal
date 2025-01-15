@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dto.Board;
-import com.ll.groupware_renewal.dto.TeamBoard;
+import com.ll.groupware_renewal.entity.Board;
+import com.ll.groupware_renewal.entity.TeamBoard;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;

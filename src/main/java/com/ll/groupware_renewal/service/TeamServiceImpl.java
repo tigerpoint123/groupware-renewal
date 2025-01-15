@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.TeamDao;
-import com.ll.groupware_renewal.dto.Class;
-import com.ll.groupware_renewal.dto.*;
+import com.ll.groupware_renewal.repository.TeamJpaRepository;
+import com.ll.groupware_renewal.entity.Class;
+import com.ll.groupware_renewal.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class TeamServiceImpl implements TeamService {
 	@Autowired
-	TeamDao teamDao;
+	TeamJpaRepository teamDao;
 
 	@Override
 	public void InsertTeamInfo(Team team) {

@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.ConstantSearchController;
-import com.ll.groupware_renewal.dto.*;
-import com.ll.groupware_renewal.function.UserInfoMethod;
+import com.ll.groupware_renewal.entity.*;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.SearchService;
 import com.ll.groupware_renewal.service.StudentService;

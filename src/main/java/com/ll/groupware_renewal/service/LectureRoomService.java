@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dto.LectureRoom;
-import com.ll.groupware_renewal.dto.UserReservation;
+import com.ll.groupware_renewal.entity.LectureRoom;
+import com.ll.groupware_renewal.entity.UserReservation;
 
 import java.util.List;
 

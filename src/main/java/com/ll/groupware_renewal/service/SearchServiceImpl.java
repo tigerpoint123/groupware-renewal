@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.SearchDao;
-import com.ll.groupware_renewal.dto.*;
+import com.ll.groupware_renewal.repository.SearchJpaRepository;
+import com.ll.groupware_renewal.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class SearchServiceImpl implements SearchService {
 
 	@Autowired
-	private SearchDao searchDao;
+	private SearchJpaRepository searchDao;
 
 	@Override
 	public List<User> SelectKeyWord(SearchKeyWord searchKeyWord) {

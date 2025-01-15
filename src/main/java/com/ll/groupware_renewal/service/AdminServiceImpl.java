@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.UserListDao;
-import com.ll.groupware_renewal.dto.UserList;
+import com.ll.groupware_renewal.repository.UserListJpaRepository;
+import com.ll.groupware_renewal.entity.UserList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
 	@Autowired
-	private UserListDao userListDao;
+	private UserListJpaRepository userListDao;
 
 	@Override
 	public List<UserList> SelectUserlist() throws Exception {

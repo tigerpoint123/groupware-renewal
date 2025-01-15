@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.BoardDao;
-import com.ll.groupware_renewal.dto.Board;
-import com.ll.groupware_renewal.dto.TeamBoard;
+import com.ll.groupware_renewal.repository.BoardJpaRepository;
+import com.ll.groupware_renewal.entity.Board;
+import com.ll.groupware_renewal.entity.TeamBoard;
 import com.ll.groupware_renewal.util.BFileUtils;
 import com.ll.groupware_renewal.util.TeamFileUtils;
 import jakarta.annotation.Resource;
@@ -23,7 +23,7 @@ public class BoardServiceImpl implements BoardService {
 	private TeamFileUtils TeamFileUtils;
 
 	@Autowired
-	BoardDao boardDao;
+	BoardJpaRepository boardDao;
 
 	@Override
 	public List<Board> SelectCommunityBoardList() {

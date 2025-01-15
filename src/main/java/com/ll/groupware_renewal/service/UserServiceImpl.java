@@ -1,12 +1,12 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.ProfessorDao;
-import com.ll.groupware_renewal.dao.StudentDao;
-import com.ll.groupware_renewal.dao.UserDao;
-import com.ll.groupware_renewal.dto.Professor;
-import com.ll.groupware_renewal.dto.Student;
-import com.ll.groupware_renewal.dto.User;
-import com.ll.groupware_renewal.dto.UserInfoOpen;
+import com.ll.groupware_renewal.repository.ProfessorJpaRepository;
+import com.ll.groupware_renewal.repository.StudentJpaRepository;
+import com.ll.groupware_renewal.repository.UserJpaRepository;
+import com.ll.groupware_renewal.entity.Professor;
+import com.ll.groupware_renewal.entity.Student;
+import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.entity.UserInfoOpen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ import java.util.Random;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserDao userDao;
+	private UserJpaRepository userDao;
 
 	@Autowired
-	private StudentDao studentDao;
+	private StudentJpaRepository studentDao;
 
 	@Autowired
-	private ProfessorDao professorDao;
+	private ProfessorJpaRepository professorDao;
 
 	@Override
 	public void InsertForSignUp(User user) {

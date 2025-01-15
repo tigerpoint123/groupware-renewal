@@ -1,11 +1,11 @@
 package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.admin.ConstantAdmin;
-import com.ll.groupware_renewal.dto.Professor;
-import com.ll.groupware_renewal.dto.Student;
-import com.ll.groupware_renewal.dto.User;
-import com.ll.groupware_renewal.dto.UserList;
-import com.ll.groupware_renewal.function.UserInfoMethod;
+import com.ll.groupware_renewal.entity.Professor;
+import com.ll.groupware_renewal.entity.Student;
+import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.entity.UserList;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.AdminService;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.StudentService;

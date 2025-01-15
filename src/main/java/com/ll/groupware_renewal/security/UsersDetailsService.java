@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.security;
 
-import com.ll.groupware_renewal.dao.UserDao;
+import com.ll.groupware_renewal.repository.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UsersDetailsService implements UserDetailsService {
 	
 	@Autowired
-	private UserDao userDao;
+	private UserJpaRepository userDao;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,9 +1,9 @@
 package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.ConstantScheduleController;
-import com.ll.groupware_renewal.dto.Calender;
-import com.ll.groupware_renewal.dto.User;
-import com.ll.groupware_renewal.function.UserInfoMethod;
+import com.ll.groupware_renewal.entity.Calender;
+import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.CalenderService;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.StudentService;

@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dto.UserList;
+import com.ll.groupware_renewal.entity.UserList;
 
 import java.util.List;
 

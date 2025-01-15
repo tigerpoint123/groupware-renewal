@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.CalenderDao;
-import com.ll.groupware_renewal.dto.Calender;
+import com.ll.groupware_renewal.repository.CalenderJpaRepository;
+import com.ll.groupware_renewal.entity.Calender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class CalenderServiceImpl implements CalenderService {
 
 	@Autowired
-	private CalenderDao calenderDao;
+	private CalenderJpaRepository calenderDao;
 
 	@Override
 	public int InsertSchedule(Calender calender) {

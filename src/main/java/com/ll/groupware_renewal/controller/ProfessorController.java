@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.admin.ConstantAdminProfessorController;
-import com.ll.groupware_renewal.dto.Professor;
-import com.ll.groupware_renewal.dto.User;
+import com.ll.groupware_renewal.entity.Professor;
+import com.ll.groupware_renewal.entity.User;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;

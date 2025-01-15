@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.ProfessorDao;
-import com.ll.groupware_renewal.dto.Professor;
+import com.ll.groupware_renewal.repository.ProfessorJpaRepository;
+import com.ll.groupware_renewal.entity.Professor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class ProfessorServiceImpl implements ProfessorService {
 
 	@Autowired
-	private ProfessorDao professorDao;
+	private ProfessorJpaRepository professorDao;
 
 	@Override
 	public void InsertInformation(Professor professor) {

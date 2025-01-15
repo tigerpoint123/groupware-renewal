@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dto.Calender;
+import com.ll.groupware_renewal.entity.Calender;
 
 import java.util.HashMap;
 import java.util.List;

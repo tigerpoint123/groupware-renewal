@@ -1,7 +1,7 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.UserEmailDao;
-import com.ll.groupware_renewal.dto.UserEmail;
+import com.ll.groupware_renewal.repository.UserEmailDao;
+import com.ll.groupware_renewal.entity.UserEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

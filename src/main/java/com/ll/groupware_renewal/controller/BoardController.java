@@ -1,10 +1,10 @@
 package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.admin.ConstantAdminBoardController;
-import com.ll.groupware_renewal.dto.Board;
-import com.ll.groupware_renewal.dto.Inquiry;
-import com.ll.groupware_renewal.dto.User;
-import com.ll.groupware_renewal.function.UserInfoMethod;
+import com.ll.groupware_renewal.entity.Board;
+import com.ll.groupware_renewal.entity.Inquiry;
+import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

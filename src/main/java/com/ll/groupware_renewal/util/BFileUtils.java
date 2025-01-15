@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.util;
 
-import com.ll.groupware_renewal.dto.Board;
+import com.ll.groupware_renewal.entity.Board;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;

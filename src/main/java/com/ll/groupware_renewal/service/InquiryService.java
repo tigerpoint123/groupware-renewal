@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dto.Inquiry;
+import com.ll.groupware_renewal.entity.Inquiry;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;

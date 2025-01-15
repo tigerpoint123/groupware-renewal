@@ -1,8 +1,8 @@
 package com.ll.groupware_renewal.service;
 
-import com.ll.groupware_renewal.dao.LectureRoomDao;
-import com.ll.groupware_renewal.dto.LectureRoom;
-import com.ll.groupware_renewal.dto.UserReservation;
+import com.ll.groupware_renewal.repository.LectureRoomJpaRepository;
+import com.ll.groupware_renewal.entity.LectureRoom;
+import com.ll.groupware_renewal.entity.UserReservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class LectureRoomServiceImpl implements LectureRoomService {
 	@Autowired
-	private LectureRoomDao lectureRoomDao;
+	private LectureRoomJpaRepository lectureRoomDao;
 
 	@Override
 	public List<LectureRoom> SelectLectureRoomList() {
