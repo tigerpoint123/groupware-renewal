@@ -23,7 +23,6 @@ import java.util.Locale;
 @Controller
 @RequiredArgsConstructor
 public class ScheduleController {
-	private final ConstantScheduleController Constant;
 	private final UserService userService;
 	private final StudentService studentService;
 	private final ProfessorService professorService;
@@ -33,43 +32,37 @@ public class ScheduleController {
 	private String SRole;
 	private String PRole;
 	private String ARole;
-	private String Schedule;
-	
+
 	// 일정 화면
 	@RequestMapping(value = "/schedule/mySchedule", method = { RequestMethod.GET, RequestMethod.POST })
 	public String schedule(Locale locale, Model model, Principal principal, User user) {
 		if (principal != null) {
-			// 유저 정보
-			String LoginID = principal.getName();// 로그인 한 아이디
+			String LoginID = principal.getName();
 			int UserID = calenderService.SelectUserIdForCalender(LoginID);
 
-			model.addAttribute(this.Constant.getUserId(), UserID);
+			model.addAttribute(ConstantScheduleController.UserId, UserID);
 
 			ArrayList<String> SelectUserProfileInfo = new ArrayList<String>();
 			SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 			user.setUserLoginID(LoginID);
 			
-			this.SRole = this.Constant.getSRole();
-			this.PRole = this.Constant.getPRole();
-			this.ARole = this.Constant.getARole();
+			this.SRole = ConstantScheduleController.SRole;
+			this.PRole = ConstantScheduleController.PRole;
+			this.ARole = ConstantScheduleController.ARole;
 
 			if (SelectUserProfileInfo.get(2).equals(SRole)) {
 				ArrayList<String> StudentInfo = new ArrayList<String>();
 				StudentInfo = studentService.SelectStudentProfileInfo(SelectUserProfileInfo.get(1));
-
 				userInfoMethod.StudentInfo(model, SelectUserProfileInfo, StudentInfo);
 			} else if (SelectUserProfileInfo.get(2).equals(PRole)) {
-
 				ArrayList<String> ProfessorInfo = new ArrayList<String>();
 				ProfessorInfo = professorService.SelectProfessorProfileInfo(SelectUserProfileInfo.get(1));
-
 				userInfoMethod.ProfessorInfo(model, SelectUserProfileInfo, ProfessorInfo);
 			} else if (SelectUserProfileInfo.get(2).equals(ARole)) {
 				userInfoMethod.AdministratorInfo(model, SelectUserProfileInfo);
 			}
-
 		}
-		return this.Constant.getSchedule();
+		return ConstantScheduleController.Schedule;
 	}
 
 	// 일정 받기
@@ -123,10 +116,10 @@ public class ScheduleController {
 	public int modifyTimeInMonth(Principal principal, @RequestBody Calender calender) {
 		Integer UserID = SelectUserIDForCalender(principal);
 		HashMap<String, String> Map = new HashMap<String, String>();
-		Map.put(this.Constant.getUserId(), Integer.toString(UserID));
-		Map.put(this.Constant.getScheduleID(), calender.getId());
-		Map.put(this.Constant.getStart(), calender.getStart());
-		Map.put(this.Constant.getEnd(), calender.getEnd());
+		Map.put(ConstantScheduleController.UserId, Integer.toString(UserID));
+		Map.put(ConstantScheduleController.ScheduleID, calender.getId());
+		Map.put(ConstantScheduleController.Start, calender.getStart());
+		Map.put(ConstantScheduleController.End, calender.getEnd());
 		int Count = calenderService.UpdateTimeInMonth(Map);
 
 		return Count;

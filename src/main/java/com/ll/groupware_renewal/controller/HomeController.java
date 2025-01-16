@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-	private final ConstantHomeController Constant;
-
 	private String Select;
 	private String Consent;
 	private String Login;
@@ -18,28 +16,28 @@ public class HomeController {
 	
 	@RequestMapping(value = "/signupSelect", method = RequestMethod.GET)
 	public String signupSelect() {
-		this.Select = this.Constant.getSelect();
+		this.Select = ConstantHomeController.Select;
 		return Select;
 	}
 
 	// 정보동의화면
 	@RequestMapping(value = "/infoConsent", method = RequestMethod.GET)
 	public String infoConsent() {
-		this.Consent = this.Constant.getConsent();
+		this.Consent = ConstantHomeController.Consent;
 		return Consent;
 	}
 
 	// 사용자 로그인 화면
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login() {
-		this.Login = this.Constant.getLogin();
+		this.Login = ConstantHomeController.Login;
 		return Login;
 	}
 
 	// 403 에러
 	@RequestMapping(value = "/access_denied")
 	public String accessDeniedPage() throws Exception {
-		this.Denied = this.Constant.getDenied();
+		this.Denied = ConstantHomeController.Denied;
 		return Denied;
 	}
 

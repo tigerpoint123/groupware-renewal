@@ -36,9 +36,6 @@ public class LectureRoomController {
 	private final ProfessorService professorService;
 	private final UserService userService;
 
-	// constant연결
-	private ConstantLectureRoomController constantLecture;
-
 	// 강의실 리스트 /lectureRoomList
 	@RequestMapping(value = "/lectureRoom/lectureRoomList", method = RequestMethod.GET)
 	public String lectureRoomList(Model model, Principal principal, User user) {
@@ -48,7 +45,7 @@ public class LectureRoomController {
 		List<LectureRoom> List = lectureRoomService.SelectLectureRoomList();
 		model.addAttribute("list", List);
 
-		return this.constantLecture.getRLectureRoomList();
+		return ConstantLectureRoomController.RLectureRoomList;
 	}
 
 	// 강의실 예약 화면
@@ -72,9 +69,9 @@ public class LectureRoomController {
 			List<UserReservation> StartTime = lectureRoomService.SelectStartTime(LectureRoomNo);
 			model.addAttribute("StartTime", StartTime);
 
-			return this.constantLecture.getRReservation();
+			return ConstantLectureRoomController.RReservation;
 		} else {
-			return this.constantLecture.getRReservation();
+			return ConstantLectureRoomController.RReservation;
 		}
 	}
 
@@ -108,12 +105,12 @@ public class LectureRoomController {
 
 		if (MaxNumOfPeople < ReservationNumOfPeople) {
 			rttr.addFlashAttribute("Checker", "ExceptionNum");
-			return this.constantLecture.getRRLectureRoomList();
+			return ConstantLectureRoomController.RRLectureRoomList;
 		} else {
 			// 중복예약 방지
 			if (ReservationUserID != 0) { // 해당 유저가 이미 예약을 한 상태면
 				rttr.addFlashAttribute("Checker", "DuplicateReservationExist");
-				return this.constantLecture.getRRLectureRoomList();
+				return ConstantLectureRoomController.RRLectureRoomList;
 			} else {
 				if (!ReservationStartTime.equals("0")) {
 					response.setContentType("text/html; charset=UTF-8");
@@ -132,7 +129,7 @@ public class LectureRoomController {
 						model.addAttribute("StartTime", StartTime2);
 					}
 
-					return this.constantLecture.getRReservation();
+					return ConstantLectureRoomController.RReservation;
 				} else {
 					userReservation.setLectureRoomNo(LectureRoomNo);
 					userReservation.setReservationDate(Date.format(Now));
@@ -142,7 +139,7 @@ public class LectureRoomController {
 					userReservation.setUserID(UserID);
 					lectureRoomService.InsertReservation(userReservation);
 					rttr.addFlashAttribute("Checker","reservationConfirm");
-					return this.constantLecture.getRRLectureRoomList();
+					return ConstantLectureRoomController.RRLectureRoomList;
 				}
 			}
 		}
@@ -174,24 +171,24 @@ public class LectureRoomController {
 			model.addAttribute("MaxNumOfPeople", MaxNumOfPeople);
 			model.addAttribute("ReservationNumOfPeople", ReservationNumOfPeople);
 
-			if (ReservationStartTime.equals(this.constantLecture.getNine())) {
+			if (ReservationStartTime.equals(ConstantLectureRoomController.Nine)) {
 				model.addAttribute("ReservationStartTime", "09:00~11:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getEleven())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Eleven)) {
 				model.addAttribute("ReservationStartTime", "11:00~13:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getThirteen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Thirteen)) {
 				model.addAttribute("ReservationStartTime", "13:00~15:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getFifteen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Fifteen)) {
 				model.addAttribute("ReservationStartTime", "15:00~17:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getSeventeen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Seventeen)) {
 				model.addAttribute("ReservationStartTime", "17:00~19:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getNineteen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Nineteen)) {
 				model.addAttribute("ReservationStartTime", "19:00~21:00");
 			}
 
-			return this.constantLecture.getRReservationConfirm();
+			return ConstantLectureRoomController.RReservationConfirm;
 		} else {
 			rttr.addFlashAttribute("Checker", "Noting");
-			return this.constantLecture.getRRLectureRoomList();
+			return ConstantLectureRoomController.RRLectureRoomList;
 		}
 
 	}
@@ -210,13 +207,13 @@ public class LectureRoomController {
 		boolean Check = lectureRoomService.DeleteReservation(userReservation);
 		if (Check) {
 			rttr.addFlashAttribute("Checker", "true");
-			return this.constantLecture.getRRLectureRoomList();
+			return ConstantLectureRoomController.RRLectureRoomList;
 		} else {
 			PrintWriter Out = response.getWriter();
 			response.setContentType("text/html; charset=UTF-8");
 			Out.println("<script>alert('관리자에게 문의바랍니다.');</script>");
 			Out.flush();
-			return this.constantLecture.getRReservationConfirm();
+			return ConstantLectureRoomController.RReservationConfirm;
 		}
 
 	}
@@ -245,7 +242,7 @@ public class LectureRoomController {
 		// 유저 정보
 		GetUserInformation(principal, user, model);
 		//
-		return this.constantLecture.getRReservationModify();
+		return ConstantLectureRoomController.RReservationModify;
 	}
 
 	// 마이페이지 - 강의실 예약 확인
@@ -273,23 +270,23 @@ public class LectureRoomController {
 			model.addAttribute("MaxNumOfPeople", MaxNumOfPeople);
 			model.addAttribute("ReservationNumOfPeople", ReservationNumOfPeople);
 
-			if (ReservationStartTime.equals(this.constantLecture.getNine())) {
+			if (ReservationStartTime.equals(ConstantLectureRoomController.Nine)) {
 				model.addAttribute("ReservationStartTime", "09:00~11:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getEleven())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Eleven)) {
 				model.addAttribute("ReservationStartTime", "11:00~13:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getThirteen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Thirteen)) {
 				model.addAttribute("ReservationStartTime", "13:00~15:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getFifteen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Fifteen)) {
 				model.addAttribute("ReservationStartTime", "15:00~17:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getSeventeen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Seventeen)) {
 				model.addAttribute("ReservationStartTime", "17:00~19:00");
-			} else if (ReservationStartTime.equals(this.constantLecture.getNineteen())) {
+			} else if (ReservationStartTime.equals(ConstantLectureRoomController.Nineteen)) {
 				model.addAttribute("ReservationStartTime", "19:00~21:00");
 			}
-			return this.constantLecture.getRConfirmMyReservation();
+			return ConstantLectureRoomController.RConfirmMyReservation;
 		} else {
 			rttr.addFlashAttribute("Checker", "Noting");
-			return this.constantLecture.getRRMyPageStudent();
+			return ConstantLectureRoomController.RRMyPageStudent;
 		}
 	}
 

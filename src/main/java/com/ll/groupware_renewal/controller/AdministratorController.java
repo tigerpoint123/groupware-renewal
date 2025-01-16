@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.controller;
 
-import com.ll.groupware_renewal.constant.admin.ConstantAdmin;
+import com.ll.groupware_renewal.constant.ConstantAdmin;
 import com.ll.groupware_renewal.entity.Professor;
 import com.ll.groupware_renewal.entity.Student;
 import com.ll.groupware_renewal.entity.User;
@@ -41,10 +41,6 @@ public class AdministratorController {
 	private String UserLoginID;
 	private String MysqlID;
 
-	// constant연결
-	private ConstantAdmin constantAdmin;
-
-
 	// 관리자메뉴 - user list
 	@RequestMapping(value = "/manageList", method = RequestMethod.GET)
 	public String manageList(Model model, Principal principal, User user) {
@@ -66,7 +62,7 @@ public class AdministratorController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return this.constantAdmin.getList();
+		return ConstantAdmin.List;
 	}
 
 	// 관리자메뉴 - 관리자 권한으로 user 권한 변경
@@ -78,15 +74,15 @@ public class AdministratorController {
 		String OptionValue = request.getParameter("OptionValue");
 		String[] AjaxMsg = request.getParameterValues("CheckArr");
 
-		String ARole = this.constantAdmin.getARole();
+		String ARole = ConstantAdmin.ARole;
 
-		String URole = this.constantAdmin.getROLE_USER();
+		String URole = ConstantAdmin.ROLE_USER;
 
-		if (OptionValue.equals(this.constantAdmin.getROLE_SUSER())) {
+		if (OptionValue.equals(ConstantAdmin.ROLE_SUSER)) {
 			OptionValue = URole;
-		} else if (OptionValue.equals(this.constantAdmin.getROLE_PUSER())) {
+		} else if (OptionValue.equals(ConstantAdmin.ROLE_PUSER)) {
 			OptionValue = URole;
-		} else if (OptionValue.equals(this.constantAdmin.getROLE_ADMIN())) {
+		} else if (OptionValue.equals(ConstantAdmin.ROLE_ADMIN)) {
 			OptionValue = ARole;
 		}
 		for (int i = 0; i < AjaxMsg.length; i++) {
@@ -96,7 +92,7 @@ public class AdministratorController {
 				userService.UpdateUserRole(AjaxMsg[i], OptionValue);
 			}
 		}
-		return this.constantAdmin.getList();
+		return ConstantAdmin.List;
 	}
 
 	// 관리자 메뉴 - 관리자 권한으로 user 탈퇴
@@ -119,7 +115,7 @@ public class AdministratorController {
 			userService.UpdateWithdrawal(user);
 
 		}
-		return this.constantAdmin.getReList();
+		return ConstantAdmin.ReList;
 	}
 
 	// 관리자 휴면 메뉴 - 관리자 권한으로 휴면 계정 탈퇴
@@ -133,7 +129,7 @@ public class AdministratorController {
 		for (int i = 0; i < Size; i++) {
 			userService.UpdateWithdrawalByDormant(AjaxMsg[i]);
 		}
-		return this.constantAdmin.getReSleep();
+		return ConstantAdmin.ReSleep;
 	}
 
 	/* 관리자 메뉴-휴면 계정 관리 화면 */
@@ -147,7 +143,7 @@ public class AdministratorController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return this.constantAdmin.getSleepList();
+		return ConstantAdmin.SleepList;
 	}
 
 	// 관리자 휴면 메뉴 - 관리자 권한으로 휴면 계정 복구
@@ -161,7 +157,7 @@ public class AdministratorController {
 			// 쿼리문 작동
 			userService.UpdateDormantOneToZero(AjaxMsg[i]);
 		}
-		return this.constantAdmin.getReSleep();
+		return ConstantAdmin.ReSleep;
 	}
 
 	/* 관리자 메뉴-탈퇴 계정 관리 화면 */
@@ -175,7 +171,7 @@ public class AdministratorController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return this.constantAdmin.getSecessionList();
+		return ConstantAdmin.SecessionList;
 	}
 
 	// 관리자 탈퇴 메뉴 - 관리자 권한으로 탈퇴 계정 복구
@@ -188,7 +184,7 @@ public class AdministratorController {
 		for (int i = 0; i < Size; i++) {
 			userService.UpdateDoWithdrawalRecoveryByAdmin(AjaxMsg[i]);
 		}
-		return this.constantAdmin.getSecessionList();
+		return ConstantAdmin.SecessionList;
 	}
 
 	// 관리자 메뉴에서 회원 아이디, 이름 클릭 시 회원 role에 따라 페이지 리턴
@@ -199,14 +195,14 @@ public class AdministratorController {
 		String MysqlRole = request.getParameter("R");
 		String UserAuthority = request.getParameter("A");
 
-		String UAuthority = this.constantAdmin.getROLE_USER();
-		String AAuthority = this.constantAdmin.getROLE_ADMIN();
+		String UAuthority = ConstantAdmin.ROLE_USER;
+		String AAuthority = ConstantAdmin.ROLE_ADMIN;
 
-		String SRole = this.constantAdmin.getSRole();
-		String PRole = this.constantAdmin.getPRole();
+		String SRole = ConstantAdmin.SRole;
+		String PRole = ConstantAdmin.PRole;
 
-		String ReSDetail = this.constantAdmin.getReSDetail();
-		String RePDetail = this.constantAdmin.getRePDetail();
+		String ReSDetail = ConstantAdmin.ReSDetail;
+		String RePDetail = ConstantAdmin.RePDetail;
 
 		if (MysqlRole.equals(SRole) && UserAuthority.equals(UAuthority)) {
 			return ReSDetail;
@@ -215,9 +211,9 @@ public class AdministratorController {
 		} else if (UserAuthority.equals(AAuthority)) {
 			rttr.addFlashAttribute("DONT", "true");
 
-			return this.constantAdmin.getReList();
+			return ConstantAdmin.ReList;
 		} else {
-			return this.constantAdmin.getReList();
+			return ConstantAdmin.ReList;
 		}
 	}
 
@@ -286,7 +282,7 @@ public class AdministratorController {
 		if (!Result.equals("Error")) {
 			model.addAttribute("StudentInfoOpen", Result);
 		}
-		return this.constantAdmin.getSDetail();
+		return ConstantAdmin.SDetail;
 
 	}
 
@@ -320,7 +316,7 @@ public class AdministratorController {
 		// 이름
 		model.addAttribute("PUserName", UserName);
 		// 연락처
-		model.addAttribute(this.constantAdmin.getUserPhoneNum(), UserPhoneNum);
+		model.addAttribute(ConstantAdmin.UserPhoneNum, UserPhoneNum);
 		// 단과대학
 		model.addAttribute("ProfessorColleges", ProfessorColleges);
 		// 전공
@@ -328,9 +324,9 @@ public class AdministratorController {
 		// 교수실
 		model.addAttribute("ProfessorRoom", ProfessorRoom);
 		// 교수실 전화번호
-		model.addAttribute(this.constantAdmin.getProfessorRoomNum(), ProfessorRoomNum);
+		model.addAttribute(ConstantAdmin.ProfessorRoomNum, ProfessorRoomNum);
 		// 이메일
-		model.addAttribute(this.constantAdmin.getUserEmail(), UserEmail);
+		model.addAttribute(ConstantAdmin.UserEmail, UserEmail);
 
 		// 정보공개여부
 		String Result = "Error";
@@ -347,28 +343,28 @@ public class AdministratorController {
 		if (!Result.equals("Error")) {
 			model.addAttribute("ProfessorInfoOpen", Result);
 		}
-		return this.constantAdmin.getPDetail();
+		return ConstantAdmin.PDetail;
 	}
 
 	@RequestMapping(value = "/ModifyStudent", method = RequestMethod.POST)
 	public String UpdateStudentInfo() {
-		return this.constantAdmin.getSModify();
+		return ConstantAdmin.SModify;
 	}
 
 	@RequestMapping(value = "/ModifyProfessor", method = RequestMethod.POST)
 	public String UpdateProfessorInfo() {
-		return this.constantAdmin.getPModify();
+		return ConstantAdmin.PModify;
 	}
 
 	/* 관리자 메뉴-회원 목록 클릭 시 정보 출력 화면 */
 	@RequestMapping(value = "/manageStudent", method = RequestMethod.GET)
 	public String manageStudent() {
-		return this.constantAdmin.getSManage();
+		return ConstantAdmin.SManage;
 	}
 
 	@RequestMapping(value = "/manageProfessor", method = RequestMethod.GET)
 	public String manageProfessor() {
-		return this.constantAdmin.getPManage();
+		return ConstantAdmin.PManage;
 	}
 
 	@RequestMapping(value = "/manageModifyStudent", method = RequestMethod.GET)
@@ -381,12 +377,12 @@ public class AdministratorController {
 		String UserEmail = user.getUserEmail();
 		int Location = UserEmail.indexOf("@");
 		UserEmail = UserEmail.substring(0, Location);
-		model.addAttribute(this.constantAdmin.getEmail(), UserEmail);
+		model.addAttribute(ConstantAdmin.Email, UserEmail);
 		// 연락처 공개
         model.addAttribute("OpenPhoneNum", user.getOpenPhoneNum());
         // 학년 공개
         model.addAttribute("OpenGrade", user.getOpenGrade());
-		return this.constantAdmin.getSManageModify();
+		return ConstantAdmin.SManageModify;
 
 	}
 
@@ -458,7 +454,7 @@ public class AdministratorController {
 				userService.UpdateOpenGrade(user);
 			}
 		}
-		return this.constantAdmin.getSManageModify();
+		return ConstantAdmin.SManageModify;
 	}
 
 	@RequestMapping(value = "/manageModifyProfessor", method = RequestMethod.GET)
@@ -474,7 +470,7 @@ public class AdministratorController {
 		// 연락처 공개
         model.addAttribute("OpenPhoneNum", UserInfo.getOpenPhoneNum());
 
-		return this.constantAdmin.getPManageModify();
+		return ConstantAdmin.PManageModify;
 	}
 
 	@RequestMapping(value = "/manageModifyProfessor", method = RequestMethod.POST)
@@ -524,7 +520,7 @@ public class AdministratorController {
 			}
 
 		}
-		return this.constantAdmin.getPManageModify();
+		return ConstantAdmin.PManageModify;
 
 	}
 	private void GetUserInformation(Principal principal, User user, Model model) {
@@ -532,15 +528,15 @@ public class AdministratorController {
 		ArrayList<String> SelectUserProfileInfo = new ArrayList<String>();
 		SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 		user.setUserLoginID(LoginID);
-		if (SelectUserProfileInfo.get(2).equals(this.constantAdmin.getSTUDENT())) {
+		if (SelectUserProfileInfo.get(2).equals(ConstantAdmin.STUDENT)) {
 			ArrayList<String> StudentInfo = new ArrayList<String>();
 			StudentInfo = studentService.SelectStudentProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.StudentInfo(model, SelectUserProfileInfo, StudentInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.constantAdmin.getPROFESSOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantAdmin.PROFESSOR)) {
 			ArrayList<String> ProfessorInfo = new ArrayList<String>();
 			ProfessorInfo = professorService.SelectProfessorProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.ProfessorInfo(model, SelectUserProfileInfo, ProfessorInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.constantAdmin.getADMINISTRATOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantAdmin.ADMINISTRATOR)) {
 			userInfoMethod.AdministratorInfo(model, SelectUserProfileInfo);
 		}
 	}

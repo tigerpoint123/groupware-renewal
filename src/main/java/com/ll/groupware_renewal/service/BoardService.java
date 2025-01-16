@@ -97,9 +97,9 @@ public class BoardService {
 				TempMap = List.get(i);
 				// 여기일단조심
 				if (TempMap.get("IsNew").equals("1")) {
-					boardJpaRepository.InsertFile(TempMap);
+					boardJpaRepository.insertFile(TempMap);
 				} else {
-					boardJpaRepository.UpdateFile(TempMap);
+					boardJpaRepository.updateFile(TempMap);
 				}
 			}
 		} catch (Exception e) {
@@ -125,9 +125,9 @@ public class BoardService {
 				TempMap = List.get(i);
 				// 여기일단조심
 				if (TempMap.get("IsNew").equals("1")) {
-					boardJpaRepository.InsertTeamFile(TempMap);
+					boardJpaRepository.insertFile(TempMap);
 				} else {
-					boardJpaRepository.UpdateTeamFile(TempMap);
+					boardJpaRepository.updateFile(TempMap);
 				}
 			}
 		} catch (Exception e) {

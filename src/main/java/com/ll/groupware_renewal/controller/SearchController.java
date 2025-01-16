@@ -25,7 +25,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class SearchController {
-	private final ConstantSearchController Constant;
 	private final UserService userService;
 	private final StudentService studentService;
 	private final ProfessorService professorService;
@@ -37,7 +36,7 @@ public class SearchController {
 	public String searchUser(Principal principal, Model model, User user) {
 		// 유저 정보
 		GetUserInformation(principal, user, model);
-		return this.Constant.getRSearchUser();
+		return ConstantSearchController.RSearchUser;
 	}
 
 	@ResponseBody
@@ -50,10 +49,10 @@ public class SearchController {
 		if (!InfoList.isEmpty()) {
 			for (int i = 0; i < InfoList.size(); i++) {
 				HashMap<String, Object> Map = new HashMap<String, Object>();
-				if (InfoList.get(i).getUserRole().equals(Constant.getSRole())) {
+				if (InfoList.get(i).getUserRole().equals(ConstantSearchController.SRole)) {
 					Map = addStudentInfo(InfoList.get(i));
 					MapInfo.add(Map);
-				} else if (InfoList.get(i).getUserRole().equals(Constant.getPRole())) {
+				} else if (InfoList.get(i).getUserRole().equals(ConstantSearchController.PRole)) {
 					Map = addProfessorInfo(InfoList.get(i));
 					MapInfo.add(Map);
 				}
@@ -67,16 +66,16 @@ public class SearchController {
 
 	private HashMap<String, Object> addProfessorInfo(User user) {
 		HashMap<String, Object> Map = new HashMap<String, Object>();
-		Map.put(this.Constant.getUName(), user.getUserName());
+		Map.put(ConstantSearchController.UName, user.getUserName());
 		Professor professor = searchService.SelectProfessorInfo(user.getUserID());
 
-		Map.put(this.Constant.getUserEmail(), user.getUserEmail());
+		Map.put(ConstantSearchController.UserEmail, user.getUserEmail());
 
 		Map.put("Gender", "비공개");
 		if (user.getOpenPhoneNum().equals("비공개")) {
-			Map.put(this.Constant.getPhoneNum(), user.getOpenPhoneNum());
+			Map.put(ConstantSearchController.PhoneNum, user.getOpenPhoneNum());
 		} else {
-			Map.put(this.Constant.getPhoneNum(), user.getUserPhoneNum());
+			Map.put(ConstantSearchController.PhoneNum, user.getUserPhoneNum());
 		}
 		Map.put("UserMajor", professor.getProfessorMajor());
 		Map.put("Role", "교수님");
@@ -85,16 +84,16 @@ public class SearchController {
 
 	private HashMap<String, Object> addStudentInfo(User user) {
 		HashMap<String, Object> Map = new HashMap<String, Object>();
-		Map.put(this.Constant.getUName(), user.getUserName());
+		Map.put(ConstantSearchController.UName, user.getUserName());
 		Student student = searchService.SelectStudentInfo(user.getUserID());
 		Map.put("UserMajor", student.getStudentMajor());
 
-		Map.put(this.Constant.getUserEmail(), user.getUserEmail());
+		Map.put(ConstantSearchController.UserEmail, user.getUserEmail());
 
 		if (user.getOpenPhoneNum().equals("비공개")) {
-			Map.put(this.Constant.getPhoneNum(), user.getOpenPhoneNum());
+			Map.put(ConstantSearchController.PhoneNum, user.getOpenPhoneNum());
 		} else {
-			Map.put(this.Constant.getPhoneNum(), user.getUserPhoneNum());
+			Map.put(ConstantSearchController.PhoneNum, user.getUserPhoneNum());
 		}
 		Map.put("Major", student.getStudentMajor());
 		Map.put("Gender", student.getStudentGender());
@@ -112,11 +111,11 @@ public class SearchController {
 		List<UserReview> Review = searchService.SelectUserReview(UserID);
 		if (Review.isEmpty()) {
 			rttr.addFlashAttribute("Checker", "NoReiveiwList");
-			return this.Constant.getRRSearchUser();
+			return ConstantSearchController.RRSearchUser;
 		} else {
 			model.addAttribute("list", Review);
 		}
-		return this.Constant.getRReviewList();
+		return ConstantSearchController.RReviewList;
 	}
 
 	private void GetUserInformation(Principal principal, User user, Model model) {
@@ -125,15 +124,15 @@ public class SearchController {
 		ArrayList<String> SelectUserProfileInfo = new ArrayList<String>();
 		SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 		user.setUserLoginID(LoginID);
-		if (SelectUserProfileInfo.get(2).equals(this.Constant.getSRole())) {
+		if (SelectUserProfileInfo.get(2).equals(ConstantSearchController.SRole)) {
 			ArrayList<String> StudentInfo = new ArrayList<String>();
 			StudentInfo = studentService.SelectStudentProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.StudentInfo(model, SelectUserProfileInfo, StudentInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getPRole())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantSearchController.PRole)) {
 			ArrayList<String> ProfessorInfo = new ArrayList<String>();
 			ProfessorInfo = professorService.SelectProfessorProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.ProfessorInfo(model, SelectUserProfileInfo, ProfessorInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getARole())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantSearchController.ARole)) {
 			userInfoMethod.AdministratorInfo(model, SelectUserProfileInfo);
 		}
 	}

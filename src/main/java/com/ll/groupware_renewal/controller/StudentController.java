@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.controller;
 
-import com.ll.groupware_renewal.constant.admin.ConstantAdminStudentController;
+import com.ll.groupware_renewal.constant.ConstantStudentController;
 import com.ll.groupware_renewal.entity.Student;
 import com.ll.groupware_renewal.entity.User;
 import com.ll.groupware_renewal.service.StudentService;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class StudentController {
 	private final UserService userService;
 	private final StudentService studentService;
-	private final ConstantAdminStudentController Constant;
 
 	private String StudentColleges;
 	private String StudentGrade;
@@ -30,7 +29,7 @@ public class StudentController {
 
 	@RequestMapping(value = "/signupStudent", method = RequestMethod.GET)
 	public String signupStudent() {
-		return this.Constant.getRSignupStudent();
+		return ConstantStudentController.RSignupStudent;
 	}
 
 	/* 학생 마이페이지 */
@@ -56,7 +55,7 @@ public class StudentController {
 		model.addAttribute("UserMajor", UserMajorForShow);
 
 		StudentGrade = StudentInfo.get(2);
-		model.addAttribute(this.Constant.getGrade(), StudentGrade);
+		model.addAttribute(ConstantStudentController.Grade, StudentGrade);
 
 		// user role 가져오기
 		String UserLoginID = Principal.getName();
@@ -73,13 +72,13 @@ public class StudentController {
 		String SelectOpenInfo = userService.SelectOpenInfo(UserID);
 		// jsp화면 설정
 		// 아이디 0
-		model.addAttribute(this.Constant.getUserLoginID(), SelectUserInfo.get(0));
+		model.addAttribute(ConstantStudentController.UserLoginID, SelectUserInfo.get(0));
 		// 이름 1
-		model.addAttribute(this.Constant.getUserName(), SelectUserInfo.get(1));
+		model.addAttribute(ConstantStudentController.UserName, SelectUserInfo.get(1));
 		// 성별 8
 		model.addAttribute("StudentGender", SelectUserInfo.get(8));
 		// 연락처 2
-		model.addAttribute(this.Constant.getUserPhoneNum(), SelectUserInfo.get(2));
+		model.addAttribute(ConstantStudentController.UserPhoneNum, SelectUserInfo.get(2));
 		// 학년 6
 		model.addAttribute("StudentGrade", SelectUserInfo.get(6));
 		// 단과대학 4
@@ -91,13 +90,13 @@ public class StudentController {
 		// 이메일 5
 		int Idx = SelectUserInfo.get(3).indexOf("@"); // 메일에서 @의 인덱스 번호를 찾음
 		String Email = SelectUserInfo.get(3).substring(0, Idx);
-		model.addAttribute(this.Constant.getUserEmail(), Email);
+		model.addAttribute(ConstantStudentController.UserEmail, Email);
 
 		// 정보공개여부
 		if (!SelectOpenInfo.equals("Error")) {
 			model.addAttribute("UserInfoOpen", SelectOpenInfo);
 		}
-		return this.Constant.getRMyPageStudent();
+		return ConstantStudentController.RMyPageStudent;
 	}
 
 	/* 학생 정보 수정 화면 */
@@ -114,7 +113,7 @@ public class StudentController {
 		String UserEmail = SelectUserProfileInfo.getUserEmail();
 		int Location = UserEmail.indexOf("@");
 		UserEmail = UserEmail.substring(0, Location);
-		model.addAttribute(this.Constant.getEmail(), UserEmail);
+		model.addAttribute(ConstantStudentController.Email, UserEmail);
 		// 성별
 		model.addAttribute("StudentGender", student.getStudentGender());
 		// 단과대학
@@ -127,7 +126,7 @@ public class StudentController {
         model.addAttribute("OpenPhoneNum", SelectUserProfileInfo.getOpenPhoneNum());
         // 학년 공개
         model.addAttribute("OpenGrade", SelectUserProfileInfo.getOpenGrade());
-		return this.Constant.getRModifyStudent();
+		return ConstantStudentController.RModifyStudent;
 	}
 
 	// 학생 정보 수정
@@ -145,8 +144,8 @@ public class StudentController {
 		student.setUserID(Integer.parseInt(UserInfo.get(0)));
 
 		// 연락처
-		if (!((String) request.getParameter(this.Constant.getUserPhoneNum())).equals("")) {
-			user.setUserPhoneNum((String) request.getParameter(this.Constant.getUserPhoneNum()));
+		if (!((String) request.getParameter(ConstantStudentController.UserPhoneNum)).equals("")) {
+			user.setUserPhoneNum((String) request.getParameter(ConstantStudentController.UserPhoneNum));
 			userService.updateUserPhoneNumber(user);
 		}
 		// 학년
@@ -156,27 +155,27 @@ public class StudentController {
 		}
 
 		// 정보공개여부 선택
-		if (request.getParameter(this.Constant.getUserPhone()) != null) {
+		if (request.getParameter(ConstantStudentController.UserPhone) != null) {
 			String OpenPhoneNum = "전화번호";
 			user.setOpenPhoneNum(OpenPhoneNum);
 			userService.UpdateOpenPhoneNum(user);
-		} else if (request.getParameter(this.Constant.getUserPhone()) == null) {
+		} else if (request.getParameter(ConstantStudentController.UserPhone) == null) {
 			String NotOpen = "비공개";
 			user.setOpenPhoneNum(NotOpen);
 			userService.UpdateOpenPhoneNum(user);
 		}
 
-		if (request.getParameter(this.Constant.getUserGrade()) != null) {
+		if (request.getParameter(ConstantStudentController.UserGrade) != null) {
 			String OpenGrade = "학년";
 			user.setOpenGrade(OpenGrade);
 			userService.UpdateOpenGrade(user);
-		} else if (request.getParameter(this.Constant.getUserGrade()) == null) {
+		} else if (request.getParameter(ConstantStudentController.UserGrade) == null) {
 			String NotOpen = "비공개";
 			user.setOpenGrade(NotOpen);
 			userService.UpdateOpenGrade(user);
 		}
 
-		return this.Constant.getRModifyStudent();
+		return ConstantStudentController.RModifyStudent;
 	}
 
 }

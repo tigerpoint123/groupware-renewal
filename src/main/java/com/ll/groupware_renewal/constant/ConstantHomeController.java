@@ -1,20 +1,17 @@
 package com.ll.groupware_renewal.constant;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+@Component
 @Getter
 @Setter
-@RequiredArgsConstructor
-@Component
 public class ConstantHomeController {
-
-	private String Home;
-	private String Select;
-	private String Consent;
-	private String Login;
-	private String AdminLogin;
-	private String Denied;
-}
+    public static final String Home = "/homeView/home";
+    public static final String Select = "/signup/signupSelect";
+    public static final String Consent = "/signup/infoConsent";
+    public static final String Login = "/signin/login";
+    public static final String AdminLogin = "/signin/mjuAdminLogin";
+    public static final String Denied = "/homeView/accessDenied";
+} 

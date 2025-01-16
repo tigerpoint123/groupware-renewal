@@ -1,28 +1,21 @@
 package com.ll.groupware_renewal.constant;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@RequiredArgsConstructor
 public class ConstantCalenderDao {
+    // Schedule Fields
+    public static final String UserID = "UserId";
+    public static final String ScheduleID = "scheduleID";
+    public static final String Title = "title";
+    public static final String Start = "start";
+    public static final String End = "end";
+    public static final String BackgroundColor = "backGroundColor";
+    public static final String Description = "description";
 
-	private String UserID;
-	private String ScheduleID;
-	private String Title;
-	private String Start;
-	private String End;
-	private String BackgroundColor;
-	private String Description;
-	
-	private String InsertSchedule;
-	private String SelectSchedule;
-	private String SelectUserID;
-	private String UpdateSchedule;
-	private String DeleteSchedule;
-	private String UpdateTimeInMonth;
-	private String UpdateTimeInWeek;
-	
-}
+    // Schedule Operations
+    public static final String InsertSchedule = "InsertSchedule";
+    public static final String SelectSchedule = "SelectSchedule";
+    public static final String SelectUserID = "SelectUserID";
+    public static final String UpdateSchedule = "UpdateSchedule";
+    public static final String DeleteSchedule = "DeleteSchedule";
+    public static final String UpdateTimeInMonth = "UpdateTimeInMonth";
+    public static final String UpdateTimeInWeek = "UpdateTimeInWeek";
+} 

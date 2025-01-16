@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface BoardJpaRepository  extends JpaRepository<Board, Integer> {
-    void InsertFile(Map<String, Object> map);
     void insertFile(Map<String, Object> map);
     void InsertTeamFileInfo(Map<String, Object> map);
     Board findCommunityContentByBoardId(String boardID);
@@ -16,10 +15,7 @@ public interface BoardJpaRepository  extends JpaRepository<Board, Integer> {
     List<Map<String, Object>> SelectCommunityFileList(int bNo);
     Map<String, Object> SelectNoticeFileInfo(Map<String, Object> map);
     List<Map<String, Object>> SelectNoticeFileList(int bNo);
-    void UpdateFile(Map<String, Object> tempMap);
     List<Map<String, Object>> SelectTeamBoardFileList(int bNo);
-    void InsertTeamFile(Map<String, Object> tempMap);
-    void UpdateTeamFile(Map<String, Object> tempMap);
     Map<String, Object> SelectTeamBoardFileInfo(Map<String, Object> map);
     List<Board> SelectMyBoardList(String login);
 
@@ -32,4 +28,6 @@ public interface BoardJpaRepository  extends JpaRepository<Board, Integer> {
     String findLoginUserID(String loginID);
 
     void updateTeamBoardModifiedContent(TeamBoard teamBoard);
+
+    void updateFile(Map<String, Object> tempMap);
 }

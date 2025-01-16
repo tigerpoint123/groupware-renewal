@@ -1,23 +1,18 @@
 package com.ll.groupware_renewal.constant;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
-
-@Getter
-@Setter
-@RequiredArgsConstructor
-@Component
 public class ConstantSearchController {
-	private String SRole;
-	private String PRole;
-	private String ARole;
-	private String UName;
-	private String UserEmail;
-	private String PhoneNum;
-	
-	private String RSearchUser;
-	private String RReviewList;
-	private String RRSearchUser;
-}
+    // Roles
+    public static final String SRole = "STUDENT";
+    public static final String PRole = "PROFESSOR";
+    public static final String ARole = "ADMINISTRATOR";
+
+    // User Info
+    public static final String UName = "UserName";
+    public static final String UserEmail = "UserEmail";
+    public static final String PhoneNum = "PhoneNum";
+
+    // URLs
+    public static final String RSearchUser = "/search/searchUser";
+    public static final String RReviewList = "/search/reviewList";
+    public static final String RRSearchUser = "redirect:/search/searchUser";
+} 

@@ -1,24 +1,14 @@
 package com.ll.groupware_renewal.constant;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+public class ConstantScheduleController {
+    public static final String UserId = "UserId";
+    public static final String SRole = "STUDENT";
+    public static final String PRole = "PROFESSOR";
+    public static final String ARole = "ADMINISTRATOR";
 
-@Getter
-@Setter
-@RequiredArgsConstructor
-@Component
-public class  ConstantScheduleController {
-
-	private String SRole;
-	private String PRole;
-	private String ARole;
-	
-	private String Schedule;
-	private String userId;
-	private String scheduleID;
-	private String start;
-	private String end;
-
-}
+    public static final String Schedule = "/schedule/schedule";
+    public static final String userID = "userID";
+    public static final String scheduleID = "scheduleID";
+    public static final String start = "start";
+    public static final String end = "end";
+} 

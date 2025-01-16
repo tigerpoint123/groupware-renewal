@@ -7,6 +7,7 @@ import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -23,31 +24,14 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
+@RequiredArgsConstructor
 public class TeamController {
-
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private TeamService teamService;
-	@Autowired
-	private BoardService boardService;
-
-	private ConstantTeamController Constant;
-
-	@SuppressWarnings("resource")
-	public TeamController() {
-		// 컨테이너 생성 및 xml 파일 로드
-		GenericXmlApplicationContext CTX = new GenericXmlApplicationContext();
-		CTX.load("classpath:/xmlForProperties/TeamController.xml");
-		CTX.refresh();
-		this.Constant = (ConstantTeamController) CTX.getBean("TeamControllerID");
-	}
+	private final UserService userService;
+	private final  StudentService studentService;
+	private final ProfessorService professorService;
+	private final UserInfoMethod userInfoMethod;
+	private final TeamService teamService;
+	private final BoardService boardService;
 
 	// 문서 메뉴 선택시 팀 리스트 출력
 	@RequestMapping(value = "/team/myTeamList", method = RequestMethod.GET)
@@ -62,7 +46,7 @@ public class TeamController {
 		// team table에 정보 중 가장 중요한 것은 teamID이다.
 		if (TeamUserListInfo.isEmpty()) {
 			rttr.addFlashAttribute("Checker", "NoTeamList");
-			return this.Constant.getRRHome();
+			return ConstantTeamController.RRHome;
 		} else {
 			// teamID를 통해
 			// teamName과 classID가져오기
@@ -93,7 +77,7 @@ public class TeamController {
 				MergeInfo.add(mergeTeam);
 			}
 			model.addAttribute("teamList", MergeInfo);
-			return this.Constant.getRMyTeamList();
+			return ConstantTeamController.RMyTeamList;
 		}
 	}
 
@@ -109,7 +93,7 @@ public class TeamController {
 		model.addAttribute("documentList", TeamBoardInfo);
 		model.addAttribute("TeamID", TeamID);
 
-		return this.Constant.getRDocumentList();
+		return ConstantTeamController.RDocumentList;
 	}
 
 	// 문서 내용
@@ -145,7 +129,7 @@ public class TeamController {
 
 		model.addAttribute("TeamID", TeamID);
 
-		return this.Constant.getRDocumentContent();
+		return ConstantTeamController.RDocumentContent;
 	}
 
 	// 문서 작성
@@ -164,7 +148,7 @@ public class TeamController {
 		model.addAttribute("BoardWriter", UserName);
 		model.addAttribute("BoardDate", Date.format(Now));
 
-		return this.Constant.getRDocumentWrite();
+		return ConstantTeamController.RDocumentWrite;
 	}
 
 	@RequestMapping(value = "/team/documentWrite", method = RequestMethod.POST)
@@ -191,7 +175,7 @@ public class TeamController {
 
 		boardService.saveTeamDocument(teamBoard, request);
 
-		return this.Constant.getRRDocumentListNO() + TeamID;
+		return ConstantTeamController.RRDocumentListNO + TeamID;
 	}
 
 	// 문서 수정
@@ -213,7 +197,7 @@ public class TeamController {
 		model.addAttribute("TeamBoardFile", TeamBoardFile);
 		model.addAttribute("TeamID", request.getParameter("TeamID"));
 
-		return this.Constant.getRDocumentModify();
+		return ConstantTeamController.RDocumentModify;
 	}
 
 	// 문서 수정
@@ -247,7 +231,7 @@ public class TeamController {
 		boardService.updateTeamBoardModifiedContent(teamBoard, FileList, FileNameList, request);
 		String TeamID = request.getParameter("TeamID");
 
-		return this.Constant.getRRDocumentListNO() + TeamID;
+		return ConstantTeamController.RRDocumentListNO + TeamID;
 	}
 
 	// 파일 다운로드
@@ -258,7 +242,7 @@ public class TeamController {
 		String OriginalFileName = (String) ResultMap.get("TOriginalFileName");
 		// 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
 		byte FileByte[] = org.apache.commons.io.FileUtils
-				.readFileToByteArray(new File(this.Constant.getFilePath() + StoredFileName));
+				.readFileToByteArray(new File(ConstantTeamController.FilePath + StoredFileName));
 		response.setContentType("application/octet-stream");
 		response.setContentLength(FileByte.length);
 		response.setHeader("Content-Disposition",
@@ -275,7 +259,7 @@ public class TeamController {
 		String TeamID = request.getParameter("teamID");
 		int TBoardID = Integer.parseInt(request.getParameter("tBoardID"));
 		boardService.UpdateTBoardDelete(TBoardID);
-		return this.Constant.getRRDocumentListNO() + TeamID;
+		return ConstantTeamController.RRDocumentListNO + TeamID;
 	}
 
 	// 팀 생성하기 - 강의 검색 화면
@@ -285,7 +269,7 @@ public class TeamController {
 		GetUserInformation(principal, user, model);
 		String LectureName = request.getParameter("LectureName");
 		model.addAttribute("LectureName", LectureName);
-		return this.Constant.getRSearchLecture();
+		return ConstantTeamController.RSearchLecture;
 	}
 
 	// 팀원 생성 화면
@@ -298,18 +282,18 @@ public class TeamController {
 		SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 		user.setUserLoginID(LoginID);
 
-		if (SelectUserProfileInfo.get(2).equals(this.Constant.getSTUDENT())) {
+		if (SelectUserProfileInfo.get(2).equals(ConstantTeamController.STUDENT)) {
 			ArrayList<String> StudentInfo = new ArrayList<String>();
 			StudentInfo = studentService.SelectStudentProfileInfo(SelectUserProfileInfo.get(1));
 
 			userInfoMethod.StudentInfo(model, SelectUserProfileInfo, StudentInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getPROFESSOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantTeamController.PROFESSOR)) {
 
 			ArrayList<String> ProfessorInfo = new ArrayList<String>();
 			ProfessorInfo = professorService.SelectProfessorProfileInfo(SelectUserProfileInfo.get(1));
 
 			userInfoMethod.ProfessorInfo(model, SelectUserProfileInfo, ProfessorInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getADMINISTRATOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantTeamController.ADMINISTRATOR)) {
 			userInfoMethod.AdministratorInfo(model, SelectUserProfileInfo);
 		}
 
@@ -326,7 +310,7 @@ public class TeamController {
 		if (LectureInfo.isEmpty()) {
 			rttr.addFlashAttribute("Checker", "NoLecture");
 
-			return this.Constant.getRRSearchLecture();
+			return ConstantTeamController.RRSearchLecture;
 		} else {
 			for (int i = 0; i < LectureInfo.size(); i++) {
 				String AllInformation = LectureInfo.get(i).getClassName() + " "
@@ -335,7 +319,7 @@ public class TeamController {
 			}
 			model.addAttribute("ClassNameList", AllInfo);
 
-			return this.Constant.getRCreateTeam();
+			return ConstantTeamController.RCreateTeam;
 		}
 
 	}
@@ -405,10 +389,10 @@ public class TeamController {
 		}
 		if (Checker2) {
 			rttr.addFlashAttribute("Checker", "UserNotFound");
-			return this.Constant.getRRSearchLecture();
+			return ConstantTeamController.RRSearchLecture;
 		} else {
 			rttr.addFlashAttribute("Contain", "true");
-			return this.Constant.getRRTeamList();
+			return ConstantTeamController.RRTeamList;
 		}
 	}
 
@@ -440,7 +424,7 @@ public class TeamController {
 			}
 			model.addAttribute("teamList", AllInfo);
 		}
-		return this.Constant.getRTeamList();
+		return ConstantTeamController.RTeamList;
 	}
 
 	// 팀 리스트 화면에서 팀 선택 시 소속된 팀 출력 화면
@@ -473,7 +457,7 @@ public class TeamController {
 		boolean Checker = false;
 		// 소속됐는데 팀장일 경우
 		if (UserLoginID.contains(List.get(0).getUserLoginID())) {
-			return this.Constant.getRCheckTeam();
+			return ConstantTeamController.RCheckTeam;
 		} else {
 			for (int i = 0; i < List.size(); i++) {
 				// 소속됐는데 팀원일 경우
@@ -484,10 +468,10 @@ public class TeamController {
 				}
 			}
 			if (Checker) {
-				return this.Constant.getRCheckTeam();
+				return ConstantTeamController.RCheckTeam;
 			} else {
 				rttr.addFlashAttribute("Contain", "Nothing");
-				return this.Constant.getRRTeamList();
+				return ConstantTeamController.RRTeamList;
 			}
 		}
 	}
@@ -509,7 +493,7 @@ public class TeamController {
 		model.addAttribute("TeamName", TeamName);
 		model.addAttribute("teamList", List);
 		model.addAttribute("TeamID", TeamID);
-		return this.Constant.getRModifyTeam();
+		return ConstantTeamController.RModifyTeam;
 	}
 
 	@RequestMapping(value = "/team/modifyTeam", method = RequestMethod.POST)
@@ -535,7 +519,7 @@ public class TeamController {
 
 			teamService.InsertTeamUserInfo(teamUser);
 		}
-		return this.Constant.getRRTeamList();
+		return ConstantTeamController.RRTeamList;
 	}
 
 	// 후기 작성 선택 시 팀 선택 화면
@@ -569,7 +553,7 @@ public class TeamController {
 			TeamList.add(seperatedToSpace);
 		}
 		model.addAttribute("TeamList", TeamList);
-		return this.Constant.getRSearchMyTeam();
+		return ConstantTeamController.RSearchMyTeam;
 	}
 
 	// 후기 작성
@@ -599,7 +583,7 @@ public class TeamController {
 
 		// 팀원 띄우기 로직
 
-		return this.Constant.getRReviewWrite();
+		return ConstantTeamController.RReviewWrite;
 	}
 
 	@RequestMapping(value = "/team/reviewWrite", method = RequestMethod.POST)
@@ -638,7 +622,7 @@ public class TeamController {
 			rttr.addFlashAttribute("Checker", "Fail");
 		}
 
-		return this.Constant.getRRSearchMyTeam();
+		return ConstantTeamController.RRSearchMyTeam;
 	}
 
 	@RequestMapping(value = "/team/DeleteTeam", method = RequestMethod.POST)
@@ -647,7 +631,7 @@ public class TeamController {
 		String TeamID = request.getParameter("no");
 		teamService.DeleteTeam(TeamID);
 
-		return this.Constant.getRRTeamList();
+		return ConstantTeamController.RRTeamList;
 	}
 
 	// Information가져오는부분
@@ -657,15 +641,15 @@ public class TeamController {
 		SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 		user.setUserLoginID(LoginID);
 		user.setUserName(SelectUserProfileInfo.get(0));
-		if (SelectUserProfileInfo.get(2).equals(this.Constant.getSTUDENT())) {
+		if (SelectUserProfileInfo.get(2).equals(ConstantTeamController.STUDENT)) {
 			ArrayList<String> StudentInfo = new ArrayList<String>();
 			StudentInfo = studentService.SelectStudentProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.StudentInfo(model, SelectUserProfileInfo, StudentInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getPROFESSOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantTeamController.PROFESSOR)) {
 			ArrayList<String> ProfessorInfo = new ArrayList<String>();
 			ProfessorInfo = professorService.SelectProfessorProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.ProfessorInfo(model, SelectUserProfileInfo, ProfessorInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getADMINISTRATOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantTeamController.ADMINISTRATOR)) {
 			userInfoMethod.AdministratorInfo(model, SelectUserProfileInfo);
 		}
 	}

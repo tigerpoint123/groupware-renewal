@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.controller;
 
-import com.ll.groupware_renewal.constant.admin.ConstantAdminBoardController;
+import com.ll.groupware_renewal.constant.ConstantBoard;
 import com.ll.groupware_renewal.entity.Board;
 import com.ll.groupware_renewal.entity.Inquiry;
 import com.ll.groupware_renewal.entity.User;
@@ -27,7 +27,6 @@ import java.util.*;
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
-	private final ConstantAdminBoardController Constant;
 	private final BoardService boardService;
 	private final InquiryService inquiryService;
 	private final UserService userService;
@@ -45,7 +44,7 @@ public class BoardController {
 		List<Inquiry> InquiryList = inquiryService.SelectInquiryList();
 		model.addAttribute("inquiryList", InquiryList);
 
-		return this.Constant.getRInquiryList();
+		return ConstantBoard.RInquiryList;
 	}
 
 	// 문의 글 내용
@@ -60,18 +59,18 @@ public class BoardController {
 		String IBoardID = request.getParameter("no");
 		inquiry = inquiryService.SelectOneInquiryContent(IBoardID); // 선택한 게시글 ID가 들어감.
 
-		model.addAttribute(this.Constant.getInquiryTitle(), inquiry.getIBoardSubject());
-		model.addAttribute(this.Constant.getInquiryWriter(), inquiry.getIBoardWriter());
-		model.addAttribute(this.Constant.getIBoardDate(), inquiry.getIBoardDate());
-		model.addAttribute(this.Constant.getInquiryContent(), inquiry.getIBoardContent());
-		model.addAttribute(this.Constant.getBoardID(), IBoardID);
-		model.addAttribute(this.Constant.getInquiryAnswer(), inquiry.getIBoardAnswer());
+		model.addAttribute(ConstantBoard.InquiryTitle, inquiry.getIBoardSubject());
+		model.addAttribute(ConstantBoard.InquiryWriter, inquiry.getIBoardWriter());
+		model.addAttribute(ConstantBoard.IBoardDate, inquiry.getIBoardDate());
+		model.addAttribute(ConstantBoard.InquiryContent, inquiry.getIBoardContent());
+		model.addAttribute(ConstantBoard.BoardID, IBoardID);
+		model.addAttribute(ConstantBoard.InquiryAnswer, inquiry.getIBoardAnswer());
 
 		String UserID = inquiryService.SelectLoginUserIDForInquiry(LoginID);// 로그인한 사람의 userID를 가져오기 위함
-		model.addAttribute(this.Constant.getUserID(), UserID);
-		model.addAttribute(this.Constant.getUserIDFromWriter(), inquiry.getUserID());
+		model.addAttribute(ConstantBoard.UserID, UserID);
+		model.addAttribute(ConstantBoard.UserIDFromWriter, inquiry.getUserID());
 
-		return this.Constant.getRInquiryContent();
+		return ConstantBoard.RInquiryContent;
 	}
 
 	// 문의 글 작성
@@ -87,14 +86,14 @@ public class BoardController {
 		String UserName = userService.SelectUserName(UserLoginID);
 		String UserEmail = userService.SelectEmailForInquiry(UserLoginID);
 		String UserPhoneNum = userService.SelectPhoneNumForInquiry(UserLoginID);
-		model.addAttribute(this.Constant.getInquiryWriter(), UserName);
-		model.addAttribute(this.Constant.getInquiryEmail(), UserEmail);
-		model.addAttribute(this.Constant.getInquiryPhoneNum(), UserPhoneNum);
+		model.addAttribute(ConstantBoard.InquiryWriter, UserName);
+		model.addAttribute(ConstantBoard.InquiryEmail, UserEmail);
+		model.addAttribute(ConstantBoard.InquiryPhoneNum, UserPhoneNum);
 
 		List<Inquiry> InquiryList = inquiryService.SelectInquiryList();
 		model.addAttribute("inquiryList", InquiryList);
 
-		return this.Constant.getRInquiryWrite();
+		return ConstantBoard.RInquiryWrite;
 	}
 
 	@RequestMapping(value = "/InquiryWrite", method = RequestMethod.POST)
@@ -123,14 +122,14 @@ public class BoardController {
 			Out.println("<script>alert('제목을 입력해주세요. ');</script>");
 			Out.flush();
 			
-			return this.Constant.getRInquiryWrite();
+			return ConstantBoard.RInquiryWrite;
 		} else if(Content.equals("")) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter Out = response.getWriter();
 			Out.println("<script>alert('내용을 입력해주세요. ');</script>");
 			Out.flush();
 			
-			return this.Constant.getRInquiryWrite();
+			return ConstantBoard.RInquiryWrite;
 		} else {
 		
 		inquiry.setIBoardSubject(Title);
@@ -145,7 +144,7 @@ public class BoardController {
 
 		inquiryService.InsertInquiry(inquiry, request);
 
-		return this.Constant.getRRInquiryList();
+		return ConstantBoard.RRInquiryList;
 		}
 	}
 
@@ -154,7 +153,7 @@ public class BoardController {
 		int IBoardID = Integer.parseInt(request.getParameter("boardID"));
 		inquiryService.UpdateIBoardDelete(IBoardID);
 
-		return this.Constant.getRInquiryList();
+		return ConstantBoard.RInquiryList;
 	}
 
 	@RequestMapping(value = "/Answer.do", method = RequestMethod.POST)
@@ -173,7 +172,7 @@ public class BoardController {
 
 		inquiryService.InsertInquiryAnswer(inquiry, request);
 
-		return this.Constant.getRRInquiryList();
+		return ConstantBoard.RRInquiryList;
 	}
 
 	@RequestMapping(value = "/AnswerDelete.do", method = RequestMethod.POST)
@@ -181,7 +180,7 @@ public class BoardController {
 		int IBoardID = Integer.parseInt(request.getParameter("boardID"));
 		inquiryService.DeleteInquiryAnswer(IBoardID);
 
-		return this.Constant.getRRInquiryList();
+		return ConstantBoard.RRInquiryList;
 	}
 
 	// 공지사항 리스트
@@ -194,7 +193,7 @@ public class BoardController {
 		List<Board> NoticeList = boardService.findNoticeBoardList();
 		model.addAttribute("noticeList", NoticeList);
 
-		return this.Constant.getRNoticeList();
+		return ConstantBoard.RNoticeList;
 	}
 
 	// 공지사항 글 작성
@@ -210,13 +209,13 @@ public class BoardController {
 		Date Now = new Date();
 		SimpleDateFormat Date = new SimpleDateFormat("yyyy-MM-dd");
 
-		model.addAttribute(this.Constant.getNoticeWriter(), UserName);
-		model.addAttribute(this.Constant.getBoardDate(), Date.format(Now));
+		model.addAttribute(ConstantBoard.NoticeWriter, UserName);
+		model.addAttribute(ConstantBoard.BoardDate, Date.format(Now));
 
 		List<Board> NoticeList = boardService.findNoticeBoardList();
 		model.addAttribute("noticeList", NoticeList);
 
-		return this.Constant.getRNoticeWrite();
+		return ConstantBoard.RNoticeWrite;
 	}
 
 	@RequestMapping(value = "/noticeWrite", method = RequestMethod.POST)
@@ -240,14 +239,14 @@ public class BoardController {
 			Out.println("<script>alert('제목을 입력해주세요. ');</script>");
 			Out.flush();
 			
-			return this.Constant.getRNoticeWrite();
+			return ConstantBoard.RNoticeWrite;
 		} else if(Content.equals("")) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter Out = response.getWriter();
 			Out.println("<script>alert('내용을 입력해주세요. ');</script>");
 			Out.flush();
 			
-			return this.Constant.getRNoticeWrite();
+			return ConstantBoard.RNoticeWrite;
 		} else {
 		
 		board.setBoardSubject(Title);
@@ -259,7 +258,7 @@ public class BoardController {
 
 		boardService.saveBoard(board, request);
 
-		return this.Constant.getRRNoticeList();
+		return ConstantBoard.RRNoticeList;
 		}
 	}
 
@@ -272,18 +271,18 @@ public class BoardController {
 		//
 		String BoardID = request.getParameter("boardID");
 		board = boardService.findNoticeContentByBoardId(BoardID);
-		model.addAttribute(this.Constant.getNoticeTitle(), board.getBoardSubject());
-		model.addAttribute(this.Constant.getNoticeWriter(), board.getBoardWriter());
+		model.addAttribute(ConstantBoard.NoticeTitle, board.getBoardSubject());
+		model.addAttribute(ConstantBoard.NoticeWriter, board.getBoardWriter());
 		model.addAttribute("Date", board.getBoardDate());
-		model.addAttribute(this.Constant.getNoticeContent(), board.getBoardContent());
-		model.addAttribute(this.Constant.getBoardID(), board.getBoardID());
-		model.addAttribute(this.Constant.getBoardType(), board.getBoardType());
+		model.addAttribute(ConstantBoard.NoticeContent, board.getBoardContent());
+		model.addAttribute(ConstantBoard.BoardID, board.getBoardID());
+		model.addAttribute(ConstantBoard.BoardType, board.getBoardType());
 
 		// 수정된 file을 보여주는곳
 		List<Map<String, Object>> NoticeFileList = boardService.SelectNoticeFileList(Integer.parseInt(BoardID));
 		model.addAttribute("NoticeFile", NoticeFileList);
 
-		return this.Constant.getRNoticeModify();
+		return ConstantBoard.RNoticeModify;
 	}
 
 	@RequestMapping(value = "/NoticeModify", method = RequestMethod.POST)
@@ -310,7 +309,7 @@ public class BoardController {
 
 		boardService.updateModifiedContent(board, FileList, FileNameList, request);
 
-		return this.Constant.getRRNoticeList();
+		return ConstantBoard.RRNoticeList;
 	}
 
 	// 공지사항 리스트에서 제목 선택시 내용 출력
@@ -343,7 +342,7 @@ public class BoardController {
 		List<Map<String, Object>> NoticeFileList = boardService.SelectNoticeFileList(Integer.parseInt(BoardID));
 		model.addAttribute("NoticeFile", NoticeFileList);
 
-		return this.Constant.getRNoticeContent();
+		return ConstantBoard.RNoticeContent;
 	}
 
 	@RequestMapping(value = "/NoticeDelete.do", method = RequestMethod.POST)
@@ -351,7 +350,7 @@ public class BoardController {
 		int BoardID = Integer.parseInt(request.getParameter("boardID"));
 		boardService.UpdateBoardDelete(BoardID);
 
-		return this.Constant.getRRNoticeList();
+		return ConstantBoard.RRNoticeList;
 	}
 
 	// 커뮤니티 리스트
@@ -364,7 +363,7 @@ public class BoardController {
 		List<Board> CommunityList = boardService.findCommunityBoardList();
 		model.addAttribute("communityList", CommunityList);
 
-		return this.Constant.getRCommunityList();
+		return ConstantBoard.RCommunityList;
 	}
 
 	// 커뮤니티 글 작성
@@ -380,11 +379,11 @@ public class BoardController {
 		Date Now = new Date();
 		SimpleDateFormat Date = new SimpleDateFormat("yyyy-MM-dd");
 
-		model.addAttribute(this.Constant.getCommunityWriter(), UserName);
-		model.addAttribute(this.Constant.getBoardDate(), Date.format(Now));
+		model.addAttribute(ConstantBoard.CommunityWriter, UserName);
+		model.addAttribute(ConstantBoard.BoardDate, Date.format(Now));
 		model.addAttribute("communityList", CommunityList);
 
-		return this.Constant.getRCommunityWrite();
+		return ConstantBoard.RCommunityWrite;
 	}
 
 	@RequestMapping(value = "/communityWrite", method = RequestMethod.POST)
@@ -408,14 +407,14 @@ public class BoardController {
 			Out.println("<script>alert('제목을 입력해주세요. ');</script>");
 			Out.flush();
 			
-			return this.Constant.getRCommunityWrite();
+			return ConstantBoard.RCommunityWrite;
 		} else if(Content.equals("")) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter Out = response.getWriter();
 			Out.println("<script>alert('내용을 입력해주세요. ');</script>");
 			Out.flush();
 			
-			return this.Constant.getRCommunityWrite();
+			return ConstantBoard.RCommunityWrite;
 		} else {
 		
 		board.setBoardSubject(Title);
@@ -427,7 +426,7 @@ public class BoardController {
 
 		boardService.saveBoard(board, request);
 
-		return this.Constant.getRRCommunityList();
+		return ConstantBoard.RRCommunityList;
 		}
 	}
 
@@ -440,17 +439,17 @@ public class BoardController {
 		//
 		String BoardID = request.getParameter("no");
 		board = boardService.findCommunityContentByBoardId(BoardID);
-		model.addAttribute(this.Constant.getCommunityTitle(), board.getBoardSubject());
-		model.addAttribute(this.Constant.getCommunityWriter(), board.getBoardWriter());
+		model.addAttribute(ConstantBoard.CommunityTitle, board.getBoardSubject());
+		model.addAttribute(ConstantBoard.CommunityWriter, board.getBoardWriter());
 		model.addAttribute("Date", board.getBoardDate());
-		model.addAttribute(this.Constant.getCommunityContent(), board.getBoardContent());
-		model.addAttribute(this.Constant.getBoardID(), board.getBoardID());
+		model.addAttribute(ConstantBoard.CommunityContent, board.getBoardContent());
+		model.addAttribute(ConstantBoard.BoardID, board.getBoardID());
 
 		// 수정된 file을 보여주는곳
 		List<Map<String, Object>> CommunityFile = boardService.SelectCommunityFileList(Integer.parseInt(BoardID));
 		model.addAttribute("CommunityFile", CommunityFile);
 
-		return this.Constant.getRCommunityModify();
+		return ConstantBoard.RCommunityModify;
 	}
 
 	@RequestMapping(value = "/CommunityModify.do", method = RequestMethod.POST)
@@ -475,7 +474,7 @@ public class BoardController {
 
 		boardService.updateModifiedContent(board, FileList, FileNameList, request);
 
-		return this.Constant.getRRCommunityList();
+		return ConstantBoard.RRCommunityList;
 	}
 
 	@RequestMapping(value = "/FileDown")
@@ -487,7 +486,7 @@ public class BoardController {
 		String OriginalFileName = (String) ResultMap.get("BOriginalFileName");
 		// 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
 		byte FileByte[] = org.apache.commons.io.FileUtils
-				.readFileToByteArray(new File(this.Constant.getFilePath() + StoredFileName));
+				.readFileToByteArray(new File(ConstantBoard.FilePath + StoredFileName));
 		response.setContentType("application/octet-stream");
 		response.setContentLength(FileByte.length);
 		response.setHeader("Content-Disposition",
@@ -510,20 +509,20 @@ public class BoardController {
 		boardService.updateHitCountByBoardId(BoardID);
 		/*-----------------------------------*/
 		board = boardService.findCommunityContentByBoardId(BoardID); // 선택한 게시글을 쓴 userID가 들어감.
-		model.addAttribute(this.Constant.getCommunityTitle(), board.getBoardSubject());
-		model.addAttribute(this.Constant.getCommunityWriter(), board.getBoardWriter());
-		model.addAttribute(this.Constant.getBoardDate(), board.getBoardDate());
-		model.addAttribute(this.Constant.getCommunityContent(), board.getBoardContent());
-		model.addAttribute(this.Constant.getBoardID(), BoardID);
+		model.addAttribute(ConstantBoard.CommunityTitle, board.getBoardSubject());
+		model.addAttribute(ConstantBoard.CommunityWriter, board.getBoardWriter());
+		model.addAttribute(ConstantBoard.BoardDate, board.getBoardDate());
+		model.addAttribute(ConstantBoard.CommunityContent, board.getBoardContent());
+		model.addAttribute(ConstantBoard.BoardID, BoardID);
 
 		String UserID = boardService.findLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
-		model.addAttribute(this.Constant.getUserID(), UserID);
-		model.addAttribute(this.Constant.getUserIDFromWriter(), board.getUserID());
+		model.addAttribute(ConstantBoard.UserID, UserID);
+		model.addAttribute(ConstantBoard.UserIDFromWriter, board.getUserID());
 
 		List<Map<String, Object>> CommunityFile = boardService.SelectCommunityFileList(Integer.parseInt(BoardID));
 		model.addAttribute("CommunityFile", CommunityFile);
 
-		return this.Constant.getRCommunityContent();
+		return ConstantBoard.RCommunityContent;
 	}
 
 	@RequestMapping(value = "/CommunityDelete.do", method = RequestMethod.POST)
@@ -531,7 +530,7 @@ public class BoardController {
 		int BoardID = Integer.parseInt(request.getParameter("boardID"));
 		boardService.UpdateBoardDelete(BoardID);
 
-		return this.Constant.getRRCommunityList();
+		return ConstantBoard.RRCommunityList;
 	}
 
 	private void GetUserInformation(Principal principal, User user, Model model) {
@@ -539,15 +538,15 @@ public class BoardController {
 		ArrayList<String> SelectUserProfileInfo = new ArrayList<String>();
 		SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 		user.setUserLoginID(LoginID);
-		if (SelectUserProfileInfo.get(2).equals(this.Constant.getSTUDENT())) {
+		if (SelectUserProfileInfo.get(2).equals(ConstantBoard.STUDENT)) {
 			ArrayList<String> StudentInfo = new ArrayList<String>();
 			StudentInfo = studentService.SelectStudentProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.StudentInfo(model, SelectUserProfileInfo, StudentInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getPROFESSOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantBoard.PROFESSOR)) {
 			ArrayList<String> ProfessorInfo = new ArrayList<String>();
 			ProfessorInfo = professorService.SelectProfessorProfileInfo(SelectUserProfileInfo.get(1));
 			userInfoMethod.ProfessorInfo(model, SelectUserProfileInfo, ProfessorInfo);
-		} else if (SelectUserProfileInfo.get(2).equals(this.Constant.getADMINISTRATOR())) {
+		} else if (SelectUserProfileInfo.get(2).equals(ConstantBoard.ADMINISTRATOR)) {
 			userInfoMethod.AdministratorInfo(model, SelectUserProfileInfo);
 		}
 	}

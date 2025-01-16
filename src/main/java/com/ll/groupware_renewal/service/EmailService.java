@@ -5,24 +5,22 @@ import com.ll.groupware_renewal.entity.UserEmail;
 import com.ll.groupware_renewal.repository.UserJpaRepository;
 import com.ll.groupware_renewal.util.email.Email;
 import com.ll.groupware_renewal.util.email.EmailImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
 
+@Service
+@RequiredArgsConstructor
 public class EmailService {
-
-	@Autowired
-	private UserJpaRepository emailDao;
-	@Autowired
-	private EmailImpl emailImpl;
-	@Autowired
-	private com.ll.groupware_renewal.util.email.Email email;
+	private final UserJpaRepository emailDao;
+	private final EmailImpl emailImpl;
+	private final Email email;
 
 	private String Email;
 	private int Num;
 
-	@Override
 	public int sendEmail(User user) {
 		Random RandomNum = new Random();
 		this.Num = RandomNum.nextInt(888888) + 111111; // 인증번호 생성
@@ -35,7 +33,6 @@ public class EmailService {
 		return Num;
 	}
 
-	@Override
 	public boolean AuthNum(String authNum) {// 입력한 인증번호 가져오기
 		boolean Checker;
 		Checker = emailImpl.AuthNum(Integer.parseInt(authNum), this.Num);
@@ -44,7 +41,6 @@ public class EmailService {
 	}
 
 	// 이메일 중복확인
-	@Override
 	public boolean SelectForEmailDuplicateCheck(User user) {
 		// 이메일 중복
 		boolean EmailChecker;
@@ -52,18 +48,15 @@ public class EmailService {
 		return EmailChecker;
 	}
 
-	@Override
 	public List<UserEmail> PrintEmailList() {
 		return email.printEmailList();
 	}
 
-	@Override
 	public boolean CheckEmailLogin(String id, String pw) {
 		boolean CheckEmailLogin = email.CheckEmailLogin(id, pw);
 		return CheckEmailLogin;
 	}
 
-	@Override
 	public List<UserEmail> GetEmailList() {
 		return email.GetEmailList();
 	}
