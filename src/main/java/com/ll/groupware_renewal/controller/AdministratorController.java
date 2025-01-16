@@ -5,15 +5,14 @@ import com.ll.groupware_renewal.entity.Professor;
 import com.ll.groupware_renewal.entity.Student;
 import com.ll.groupware_renewal.entity.User;
 import com.ll.groupware_renewal.entity.UserList;
-import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.AdminService;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.StudentService;
 import com.ll.groupware_renewal.service.UserService;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +29,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdministratorController {
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private AdminService adminService;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
+	private final UserInfoMethod userInfoMethod;
+	private final AdminService adminService;
+	private final UserService userService;
+	private final StudentService studentService;
+	private final ProfessorService professorService;
 
 	private String UserName;
 	private String UserLoginID;
@@ -48,15 +43,6 @@ public class AdministratorController {
 
 	// constant연결
 	private ConstantAdmin constantAdmin;
-
-	@SuppressWarnings("resource")
-	public AdministratorController() {
-		GenericXmlApplicationContext Ctx = new GenericXmlApplicationContext();
-		Ctx.load("classpath:/xmlForProperties/Admin.xml");
-		Ctx.refresh();
-		// 빈 객체 받아오기
-		this.constantAdmin = (ConstantAdmin) Ctx.getBean("admin");
-	}
 
 
 	// 관리자메뉴 - user list

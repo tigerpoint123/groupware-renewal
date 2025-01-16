@@ -144,11 +144,11 @@ public class UserFunctionController {
       }
 
       // 공지사항 리스트 띄우기
-      List<Board> NoticeList = boardService.SelectNoticeBoardList();
+      List<Board> NoticeList = boardService.findNoticeBoardList();
       model.addAttribute(this.ConstantHome.getNL(), NoticeList);
 
       // 커뮤니티 리스트 띄우기
-      List<Board> CommunityList = boardService.SelectCommunityBoardList();
+      List<Board> CommunityList = boardService.findCommunityBoardList();
       model.addAttribute(this.ConstantHome.getCL(), CommunityList);
 
       return this.ConstantHome.getHUrl();
@@ -201,11 +201,11 @@ public class UserFunctionController {
       }
 
       // 공지사항 리스트 띄우기
-      List<Board> NoticeList = boardService.SelectNoticeBoardList();
+      List<Board> NoticeList = boardService.findNoticeBoardList();
       model.addAttribute("noticeList", NoticeList);
 
       // 커뮤니티 리스트 띄우기
-      List<Board> CommunityList = boardService.SelectCommunityBoardList();
+      List<Board> CommunityList = boardService.findCommunityBoardList();
       model.addAttribute(this.ConstantHome.getCL(), CommunityList);
 
       return this.ConstantHome.getHUrl();

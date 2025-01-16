@@ -13,4 +13,6 @@ public interface CalenderJpaRepository extends JpaRepository<Calender, Integer> 
 	int DeleteSchedule(String userId, String id);
 	int UpdateTimeInMonth(HashMap<String, String> map);
 	int UpdateTimeInWeek(String userId, String id, Calender calender);
+
+    int InsertSchedule(Calender calender);
 }

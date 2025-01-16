@@ -72,7 +72,7 @@ public class BoardDaoImpl implements BoardJpaRepository {
 	}
 
 	@Override
-	public Board SelectOneCommunityContent(String boardID) {
+	public Board findCommunityContentByBoardId(String boardID) {
 		return em.find(Board.class, boardID);
 	}
 
@@ -88,17 +88,14 @@ public class BoardDaoImpl implements BoardJpaRepository {
 				.getSingleResult();
 	}
 
-	@Override
 	public void UpdateModifiedContent(Board board) {
 		em.merge(board);
 	}
 
-	@Override
 	public void UpdateTeamBoardModifiedContent(TeamBoard teamBoard) {
 		em.merge(teamBoard);
 	}
 
-	@Override
 	public void DeleteCommunity(int boardID) {
 		Board board = em.find(Board.class, boardID);
 		if (board != null) {

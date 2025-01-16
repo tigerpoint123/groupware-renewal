@@ -2,30 +2,28 @@ package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.Calender;
 import com.ll.groupware_renewal.repository.CalenderJpaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class CalenderService {
+	private final CalenderJpaRepository calenderJpaRepository;
 
-	@Autowired
-	private CalenderJpaRepository calenderDao;
-
-	@Override
 	public int InsertSchedule(Calender calender) {
-		int Count = calenderDao.InsertSchedule(calender);
+		int Count = calenderJpaRepository.InsertSchedule(calender);
 		return Count;
 	}
 
-	@Override
 	public List<HashMap<String, Object>> SelectSchedule(int userID) {
-		return calenderDao.SelectSchedule(userID);
+		return calenderJpaRepository.SelectSchedule(userID);
 	}
 
-	@Override
 	public int SelectUserIdForCalender(String loginID) {
-		Integer UserID = calenderDao.SelectUserIdForCalender(loginID);
+		Integer UserID = calenderJpaRepository.SelectUserIdForCalender(loginID);
 		if (UserID == null) {
 			return 0;
 		} else {
@@ -33,27 +31,23 @@ public class CalenderService {
 		}
 	}
 
-	@Override
 	public int UpdateSchedule(String userId, String id, Calender calender) {
-		int Count = calenderDao.UpdateSchedule(userId, id, calender);
+		int Count = calenderJpaRepository.UpdateSchedule(userId, id, calender);
 		return Count;
 
 	}
 
-	@Override
 	public int DeleteSchedule(String userId, String id) {
-		int Count = calenderDao.DeleteSchedule(userId, id);
+		int Count = calenderJpaRepository.DeleteSchedule(userId, id);
 		return Count;
 	}
 
-	@Override
 	public int UpdateTimeInMonth(HashMap<String, String> map) {
-		return calenderDao.UpdateTimeInMonth(map);
+		return calenderJpaRepository.UpdateTimeInMonth(map);
 	}
 
-	@Override
 	public int UpdateTimeInWeek(String userId, String id, Calender calender) {
-		int Count = calenderDao.UpdateTimeInWeek(userId, id, calender);
+		int Count = calenderJpaRepository.UpdateTimeInWeek(userId, id, calender);
 		return Count;
 	}
 

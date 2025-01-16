@@ -3,16 +3,19 @@ package com.ll.groupware_renewal.service;
 import com.ll.groupware_renewal.entity.Board;
 import com.ll.groupware_renewal.entity.TeamBoard;
 import com.ll.groupware_renewal.repository.BoardJpaRepository;
+import com.ll.groupware_renewal.repository.TeamBoardRepository;
 import com.ll.groupware_renewal.util.BFileUtils;
-import com.ll.groupware_renewal.util.TeamFileUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
+@Service
 public class BoardService {
 	@Resource(name = "fileUtils")
 	private BFileUtils BfileUtils;
@@ -20,35 +23,30 @@ public class BoardService {
 	@Resource(name = "TfileUtils")
 	private com.ll.groupware_renewal.util.TeamFileUtils TeamFileUtils;
 
-	@Autowired
-	BoardJpaRepository boardDao;
+	private final BoardJpaRepository boardJpaRepository;
+	private final TeamBoardRepository teamBoardRepository;
 
-	@Override
-	public List<Board> SelectCommunityBoardList() {
-		return boardDao.SelectCommunityBoardList();
+	public List<Board> findCommunityBoardList() {
+		return boardJpaRepository.findCommunityBoardList();
 	}
 
-	@Override
-	public List<Board> SelectNoticeBoardList() {
-		return boardDao.SelectNoticeBoardList();
+	public List<Board> findNoticeBoardList() {
+		return boardJpaRepository.findNoticeBoardList();
 	}
 
-	@Override
-	public void UpdateHitCount(String boardID) {
-		boardDao.UpdateHitCount(boardID);
+	public void updateHitCountByBoardId(String boardID) {
+		boardJpaRepository.updateHitCountByBoardId(boardID);
 	}
 
-	@Override
-	public void InsertBoard(Board board, HttpServletRequest request) {
-		boardDao.InsertBoardInfo(board);
+	public void saveBoard(Board board, HttpServletRequest request) {
+		boardJpaRepository.save(board);
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
 		try {
-
-			int BNo = board.getBoardID();
+			Long BNo = board.getId();
 			board.setBno(BNo);
 			List<Map<String, Object>> List = BfileUtils.InsertFileInfo(board, multipartHttpServletRequest);
 			for (int i = 0, size = List.size(); i < size; i++) {
-				boardDao.insertFile(List.get(i));
+				boardJpaRepository.insertFile(List.get(i));
 			}
 
 		} catch (Exception e) {
@@ -56,9 +54,8 @@ public class BoardService {
 		}
 	}
 
-	@Override
-	public void InsertTeamDocument(TeamBoard teamBoard, HttpServletRequest request) {
-		boardDao.InsertTeamDocument(teamBoard);
+	public void saveTeamDocument(TeamBoard teamBoard, HttpServletRequest request) {
+		teamBoardRepository.save(teamBoard);
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
 		try {
 
@@ -66,7 +63,7 @@ public class BoardService {
 			teamBoard.setTBno(TeamBoardID);
 			List<Map<String, Object>> List = TeamFileUtils.InsertTeamFileInfo(teamBoard, multipartHttpServletRequest);
 			for (int i = 0, Size = List.size(); i < Size; i++) {
-				boardDao.InsertTeamFileInfo(List.get(i));
+				boardJpaRepository.InsertTeamFileInfo(List.get(i));
 			}
 
 		} catch (Exception e) {
@@ -74,35 +71,21 @@ public class BoardService {
 		}
 	}
 
-	@Override
-	public Board SelectOneCommunityContent(String boardID) {
-		return boardDao.SelectOneCommunityContent(boardID);
+	public Board findCommunityContentByBoardId(String boardID) {
+		return boardJpaRepository.findCommunityContentByBoardId(boardID);
 	}
 
-	@Override
-	public Board SelectOneNoticeContent(String boardID) {
-		return boardDao.SelectOneCommunityContent(boardID);
+	public Board findNoticeContentByBoardId(String boardID) {
+		return boardJpaRepository.findCommunityContentByBoardId(boardID);
 	}
 
-	@Override
-	public String SelectLoginUserID(String loginID) {
-		return boardDao.SelectLoginUserID(loginID);
+	public String findLoginUserID(String loginID) {
+		return boardJpaRepository.findLoginUserID(loginID);
 	}
 
-	@Override
-	public void DeleteCommunity(int boardID) {
-		boardDao.DeleteCommunity(boardID);
-	}
-
-	@Override
-	public void DeleteNotice(int boardID) {
-		boardDao.DeleteNotice(boardID);
-	}
-
-	@Override
-	public void UpdateModifiedContent(Board board, String[] FileList, String[] fileNameList,
+	public void updateModifiedContent(Board board, String[] FileList, String[] fileNameList,
 									  HttpServletRequest request) {
-		boardDao.UpdateModifiedContent(board);
+		boardJpaRepository.updateHitCountByBoardId(board.getId().toString());
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
 
 		List<Map<String, Object>> List;
@@ -114,9 +97,9 @@ public class BoardService {
 				TempMap = List.get(i);
 				// 여기일단조심
 				if (TempMap.get("IsNew").equals("1")) {
-					boardDao.InsertFile(TempMap);
+					boardJpaRepository.InsertFile(TempMap);
 				} else {
-					boardDao.UpdateFile(TempMap);
+					boardJpaRepository.UpdateFile(TempMap);
 				}
 			}
 		} catch (Exception e) {
@@ -125,11 +108,10 @@ public class BoardService {
 
 	}
 
-	@Override
-	public void UpdateTeamBoardModifiedContent(TeamBoard teamBoard, String[] fileList, String[] fileNameList,
+	public void updateTeamBoardModifiedContent(TeamBoard teamBoard, String[] fileList, String[] fileNameList,
 											   HttpServletRequest request) {
 
-		boardDao.UpdateTeamBoardModifiedContent(teamBoard);
+		boardJpaRepository.updateTeamBoardModifiedContent(teamBoard);
 
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
 
@@ -143,9 +125,9 @@ public class BoardService {
 				TempMap = List.get(i);
 				// 여기일단조심
 				if (TempMap.get("IsNew").equals("1")) {
-					boardDao.InsertTeamFile(TempMap);
+					boardJpaRepository.InsertTeamFile(TempMap);
 				} else {
-					boardDao.UpdateTeamFile(TempMap);
+					boardJpaRepository.UpdateTeamFile(TempMap);
 				}
 			}
 		} catch (Exception e) {
@@ -154,70 +136,58 @@ public class BoardService {
 
 	}
 
-	@Override
 	public List<Map<String, Object>> SelectCommunityFileList(int BNo) {
-		List<Map<String, Object>> SelectCommunityFileList = boardDao.SelectCommunityFileList(BNo);
+		List<Map<String, Object>> SelectCommunityFileList = boardJpaRepository.SelectCommunityFileList(BNo);
 		return SelectCommunityFileList;
 	}
 
-	@Override
 	public List<Map<String, Object>> SelectTeamBoardFileList(int BNo) {
-		List<Map<String, Object>> SelectTeamBoardFileList = boardDao.SelectTeamBoardFileList(BNo);
+		List<Map<String, Object>> SelectTeamBoardFileList = boardJpaRepository.SelectTeamBoardFileList(BNo);
 		return SelectTeamBoardFileList;
 	}
 
-	@Override
 	public Map<String, Object> SelectCommunityFileInfo(Map<String, Object> map) {
-		Map<String, Object> SelectCommunityFileInfo = boardDao.SelectCommunityFileInfo(map);
+		Map<String, Object> SelectCommunityFileInfo = boardJpaRepository.SelectCommunityFileInfo(map);
 		return SelectCommunityFileInfo;
 	}
 
-	@Override
 	public List<Map<String, Object>> SelectNoticeFileList(int BNo) {
-		List<Map<String, Object>> SelectNoticeFileList = boardDao.SelectNoticeFileList(BNo);
+		List<Map<String, Object>> SelectNoticeFileList = boardJpaRepository.SelectNoticeFileList(BNo);
 		return SelectNoticeFileList;
 	}
 
-	@Override
 	public Map<String, Object> SelectNoticeFileInfo(Map<String, Object> map) {
-		Map<String, Object> SelectNoticeFileInfo = boardDao.SelectNoticeFileInfo(map);
+		Map<String, Object> SelectNoticeFileInfo = boardJpaRepository.SelectNoticeFileInfo(map);
 		return SelectNoticeFileInfo;
 	}
 
-	@Override
 	public void UpdateBoardDelete(int boardID) {
-		boardDao.UpdateBoardDelete(boardID);
+		boardJpaRepository.UpdateBoardDelete(boardID);
 	}
 
-	@Override
 	public List<TeamBoard> SelectTeamBoardList() {
-		return boardDao.SelectTeamBoardList();
+		return boardJpaRepository.SelectTeamBoardList();
 	}
 
-	@Override
 	public TeamBoard SelectTeamBoardContent(String tBoardID) {
-		return boardDao.SelectTeamBoardContent(tBoardID);
+		return boardJpaRepository.SelectTeamBoardContent(tBoardID);
 	}
 
-	@Override
 	public void UpdateTBoardDelete(int tBoardID) {
-		boardDao.UpdateTBoardDelete(tBoardID);
+		boardJpaRepository.UpdateTBoardDelete(tBoardID);
 	}
 
-	@Override
 	public String SelectWriterID(TeamBoard teamBoard) {
-		return boardDao.SelectWriterID(teamBoard);
+		return boardJpaRepository.SelectWriterID(teamBoard);
 	}
 
-	@Override
 	public Map<String, Object> SelectTeamBoardFileInfo(Map<String, Object> map) {
-		Map<String, Object> SelectCommunityFileInfo = boardDao.SelectTeamBoardFileInfo(map);
+		Map<String, Object> SelectCommunityFileInfo = boardJpaRepository.SelectTeamBoardFileInfo(map);
 		return SelectCommunityFileInfo;
 	}
 
-	@Override
 	public List<Board> SelectMyBoardList(String login) {
-		return boardDao.SelectMyBoardList(login);
+		return boardJpaRepository.SelectMyBoardList(login);
 	}
 
 }

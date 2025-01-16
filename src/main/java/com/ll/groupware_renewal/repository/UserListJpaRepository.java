@@ -12,4 +12,5 @@ public interface UserListJpaRepository {
 
 	public List<UserList> SelectWithdrawalUserList();
 
+	List<UserList> findAll();
 }

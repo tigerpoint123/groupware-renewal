@@ -4,15 +4,14 @@ import com.ll.groupware_renewal.constant.ConstantLectureRoomController;
 import com.ll.groupware_renewal.entity.LectureRoom;
 import com.ll.groupware_renewal.entity.User;
 import com.ll.groupware_renewal.entity.UserReservation;
-import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.LectureRoomService;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.StudentService;
 import com.ll.groupware_renewal.service.UserService;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,30 +28,16 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@RequiredArgsConstructor
 public class LectureRoomController {
-
-	@Autowired
-	private LectureRoomService lectureRoomService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
-	@Autowired
-	private UserService userService;
+	private final LectureRoomService lectureRoomService;
+	private final UserInfoMethod userInfoMethod;
+	private final StudentService studentService;
+	private final ProfessorService professorService;
+	private final UserService userService;
 
 	// constant연결
 	private ConstantLectureRoomController constantLecture;
-
-	@SuppressWarnings("resource")
-	public LectureRoomController() {
-		GenericXmlApplicationContext Ctx = new GenericXmlApplicationContext();
-		Ctx.load("classpath:/xmlForProperties/LectureRoomController.xml");
-		Ctx.refresh();
-		// 빈 객체 받아오기
-		this.constantLecture = (ConstantLectureRoomController) Ctx.getBean("lectureRoom");
-	}
 
 	// 강의실 리스트 /lectureRoomList
 	@RequestMapping(value = "/lectureRoom/lectureRoomList", method = RequestMethod.GET)

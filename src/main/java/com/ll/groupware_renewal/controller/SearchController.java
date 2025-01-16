@@ -2,14 +2,13 @@ package com.ll.groupware_renewal.controller;
 
 import com.ll.groupware_renewal.constant.ConstantSearchController;
 import com.ll.groupware_renewal.entity.*;
-import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.SearchService;
 import com.ll.groupware_renewal.service.StudentService;
 import com.ll.groupware_renewal.service.UserService;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,28 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class SearchController {
-	private ConstantSearchController Constant;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-
-	@Autowired
-	private SearchService searchService;
-
-	@SuppressWarnings("resource")
-	public SearchController() {
-		// 컨테이너 생성 및 xml 파일 로드
-		GenericXmlApplicationContext CTX = new GenericXmlApplicationContext();
-		CTX.load("classpath:/xmlForProperties/SearchController.xml");
-		CTX.refresh();
-		this.Constant = (ConstantSearchController) CTX.getBean("SearchControllerID");
-	}
+	private final ConstantSearchController Constant;
+	private final UserService userService;
+	private final StudentService studentService;
+	private final ProfessorService professorService;
+	private final UserInfoMethod userInfoMethod;
+	private final SearchService searchService;
 
 	// review 사용자 검색
 	@RequestMapping(value = "/search/searchUser", method = RequestMethod.GET)

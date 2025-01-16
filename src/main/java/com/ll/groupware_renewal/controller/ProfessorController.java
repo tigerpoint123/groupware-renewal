@@ -7,8 +7,7 @@ import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,27 +17,16 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
+@RequiredArgsConstructor
 public class ProfessorController {
+	private final UserService userService;
+	private final ProfessorService professorService;
+	private final ConstantAdminProfessorController Constant;
 
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private ProfessorService professorService;
-
-	private ConstantAdminProfessorController Constant;
 	private String ProfessorColleges;
 	private String ProfessorRoom;
 	private String UserMajorForShow;
 	private String UserName;
-	
-	@SuppressWarnings("resource")
-	public ProfessorController() {
-		// 컨테이너 생성 및 xml 파일 로드
-		GenericXmlApplicationContext CTX = new GenericXmlApplicationContext();
-		CTX.load("classpath:/xmlForProperties/ProfessorController.xml");
-		CTX.refresh();
-		this.Constant = (ConstantAdminProfessorController) CTX.getBean("ProfessorControllerID");
-	}
 
 	@RequestMapping(value = "/signupProfessor", method = RequestMethod.GET)
 	public String signupProfessor() {

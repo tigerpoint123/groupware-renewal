@@ -3,10 +3,12 @@ package com.ll.groupware_renewal.constant;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
+@Component
 public class  ConstantScheduleController {
 
 	private String SRole;

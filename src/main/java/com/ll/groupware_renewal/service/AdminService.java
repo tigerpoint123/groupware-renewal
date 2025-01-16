@@ -2,27 +2,26 @@ package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.UserList;
 import com.ll.groupware_renewal.repository.UserListJpaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
+@Service
 public class AdminService {
-	@Autowired
-	private UserListJpaRepository userListDao;
+    private final UserListJpaRepository userListJpaRepository;
 
-	@Override
-	public List<UserList> SelectUserlist() throws Exception {
-		return userListDao.SelectUserlist();
-	}
+    public List<UserList> SelectUserlist() throws Exception {
+        return userListJpaRepository.findAll();
+    }
 
-	@Override
-	public List<UserList> SelectDormantUserList() {
-		return userListDao.SelectDormantUserList();
-	}
+    public List<UserList> SelectDormantUserList() {
+        return userListJpaRepository.SelectDormantUserList();
+    }
 
-	@Override
-	public List<UserList> SelectWithdrawalUserList() {
-		return userListDao.SelectWithdrawalUserList();
-	}
+    public List<UserList> SelectWithdrawalUserList() {
+        return userListJpaRepository.SelectWithdrawalUserList();
+    }
 
 }

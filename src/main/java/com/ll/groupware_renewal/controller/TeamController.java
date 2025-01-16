@@ -129,7 +129,7 @@ public class TeamController {
 		model.addAttribute("TeamID", teamBoard.getTeamID());
 		model.addAttribute("TBoardID", TBoardID);
 
-		String TUserID = boardService.SelectLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
+		String TUserID = boardService.findLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
 		teamBoard.setTUserID(Integer.parseInt(TUserID));
 		String TeamID = request.getParameter("num");
 		teamBoard.setTeamID(TeamID);
@@ -189,7 +189,7 @@ public class TeamController {
 		SimpleDateFormat Date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		teamBoard.setTBoardDate(Date.format(Now));
 
-		boardService.InsertTeamDocument(teamBoard, request);
+		boardService.saveTeamDocument(teamBoard, request);
 
 		return this.Constant.getRRDocumentListNO() + TeamID;
 	}
@@ -244,7 +244,7 @@ public class TeamController {
 		teamBoard.setTUserLoginID(UserLoginID);
 		teamBoard.setTUserID(UserID);
 
-		boardService.UpdateTeamBoardModifiedContent(teamBoard, FileList, FileNameList, request);
+		boardService.updateTeamBoardModifiedContent(teamBoard, FileList, FileNameList, request);
 		String TeamID = request.getParameter("TeamID");
 
 		return this.Constant.getRRDocumentListNO() + TeamID;

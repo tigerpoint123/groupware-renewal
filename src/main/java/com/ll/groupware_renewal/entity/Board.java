@@ -12,16 +12,17 @@ import java.util.List;
 @Setter
 public class Board {
 	private String BFileID;
-	private int Bno;
+	private long Bno;
 	private String BoardSubject;
 	private String BoardWriter;
 	private String BoardContent;
 	private String BoardDate;
-	private String BoardType;
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String boardType;
 	private int hitCount;
+	private int userID;
+	private int boardID;
 	
 	@OneToMany(mappedBy = "board")
 	private List<FileInfo> files = new ArrayList<>();

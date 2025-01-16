@@ -3,14 +3,13 @@ package com.ll.groupware_renewal.controller;
 import com.ll.groupware_renewal.constant.ConstantScheduleController;
 import com.ll.groupware_renewal.entity.Calender;
 import com.ll.groupware_renewal.entity.User;
-import com.ll.groupware_renewal.util.UserInfoMethod;
 import com.ll.groupware_renewal.service.CalenderService;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.StudentService;
 import com.ll.groupware_renewal.service.UserService;
+import com.ll.groupware_renewal.util.UserInfoMethod;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,33 +21,19 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@RequiredArgsConstructor
 public class ScheduleController {
-
-	private ConstantScheduleController Constant;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private CalenderService calenderService;
+	private final ConstantScheduleController Constant;
+	private final UserService userService;
+	private final StudentService studentService;
+	private final ProfessorService professorService;
+	private final UserInfoMethod userInfoMethod;
+	private final CalenderService calenderService;
 	
 	private String SRole;
 	private String PRole;
 	private String ARole;
 	private String Schedule;
-	
-	@SuppressWarnings("resource")
-	public ScheduleController() {
-	      GenericXmlApplicationContext Ctx = new GenericXmlApplicationContext();
-	      Ctx.load("classpath:/xmlForProperties/ScheduleController.xml");
-	      Ctx.refresh();
-	      // 빈 객체 받아오기
-	      this.Constant = (ConstantScheduleController) Ctx.getBean("ScheduleControllerID");
-	   }
 	
 	// 일정 화면
 	@RequestMapping(value = "/schedule/mySchedule", method = { RequestMethod.GET, RequestMethod.POST })

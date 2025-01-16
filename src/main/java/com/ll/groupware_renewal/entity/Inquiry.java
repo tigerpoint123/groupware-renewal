@@ -19,6 +19,8 @@ public class Inquiry {
 	private String UserPhoneNum;
 	private String State;
 	private String IBoardAnswer;
+	private int UserID;
+	private int IBoardID;
 
     @Id
     private Long id;

@@ -4,12 +4,11 @@ import com.ll.groupware_renewal.constant.admin.ConstantAdminBoardController;
 import com.ll.groupware_renewal.entity.Board;
 import com.ll.groupware_renewal.entity.Inquiry;
 import com.ll.groupware_renewal.entity.User;
+import com.ll.groupware_renewal.service.*;
 import com.ll.groupware_renewal.util.UserInfoMethod;
-import com.ll.groupware_renewal.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,30 +25,15 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
+@RequiredArgsConstructor
 public class BoardController {
-	private ConstantAdminBoardController Constant;
-
-	@Autowired
-	private BoardService boardService;
-	@Autowired
-	private com.ll.groupware_renewal.service.InquiryService inquiryService;
-	@Autowired
-	private com.ll.groupware_renewal.service.UserService userService;
-	@Autowired
-	private com.ll.groupware_renewal.service.StudentService studentService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private com.ll.groupware_renewal.service.ProfessorService professorService;
-
-	@SuppressWarnings("resource")
-	public BoardController() {
-		GenericXmlApplicationContext Ctx = new GenericXmlApplicationContext();
-		Ctx.load("classpath:/xmlForProperties/BoardController.xml");
-		Ctx.refresh();
-		// 빈 객체 받아오기
-		this.Constant = (ConstantAdminBoardController) Ctx.getBean("BoardControllerID");
-	}
+	private final ConstantAdminBoardController Constant;
+	private final BoardService boardService;
+	private final InquiryService inquiryService;
+	private final UserService userService;
+	private final StudentService studentService;
+	private final UserInfoMethod userInfoMethod;
+	private final ProfessorService professorService;
 
 	// 문의 리스트
 	@RequestMapping(value = "/inquiryList", method = RequestMethod.GET)
@@ -207,7 +191,7 @@ public class BoardController {
 			// 유저 정보
 			GetUserInformation(principal, user, model);
 		}
-		List<Board> NoticeList = boardService.SelectNoticeBoardList();
+		List<Board> NoticeList = boardService.findNoticeBoardList();
 		model.addAttribute("noticeList", NoticeList);
 
 		return this.Constant.getRNoticeList();
@@ -229,7 +213,7 @@ public class BoardController {
 		model.addAttribute(this.Constant.getNoticeWriter(), UserName);
 		model.addAttribute(this.Constant.getBoardDate(), Date.format(Now));
 
-		List<Board> NoticeList = boardService.SelectNoticeBoardList();
+		List<Board> NoticeList = boardService.findNoticeBoardList();
 		model.addAttribute("noticeList", NoticeList);
 
 		return this.Constant.getRNoticeWrite();
@@ -273,7 +257,7 @@ public class BoardController {
 		board.setUserID(UserID);
 		board.setBoardType("공지사항");
 
-		boardService.InsertBoard(board, request);
+		boardService.saveBoard(board, request);
 
 		return this.Constant.getRRNoticeList();
 		}
@@ -287,7 +271,7 @@ public class BoardController {
 		GetUserInformation(principal, user, model);
 		//
 		String BoardID = request.getParameter("boardID");
-		board = boardService.SelectOneNoticeContent(BoardID);
+		board = boardService.findNoticeContentByBoardId(BoardID);
 		model.addAttribute(this.Constant.getNoticeTitle(), board.getBoardSubject());
 		model.addAttribute(this.Constant.getNoticeWriter(), board.getBoardWriter());
 		model.addAttribute("Date", board.getBoardDate());
@@ -324,7 +308,7 @@ public class BoardController {
 		board.setBoardID(BoardID2);
 		board.setBoardType("공지사항");
 
-		boardService.UpdateModifiedContent(board, FileList, FileNameList, request);
+		boardService.updateModifiedContent(board, FileList, FileNameList, request);
 
 		return this.Constant.getRRNoticeList();
 	}
@@ -341,10 +325,10 @@ public class BoardController {
 		}
 		// 누르면 조회수 증가하는 로직
 		String BoardID = request.getParameter("no");
-		boardService.UpdateHitCount(BoardID);
+		boardService.updateHitCountByBoardId(BoardID);
 
 		/*-----------------------------------*/
-		board = boardService.SelectOneCommunityContent(BoardID); // 선택한 게시글을 쓴 userID가 들어감.
+		board = boardService.findCommunityContentByBoardId(BoardID); // 선택한 게시글을 쓴 userID가 들어감.
 		model.addAttribute("NoticeTitle", board.getBoardSubject());
 		model.addAttribute("NoticeWriter", board.getBoardWriter());
 		model.addAttribute("BoardDate", board.getBoardDate());
@@ -352,7 +336,7 @@ public class BoardController {
 		model.addAttribute("BoardID", BoardID);
 		model.addAttribute("BoardType", board.getBoardType());
 
-		String UserID = boardService.SelectLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
+		String UserID = boardService.findLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
 		model.addAttribute("UserID", UserID);
 		model.addAttribute("UserIDFromWriter", board.getUserID());
 
@@ -377,7 +361,7 @@ public class BoardController {
 			// 유저 정보
 			GetUserInformation(principal, user, model);
 		}
-		List<Board> CommunityList = boardService.SelectCommunityBoardList();
+		List<Board> CommunityList = boardService.findCommunityBoardList();
 		model.addAttribute("communityList", CommunityList);
 
 		return this.Constant.getRCommunityList();
@@ -386,7 +370,7 @@ public class BoardController {
 	// 커뮤니티 글 작성
 	@RequestMapping(value = "/communityWrite", method = RequestMethod.GET)
 	public String communityWrite(User user, HttpServletRequest request, Model model, Principal principal) {
-		List<Board> CommunityList = boardService.SelectCommunityBoardList();
+		List<Board> CommunityList = boardService.findCommunityBoardList();
 		// 유저 정보
 		GetUserInformation(principal, user, model);
 
@@ -441,7 +425,7 @@ public class BoardController {
 		board.setUserID(UserID);
 		board.setBoardType("커뮤니티");
 
-		boardService.InsertBoard(board, request);
+		boardService.saveBoard(board, request);
 
 		return this.Constant.getRRCommunityList();
 		}
@@ -455,7 +439,7 @@ public class BoardController {
 		GetUserInformation(principal, user, model);
 		//
 		String BoardID = request.getParameter("no");
-		board = boardService.SelectOneCommunityContent(BoardID);
+		board = boardService.findCommunityContentByBoardId(BoardID);
 		model.addAttribute(this.Constant.getCommunityTitle(), board.getBoardSubject());
 		model.addAttribute(this.Constant.getCommunityWriter(), board.getBoardWriter());
 		model.addAttribute("Date", board.getBoardDate());
@@ -489,7 +473,7 @@ public class BoardController {
 		board.setBoardDate(Date.format(Now));
 		board.setBoardID(BoardID2);
 
-		boardService.UpdateModifiedContent(board, FileList, FileNameList, request);
+		boardService.updateModifiedContent(board, FileList, FileNameList, request);
 
 		return this.Constant.getRRCommunityList();
 	}
@@ -523,16 +507,16 @@ public class BoardController {
 		GetUserInformation(principal, user, model); //
 		// 누르면 조회수 증가하는 로직
 		String BoardID = request.getParameter("no");
-		boardService.UpdateHitCount(BoardID);
+		boardService.updateHitCountByBoardId(BoardID);
 		/*-----------------------------------*/
-		board = boardService.SelectOneCommunityContent(BoardID); // 선택한 게시글을 쓴 userID가 들어감.
+		board = boardService.findCommunityContentByBoardId(BoardID); // 선택한 게시글을 쓴 userID가 들어감.
 		model.addAttribute(this.Constant.getCommunityTitle(), board.getBoardSubject());
 		model.addAttribute(this.Constant.getCommunityWriter(), board.getBoardWriter());
 		model.addAttribute(this.Constant.getBoardDate(), board.getBoardDate());
 		model.addAttribute(this.Constant.getCommunityContent(), board.getBoardContent());
 		model.addAttribute(this.Constant.getBoardID(), BoardID);
 
-		String UserID = boardService.SelectLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
+		String UserID = boardService.findLoginUserID(LoginID);// 로그인한 사람의 userID를 가져오기 위함
 		model.addAttribute(this.Constant.getUserID(), UserID);
 		model.addAttribute(this.Constant.getUserIDFromWriter(), board.getUserID());
 
