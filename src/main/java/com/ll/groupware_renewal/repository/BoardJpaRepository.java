@@ -30,4 +30,14 @@ public interface BoardJpaRepository  extends JpaRepository<Board, Integer> {
     void updateTeamBoardModifiedContent(TeamBoard teamBoard);
 
     void updateFile(Map<String, Object> tempMap);
+
+    void UpdateBoardDelete(int boardID);
+
+    List<TeamBoard> SelectTeamBoardList();
+
+    TeamBoard SelectTeamBoardContent(String tBoardID);
+
+    void UpdateTBoardDelete(int tBoardID);
+
+    String SelectWriterID(TeamBoard teamBoard);
 }

@@ -19,7 +19,6 @@ import java.util.Map;
 public class BoardService {
 	@Resource(name = "fileUtils")
 	private BFileUtils BfileUtils;
-
 	@Resource(name = "TfileUtils")
 	private com.ll.groupware_renewal.util.TeamFileUtils TeamFileUtils;
 

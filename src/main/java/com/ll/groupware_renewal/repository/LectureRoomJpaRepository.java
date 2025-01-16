@@ -2,10 +2,11 @@ package com.ll.groupware_renewal.repository;
 
 import com.ll.groupware_renewal.entity.LectureRoom;
 import com.ll.groupware_renewal.entity.UserReservation;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LectureRoomJpaRepository {
+public interface LectureRoomJpaRepository extends JpaRepository<LectureRoom, String> {
 
 	List<LectureRoom> SelectLectureRoomList();
 

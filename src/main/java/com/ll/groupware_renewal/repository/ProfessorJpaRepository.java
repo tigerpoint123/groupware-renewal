@@ -1,10 +1,11 @@
 package com.ll.groupware_renewal.repository;
 
 import com.ll.groupware_renewal.entity.Professor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
 
-public interface ProfessorJpaRepository {
+public interface ProfessorJpaRepository extends JpaRepository<Professor, Integer> {
 
 	// 정보 저장
 	public void InsertInformation(Professor professor);

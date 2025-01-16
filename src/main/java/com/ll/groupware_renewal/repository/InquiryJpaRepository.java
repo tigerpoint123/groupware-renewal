@@ -1,10 +1,11 @@
 package com.ll.groupware_renewal.repository;
 
 import com.ll.groupware_renewal.entity.Inquiry;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface InquiryJpaRepository {
+public interface InquiryJpaRepository extends JpaRepository<Inquiry, Integer> {
 
 	void InsertIBoardInfo(Inquiry inquiry);
 

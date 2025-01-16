@@ -1,14 +1,14 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.entity.UserEmail;
-import com.ll.groupware_renewal.repository.UserEmailDao;
+import com.ll.groupware_renewal.repository.UserEmailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserEmailService {
-	private final UserEmailDao userEmailDao;
+	private final UserEmailRepository userEmailDao;
 
 	public void InsertCertification(UserEmail userEmail) {
 		userEmailDao.InsertCertification(userEmail);

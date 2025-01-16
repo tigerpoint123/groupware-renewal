@@ -1,7 +1,11 @@
 package com.ll.groupware_renewal.util.email;
 
-import com.ll.groupware_renewal.constant.admin.ConstantAdminEmail;
+import com.ll.groupware_renewal.constant.ConstantEmail;
 import com.ll.groupware_renewal.entity.UserEmail;
+import com.sun.jdi.connect.Transport;
+import jakarta.websocket.Session;
+import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Store;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +15,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Component
+@RequiredArgsConstructor
 public class EmailImpl implements Email {
 	private String Host;
 	private String UserEmail;
@@ -20,28 +25,12 @@ public class EmailImpl implements Email {
 	private String Content;
 	private Store store;
 	private List<UserEmail> list;
-	private ConstantAdminEmail Constant;
-
-	public EmailImpl() {
-		// 컨테이너 생성 및 xml 파일 로드
-		GenericXmlApplicationContext CTX = new GenericXmlApplicationContext();
-		CTX.load("classpath:/xmlForProperties/Email.xml");
-		CTX.refresh();
-
-		// 빈 객체 받아오기
-		this.Constant = (ConstantAdminEmail) CTX.getBean("emailCertification");
-
-		// 프로퍼티 값 확인
-		this.Host = Constant.getHost();
-		this.UserEmail = Constant.getHostEmail();
-		this.UserPwd = Constant.getHostPwd();
-	}
 
 	@Override
 	public void sendEmail(String email, int Num) {
 		this.ToEmail = email;
 		// 제목 설정
-		this.Subject = this.Constant.getSubject();
+		this.Subject = ConstantEmail.getSubject();
 		try {
 			Subject = new String(Subject.getBytes("iso-8859-1"), "utf-8");
 		} catch (UnsupportedEncodingException e1) {
@@ -49,7 +38,7 @@ public class EmailImpl implements Email {
 			e1.printStackTrace();
 		}
 		// 추후에 DB에 이문구도 저장하여 가져올 예정
-		this.Content = Constant.getContentBeforeNum() + Num + Constant.getContentAfterNum();
+		this.Content = ConstantEmail.getContentBeforeNum() + Num + ConstantEmail.getContentAfterNum();
 		try {
 			Content = new String(Content.getBytes("iso-8859-1"), "utf-8");
 		} catch (UnsupportedEncodingException e1) {
@@ -57,7 +46,7 @@ public class EmailImpl implements Email {
 			e1.printStackTrace();
 		}
 		Properties Properties = new Properties();
-		Properties.put(this.Constant.getMailSmtpAuth(), true);
+		Properties.put(ConstantEmail.getMailSmtpAuth(), true);
 		Session session = Session.getDefaultInstance(Properties);
 		MimeMessage Msg = new MimeMessage(session);
 
@@ -67,7 +56,7 @@ public class EmailImpl implements Email {
 			Msg.setFrom(new InternetAddress(UserEmail));
 			Msg.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(ToEmail));
 
-			Transport transport = session.getTransport(this.Constant.getSmtps());
+			Transport transport = session.getTransport(ConstantEmail.getSmtps());
 			transport.connect(Host, UserEmail, UserPwd);
 			transport.sendMessage(Msg, Msg.getAllRecipients());
 			transport.close();
@@ -94,14 +83,14 @@ public class EmailImpl implements Email {
 		// Create empty properties
 		Properties props = new Properties();
 		// POP3 주소
-		String host = this.Constant.getHostURL();
+		String host = ConstantEmail.getHostURL();
 		// session생성
 		Session session = Session.getDefaultInstance(props, null);
 		// store생성
 		this.store = null;
 
 		try {
-			store = session.getStore(this.Constant.getPop3Store());
+			store = session.getStore(ConstantEmail.getPop3Store());
 			store.connect(host, id, pw);
 			if (store.isConnected()) {
 				CheckEmailLogin = true;
@@ -124,7 +113,7 @@ public class EmailImpl implements Email {
 
 		try {
 			// Get folder
-			folder = store.getFolder(this.Constant.getINBOX());
+			folder = store.getFolder(ConstantEmail.getINBOX());
 			folder.open(Folder.READ_ONLY);
 			// 이메일 박스
 			Message message[] = folder.getMessages();
@@ -158,15 +147,15 @@ public class EmailImpl implements Email {
 
 				String contentType = message[i].getContentType();
 				String content = "";
-				if (contentType.contains(this.Constant.getMultipart())) {
+				if (contentType.contains(ConstantEmail.getMultipart())) {
 					Multipart multipart = (Multipart) message[i].getContent();
 					int numofparts = multipart.getCount();
 					for (int k = 0; k < numofparts; k++) {
 						MimeBodyPart part = (MimeBodyPart) multipart.getBodyPart(k);
 						content = part.getContent().toString();
 					}
-				} else if (contentType.contains(this.Constant.getTextPlain())
-						|| contentType.contains(this.Constant.getTextHtml())) {
+				} else if (contentType.contains(ConstantEmail.getTextPlain())
+						|| contentType.contains(ConstantEmail.getTextHtml())) {
 					String ObjectContent = message[i].getContent().toString();
 					if (ObjectContent != null) {
 						content = ObjectContent.toString();
@@ -176,26 +165,26 @@ public class EmailImpl implements Email {
 
 				String date = message[i].getSentDate().toString();
 
-				date = date.replaceAll(this.Constant.getMon(), this.Constant.getKoreanMon());
-				date = date.replaceAll(this.Constant.getTue(), this.Constant.getKoreanTue());
-				date = date.replaceAll(this.Constant.getWed(), this.Constant.getKoreanWed());
-				date = date.replaceAll(this.Constant.getThu(), this.Constant.getKoreanThu());
-				date = date.replaceAll(this.Constant.getFri(), this.Constant.getKoreanFri());
-				date = date.replaceAll(this.Constant.getSat(), this.Constant.getKoreanSat());
-				date = date.replaceAll(this.Constant.getSun(), this.Constant.getKoreanSun());
+				date = date.replaceAll(ConstantEmail.getMon(), ConstantEmail.getKoreanMon());
+				date = date.replaceAll(ConstantEmail.getTue(), ConstantEmail.getKoreanTue());
+				date = date.replaceAll(ConstantEmail.getWed(), ConstantEmail.getKoreanWed());
+				date = date.replaceAll(ConstantEmail.getThu(), ConstantEmail.getKoreanThu());
+				date = date.replaceAll(ConstantEmail.getFri(), ConstantEmail.getKoreanFri());
+				date = date.replaceAll(ConstantEmail.getSat(), ConstantEmail.getKoreanSat());
+				date = date.replaceAll(ConstantEmail.getSun(), ConstantEmail.getKoreanSun());
 
-				date = date.replaceAll(this.Constant.getJan(), this.Constant.getNumJan());
-				date = date.replaceAll(this.Constant.getFeb(), this.Constant.getNumFeb());
-				date = date.replaceAll(this.Constant.getMar(), this.Constant.getNumMar());
-				date = date.replaceAll(this.Constant.getApr(), this.Constant.getNumApr());
-				date = date.replaceAll(this.Constant.getMay(), this.Constant.getNumMay());
-				date = date.replaceAll(this.Constant.getJun(), this.Constant.getNumJun());
-				date = date.replaceAll(this.Constant.getJul(), this.Constant.getNumJul());
-				date = date.replaceAll(this.Constant.getAug(), this.Constant.getNumAug());
-				date = date.replaceAll(this.Constant.getSep(), this.Constant.getNumSep());
-				date = date.replaceAll(this.Constant.getOct(), this.Constant.getNumOct());
-				date = date.replaceAll(this.Constant.getNov(), this.Constant.getNumNov());
-				date = date.replaceAll(this.Constant.getDec(), this.Constant.getNumDec());
+				date = date.replaceAll(ConstantEmail.getJan(), ConstantEmail.getNumJan());
+				date = date.replaceAll(ConstantEmail.getFeb(), ConstantEmail.getNumFeb());
+				date = date.replaceAll(ConstantEmail.getMar(), ConstantEmail.getNumMar());
+				date = date.replaceAll(ConstantEmail.getApr(), ConstantEmail.getNumApr());
+				date = date.replaceAll(ConstantEmail.getMay(), ConstantEmail.getNumMay());
+				date = date.replaceAll(ConstantEmail.getJun(), ConstantEmail.getNumJun());
+				date = date.replaceAll(ConstantEmail.getJul(), ConstantEmail.getNumJul());
+				date = date.replaceAll(ConstantEmail.getAug(), ConstantEmail.getNumAug());
+				date = date.replaceAll(ConstantEmail.getSep(), ConstantEmail.getNumSep());
+				date = date.replaceAll(ConstantEmail.getOct(), ConstantEmail.getNumOct());
+				date = date.replaceAll(ConstantEmail.getNov(), ConstantEmail.getNumNov());
+				date = date.replaceAll(ConstantEmail.getDec(), ConstantEmail.getNumDec());
 				
 				date = new String(date.getBytes("iso-8859-1"), "utf-8");
 				// 일반 빈칸을 html이 인식할 수 있는 공백으로 변환
