@@ -1,5 +1,6 @@
 package com.ll.groupware_renewal.controller;
 
+import lombok.RequiredArgsConstructor;
 import com.ll.groupware_renewal.constant.ConstantLectureRoomController;
 import com.ll.groupware_renewal.dto.LectureRoom;
 import com.ll.groupware_renewal.dto.User;
@@ -11,8 +12,6 @@ import com.ll.groupware_renewal.service.StudentService;
 import com.ll.groupware_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,30 +28,15 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@RequiredArgsConstructor
 public class LectureRoomController {
 
-	@Autowired
-	private LectureRoomService lectureRoomService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
-	@Autowired
-	private UserService userService;
-
-	// constant연결
-	private ConstantLectureRoomController constantLecture;
-
-	@SuppressWarnings("resource")
-	public LectureRoomController() {
-		GenericXmlApplicationContext Ctx = new GenericXmlApplicationContext();
-		Ctx.load("classpath:/xmlForProperties/LectureRoomController.xml");
-		Ctx.refresh();
-		// 빈 객체 받아오기
-		this.constantLecture = (ConstantLectureRoomController) Ctx.getBean("lectureRoom");
-	}
+	private final LectureRoomService lectureRoomService;
+	private final UserInfoMethod userInfoMethod;
+	private final StudentService studentService;
+	private final ProfessorService professorService;
+	private final UserService userService;
+	private final ConstantLectureRoomController constantLecture;
 
 	// 강의실 리스트 /lectureRoomList
 	@RequestMapping(value = "/lectureRoom/lectureRoomList", method = RequestMethod.GET)
