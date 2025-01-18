@@ -6,6 +6,11 @@ import com.ll.groupware_renewal.dto.User;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public interface UserService {
 
 	// 회원가입

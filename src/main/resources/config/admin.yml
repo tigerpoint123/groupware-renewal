@@ -1,0 +1,44 @@
+admin:
+  roles:
+    student: STUDENT
+    professor: PROFESSOR
+    administrator: ADMINISTRATOR
+    temporary-pwd: "00000000"
+  
+  urls:
+    home: /admin/homeAdmin
+    list: /admin/manageList
+    re-list: redirect:manageList
+    re-sleep: redirect:manageSleep
+    sleep-list: /admin/manageSleep
+    secession-list: /admin/manageSecession
+    re-secession-list: redirect:manageSecession
+    detail: /admin/detail
+    re-student-detail: redirect:detailStudent
+    re-professor-detail: redirect:detailProfessor
+    student-detail: /admin/detailStudent
+    professor-detail: /admin/detailProfessor
+    student-modify: /admin/ModifyStudent
+    professor-modify: /admin/ModifyProfessor
+    student-manage: /admin/manageStudent
+    professor-manage: /admin/manageProfessor
+    student-manage-modify: /admin/manageModifyStudent
+    professor-manage-modify: /admin/manageModifyProfessor
+    
+  user-roles:
+    role-user: ROLE_USER
+    role-student: ROLE_SUSER
+    role-professor: ROLE_PUSER
+    role-admin: ROLE_ADMIN
+    
+  user-types:
+    student: STUDENT
+    professor: PROFESSOR
+    administrator: ADMINISTRATOR
+    
+  fields:
+    user-name: userName
+    user-email: userEmail
+    phone-number: UserPhoneNum
+    professor-room: ProfessorRoomNum
+    email: Email 

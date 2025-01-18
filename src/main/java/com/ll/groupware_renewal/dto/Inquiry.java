@@ -63,7 +63,7 @@ public class Inquiry {
 		UserID = userID;
 	}
 
-	public String getIBoardSubject() {
+	public Object getIBoardSubject() {
 		return IBoardSubject;
 	}
 

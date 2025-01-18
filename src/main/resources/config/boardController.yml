@@ -1,0 +1,107 @@
+board:
+  roles:
+    student: STUDENT
+    professor: PROFESSOR
+    administrator: ADMINISTRATOR
+    
+  urls:
+    board: /board/board
+    notice: /board/notice
+    inquiry: /board/inquiryBoard
+    team: /board/team
+    search: /board/search
+    write: /board/write
+    detail: /board/detail
+    modify: /board/modify
+    inquiry-list: /board/inquiryList
+    inquiry-content: /board/inquiryContent
+    inquiry-write: /board/inquiryWrite
+    notice-list: /board/noticeList
+    notice-write: /board/noticeWrite
+    notice-content: /board/noticeContent
+    notice-modify: /board/noticeModify
+    community-list: /board/communityList
+    community-write: /board/communityWrite
+    community-content: /board/communityContent
+    community-modify: /board/communityModify
+    
+    # redirect URLs
+    re-board: redirect:board
+    re-notice: redirect:notice
+    re-inquiry: redirect:inquiryBoard
+    re-team: redirect:team
+    re-write: redirect:write
+    re-detail: redirect:detail
+    re-modify: redirect:modify
+    re-inquiry-list: redirect:/inquiryList
+    rr-inquiry-list: redirect:inquiryList
+    r-notice-list: redirect:noticeList
+    rr-notice-list: redirect:/noticeList
+    r-community-list: redirect:communityList
+    rr-community-list: redirect:/communityList
+    r-community-modify: redirect:communityModify
+    r-community-write: redirect:communityWrite
+    r-notice-write: redirect:noticeWrite
+    r-notice-content: redirect:noticeContent
+    
+  fields:
+    title: Title
+    writer: Writer
+    content: Content
+    date: Date
+    hits: Hits
+    file: File
+    board-type: BoardType
+    board-date: BoardDate
+    board-id: BoardID
+    user-id: UserID
+    user-id-from-writer: UserIDFromWriter
+    
+    notice-title: NoticeTitle
+    notice-writer: NoticeWriter
+    notice-content: NoticeContent
+    
+    community-title: CommunityTitle
+    community-writer: CommunityWriter
+    community-content: CommunityContent
+    
+    inquiry-writer: InquiryWriter
+    inquiry-email: InquiryEmail
+    inquiry-phone-num: InquiryPhoneNum
+    inquiry-answer: InquiryAnswer
+    
+    student: STUDENT
+    professor: PROFESSOR
+    administrator: ADMINISTRATOR
+    
+  file:
+    original-name: BOriginalFileName
+    stored-name: BStoredFileName
+    size: BFileSize
+    delete: BDelete
+    path: C:\\groupware\\
+
+  string:
+    answer-completed: 답변 완료
+    answer-waiting: 답변 대기
+    notice: 공지사항
+    community: 커뮤니티
+    inquiryTitle: InquiryTitle
+    inquiryWriter: InquiryWriter
+    iBoardDate: IBoardDate
+    inquiryContent: InquiryContent
+    inquiryEmail: InquiryEmail
+    inquiryPhoneNum: InquiryPhoneNum
+    inquiryList: InquiryList
+    inquiryType: InquiryType
+    inquiryAnswer: InquiryAnswer
+    
+  inquiry:
+    title: IBoardSubject
+    writer: IBoardWriter
+    content: IBoardContent
+    answer: IBoardAnswer
+    delete: IBoardDelete
+    type: IBoardType
+    date: IBoardDate
+    state: State

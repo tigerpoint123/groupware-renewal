@@ -1,9 +1,13 @@
 package com.ll.groupware_renewal.service;
 
 import com.ll.groupware_renewal.dto.Professor;
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 
+@Service
+@RequiredArgsConstructor
 public interface ProfessorService {
 
 	// 정보 저장

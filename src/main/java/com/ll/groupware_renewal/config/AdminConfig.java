@@ -10,32 +10,68 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "admin")
 public class AdminConfig {
-    // 역할 관련
-    private String studentRole = "STUDENT";
-    private String professorRole = "PROFESSOR";
-    private String administratorRole = "ADMINISTRATOR";
-
-    // URL 관련
+    private Roles roles = new Roles();
     private Urls urls = new Urls();
-    
-    // 사용자 필드 관련
-    private UserFields userFields = new UserFields();
+    private UserRoles userRoles = new UserRoles();
+    private UserTypes userTypes = new UserTypes();
+    private Fields fields = new Fields();
 
     @Getter
     @Setter
-    public static class Urls {
-        private String signupStudent = "/student/signup";
-        private String myPageStudent = "/student/mypage";
-        private String modifyStudent = "/student/modify";
-        // ... 다른 URL들
+    public static class Roles {
+        private String student;
+        private String professor;
+        private String administrator;
+        private String temporaryPwd;
     }
 
     @Getter
     @Setter
-    public static class UserFields {
-        private String userName = "userName";
-        private String userEmail = "userEmail";
-        private String phoneNumber = "phoneNumber";
-        // ... 다른 필드명들
+    public static class Urls {
+        private String home;
+        private String list;
+        private String reList;
+        private String reSleep;
+        private String sleepList;
+        private String secessionList;
+        private String reSecessionList;
+        private String detail;
+        private String reStudentDetail;
+        private String reProfessorDetail;
+        private String studentDetail;
+        private String professorDetail;
+        private String studentModify;
+        private String professorModify;
+        private String studentManage;
+        private String professorManage;
+        private String studentManageModify;
+        private String professorManageModify;
+    }
+
+    @Getter
+    @Setter
+    public static class UserRoles {
+        private String roleUser;
+        private String roleStudent;
+        private String roleProfessor;
+        private String roleAdmin;
+    }
+
+    @Getter
+    @Setter
+    public static class UserTypes {
+        private String student;
+        private String professor;
+        private String administrator;
+    }
+
+    @Getter
+    @Setter
+    public static class Fields {
+        private String userName;
+        private String userEmail;
+        private String phoneNumber;
+        private String professorRoom;
+        private String email;
     }
 } 

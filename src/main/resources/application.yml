@@ -41,3 +41,10 @@ logging:
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
     org.springframework.transaction.interceptor: TRACE
+config:
+  import:
+    - classpath:/config/admin.yml
+    - classpath:/config/boardController.yml
+    - classpath:/config/calenderDao.yml
+    - classpath:/config/homeController.yml
+    - classpath:/config/lectureRoomController.yml

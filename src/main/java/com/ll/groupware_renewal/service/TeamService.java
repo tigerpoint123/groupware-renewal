@@ -4,7 +4,12 @@ import com.ll.groupware_renewal.dto.*;
 
 import java.util.List;
 
-public interface TeamService {
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class TeamService {
 
 	public void InsertTeamInfo(Team team);
 

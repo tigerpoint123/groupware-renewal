@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public interface BoardService {
 
 	void InsertBoard(Board board, HttpServletRequest request);

@@ -1,0 +1,87 @@
+calender:
+  fields:
+    schedule-id: ScheduleID
+    user-id: UserID
+    title: Title
+    content: Content
+    date: Date
+    start-time: StartTime
+    end-time: EndTime
+    completed: Completed
+    year: Year
+    month: Month
+    day: Day
+    day-of-week: DayOfWeek
+    
+  urls:
+    calender: /calender/calender
+    schedule: /calender/schedule
+    modify: /calender/modify
+    re-calender: redirect:calender
+    re-schedule: redirect:schedule
+    re-modify: redirect:modify
+    
+  string:
+    completed: 완료
+    not-completed: 미완료
+    
+  sql:
+    select:
+      schedule: >
+        SELECT * FROM Schedule
+        WHERE UserID = #{UserID}
+      schedule-by-id: >
+        SELECT * FROM Schedule
+        WHERE ScheduleID = #{ScheduleID}
+      schedule-by-date: >
+        SELECT * FROM Schedule
+        WHERE UserID = #{UserID}
+        AND Date = #{Date}
+      schedule-by-month: >
+        SELECT * FROM Schedule
+        WHERE UserID = #{UserID}
+        AND Month = #{Month}
+      schedule-by-year: >
+        SELECT * FROM Schedule
+        WHERE UserID = #{UserID}
+        AND Year = #{Year}
+      schedule-by-year-month: >
+        SELECT * FROM Schedule
+        WHERE UserID = #{UserID}
+        AND Year = #{Year}
+        AND Month = #{Month}
+        
+    insert:
+      schedule: >
+        INSERT INTO Schedule (
+          UserID, Title, Content, Date, StartTime, EndTime,
+          Completed, Year, Month, Day, DayOfWeek
+        )
+        VALUES (
+          #{UserID}, #{Title}, #{Content}, #{Date}, #{StartTime}, #{EndTime},
+          #{Completed}, #{Year}, #{Month}, #{Day}, #{DayOfWeek}
+        )
+        
+    update:
+      schedule: >
+        UPDATE Schedule
+        SET Title = #{Title},
+            Content = #{Content},
+            Date = #{Date},
+            StartTime = #{StartTime},
+            EndTime = #{EndTime},
+            Completed = #{Completed},
+            Year = #{Year},
+            Month = #{Month},
+            Day = #{Day},
+            DayOfWeek = #{DayOfWeek}
+        WHERE ScheduleID = #{ScheduleID}
+      completed: >
+        UPDATE Schedule
+        SET Completed = #{Completed}
+        WHERE ScheduleID = #{ScheduleID}
+        
+    delete:
+      schedule: >
+        DELETE FROM Schedule
+        WHERE ScheduleID = #{ScheduleID}

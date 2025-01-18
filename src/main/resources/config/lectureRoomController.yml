@@ -1,0 +1,85 @@
+lecture-room:
+  urls:
+    list: /lectureRoom/lectureRoomList
+    reservation: /lectureRoom/reservation
+    inquiry: /lectureRoom/reservationInquiry
+    modify: /lectureRoom/reservationModify
+    re-list: redirect:/lectureRoom/lectureRoomList
+    re-reservation: redirect:/lectureRoom/reservation
+    re-inquiry: redirect:/lectureRoom/reservationInquiry
+    re-modify: redirect:/lectureRoom/reservationModify
+    confirm-my-reservation: /mypage/confirmMyReservation
+    confirm: /lectureRoom/reservationConfirm
+    my-page-student: redirect:/myPageStudent
+
+  fields:
+    room-id: LectureRoomID
+    max-people: MaxNumOfPeople
+    room-number: RoomNumber
+    room-name: LectureRoomName
+    reservation-id: ReservationID
+    user-id: UserID
+    start-time: StartTime
+    end-time: EndTime
+    date: ReservationDate
+    purpose: ReservationPurpose
+    
+  string:
+    available: 사용가능
+    unavailable: 사용불가
+    reserved: 예약완료
+    canceled: 예약취소
+
+  time:
+    nine: 09:00:00
+    eleven: 11:00:00
+    thirteen: 13:00:00
+    fifteen: 15:00:00
+    seventeen: 17:00:00
+    nineteen: 19:00:00
+    
+  sql:
+    select:
+      room-list: >
+        SELECT * FROM LectureRoom
+      room-by-id: >
+        SELECT * FROM LectureRoom
+        WHERE LectureRoomID = #{LectureRoomID}
+      reservation-by-id: >
+        SELECT * FROM Reservation
+        WHERE ReservationID = #{ReservationID}
+      reservation-by-date: >
+        SELECT * FROM Reservation
+        WHERE ReservationDate = #{ReservationDate}
+      reservation-by-room: >
+        SELECT * FROM Reservation
+        WHERE LectureRoomID = #{LectureRoomID}
+        
+    insert:
+      reservation: >
+        INSERT INTO Reservation (
+          LectureRoomID, UserID, StartTime, EndTime,
+          ReservationDate, ReservationPurpose
+        )
+        VALUES (
+          #{LectureRoomID}, #{UserID}, #{StartTime}, #{EndTime},
+          #{ReservationDate}, #{ReservationPurpose}
+        )
+        
+    update:
+      reservation: >
+        UPDATE Reservation
+        SET StartTime = #{StartTime},
+            EndTime = #{EndTime},
+            ReservationDate = #{ReservationDate},
+            ReservationPurpose = #{ReservationPurpose}
+        WHERE ReservationID = #{ReservationID}
+      status: >
+        UPDATE Reservation
+        SET Status = #{Status}
+        WHERE ReservationID = #{ReservationID}
+        
+    delete:
+      reservation: >
+        DELETE FROM Reservation
+        WHERE ReservationID = #{ReservationID}
