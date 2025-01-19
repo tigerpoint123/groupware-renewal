@@ -1,0 +1,140 @@
+team:
+  urls:
+    team: /team/team
+    team-list: /team/teamList
+    team-create: /team/createTeam
+    team-detail: /team/teamDetail
+    team-search: /team/searchMyTeam
+    team-board: /team/teamBoard
+    team-board-detail: /team/teamBoardDetail
+    team-board-modify: /team/modifyTeamBoard
+    team-board-write: /team/writeTeamBoard
+    re-team: redirect:/team/team
+    re-team-list: redirect:/team/teamList
+    re-team-create: redirect:/team/createTeam
+    re-team-detail: redirect:/team/teamDetail
+    re-team-board: redirect:/team/teamBoard
+    re-team-board-detail: redirect:/team/teamBoardDetail
+    re-search-lecture: redirect:/team/searchLecture
+    re-home: redirect:/home
+    my-team-list: /team/myTeamList
+    document-list: /team/documentList
+    document-content: /team/documentContent
+    document-write: /team/documentWrite
+    document-list-no: redirect:/team/documentList?no=
+    document-modify: /team/documentModify
+    search-lecture: /team/searchLecture
+    check-team: /team/checkTeam
+    modify-team: /team/modifyTeam
+    re-list: redirect:teamList
+    review-write: /team/reviewWrite
+    re-search-my-team: redirect:/team/searchMyTeam
+
+    
+  fields:
+    team-id: TeamID
+    team-name: TeamName
+    team-leader: TeamLeader
+    team-leader-id: TeamLeaderID
+    team-member: TeamMember
+    team-member-id: TeamMemberID
+    class-id: ClassID
+    class-name: ClassName
+    class-professor: ClassProfessor
+    user-id: UserID
+    user-name: UserName
+    user-login-id: UserLoginID
+    board-id: BoardID
+    board-title: BoardTitle
+    board-writer: BoardWriter
+    board-content: BoardContent
+    board-date: BoardDate
+    board-hits: BoardHits
+    path: C:\\mju\\
+    
+  string:
+    student: STUDENT
+    professor: PROFESSOR
+    administrator: ADMINISTRATOR
+    team-leader: 팀장
+    team-member: 팀원
+    
+  sql:
+    select:
+      team: >
+        SELECT * FROM Team
+        WHERE TeamID = #{TeamID}
+      team-by-class: >
+        SELECT * FROM Team
+        WHERE ClassID = #{ClassID}
+      team-by-leader: >
+        SELECT * FROM Team
+        WHERE TeamLeaderID = #{TeamLeaderID}
+      team-by-member: >
+        SELECT * FROM Team
+        WHERE TeamMemberID = #{TeamMemberID}
+      team-board: >
+        SELECT * FROM TeamBoard
+        WHERE TeamID = #{TeamID}
+      team-board-by-id: >
+        SELECT * FROM TeamBoard
+        WHERE BoardID = #{BoardID}
+        
+    insert:
+      team: >
+        INSERT INTO Team (
+          TeamName, TeamLeaderID, TeamLeaderName,
+          ClassID, ClassName, ClassProfessor
+        )
+        VALUES (
+          #{TeamName}, #{TeamLeaderID}, #{TeamLeaderName},
+          #{ClassID}, #{ClassName}, #{ClassProfessor}
+        )
+      team-member: >
+        INSERT INTO TeamMember (
+          TeamID, UserID, UserName, UserLoginID
+        )
+        VALUES (
+          #{TeamID}, #{UserID}, #{UserName}, #{UserLoginID}
+        )
+      team-board: >
+        INSERT INTO TeamBoard (
+          TeamID, BoardTitle, BoardWriter, BoardContent,
+          BoardDate, BoardHits, UserLoginID
+        )
+        VALUES (
+          #{TeamID}, #{BoardTitle}, #{BoardWriter}, #{BoardContent},
+          NOW(), 0, #{UserLoginID}
+        )
+        
+    update:
+      team-name: >
+        UPDATE Team
+        SET TeamName = #{TeamName}
+        WHERE TeamID = #{TeamID}
+      team-leader: >
+        UPDATE Team
+        SET TeamLeaderID = #{TeamLeaderID},
+            TeamLeaderName = #{TeamLeaderName}
+        WHERE TeamID = #{TeamID}
+      board-hits: >
+        UPDATE TeamBoard
+        SET BoardHits = BoardHits + 1
+        WHERE BoardID = #{BoardID}
+      board-content: >
+        UPDATE TeamBoard
+        SET BoardTitle = #{BoardTitle},
+            BoardContent = #{BoardContent}
+        WHERE BoardID = #{BoardID}
+        
+    delete:
+      team: >
+        DELETE FROM Team
+        WHERE TeamID = #{TeamID}
+      team-member: >
+        DELETE FROM TeamMember
+        WHERE TeamID = #{TeamID}
+        AND UserID = #{UserID}
+      team-board: >
+        DELETE FROM TeamBoard
+        WHERE BoardID = #{BoardID} 

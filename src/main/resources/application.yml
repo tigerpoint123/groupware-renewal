@@ -48,3 +48,8 @@ config:
     - classpath:/config/calenderDao.yml
     - classpath:/config/homeController.yml
     - classpath:/config/lectureRoomController.yml
+    - classpath:/config/professorController.yml
+    - classpath:/config/searchController.yml
+    - classpath:/config/studentController.yml
+    - classpath:/config/teamController.yml
+    - classpath:/config/userFunction.yml

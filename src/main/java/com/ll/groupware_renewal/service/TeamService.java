@@ -4,6 +4,7 @@ import com.ll.groupware_renewal.dto.*;
 
 import java.util.List;
 
+import com.ll.groupware_renewal.dto.Class;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 

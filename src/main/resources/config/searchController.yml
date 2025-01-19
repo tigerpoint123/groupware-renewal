@@ -1,0 +1,12 @@
+search:
+  urls:
+    search-user: /search/searchUser
+    review-list: /search/reviewList
+    r-search-user: redirect:/search/searchUser
+  fields:
+    s-role: STUDENT
+    p-role: PROFESSOR
+    a-role: ADMINISTRATOR
+    u-name: UserName
+    user-email: UserEmail
+    phone-num: PhoneNum

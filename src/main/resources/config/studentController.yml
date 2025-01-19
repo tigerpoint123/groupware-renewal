@@ -1,0 +1,63 @@
+student:
+  urls:
+    my-page: /student/myPageStudent
+    modify: /student/modifyStudent
+    signup: /signup/signupStudent
+
+  fields:
+    user-name: UserName
+    user-name-for-open: UserNameForOpen
+    user-login-id: UserLoginID
+    user-phone-num: UserPhoneNum
+    user-phone: UserPhone
+    user-email: UserEmail
+    user-major: UserMajor
+    user-grade: UserGrade
+    grade: Grade
+    email: Email
+
+  string:
+    student: STUDENT
+    user: ROLE_USER
+    admin: ROLE_ADMIN
+    public: 공개
+    private: 비공개
+    
+  sql:
+    select:
+      student-info: >
+        SELECT * FROM Student
+        WHERE UserID = #{UserID}
+      student-by-id: >
+        SELECT * FROM Student
+        WHERE StudentID = #{StudentID}
+        
+    update:
+      student-info: >
+        UPDATE Student
+        SET StudentColleges = #{StudentColleges},
+            StudentMajor = #{StudentMajor},
+            StudentGrade = #{StudentGrade},
+            StudentGender = #{StudentGender},
+            StudentDoubleMajor = #{StudentDoubleMajor}
+        WHERE UserID = #{UserID}
+      phone-num: >
+        UPDATE User
+        SET UserPhoneNum = #{UserPhoneNum}
+        WHERE UserID = #{UserID}
+      email: >
+        UPDATE User
+        SET UserEmail = #{UserEmail}
+        WHERE UserID = #{UserID}
+      open-phone: >
+        UPDATE User
+        SET OpenPhoneNum = #{OpenPhoneNum}
+        WHERE UserID = #{UserID}
+      open-email: >
+        UPDATE User
+        SET OpenEmail = #{OpenEmail}
+        WHERE UserID = #{UserID}
+      open-grade: >
+        UPDATE User
+        SET OpenGrade = #{OpenGrade}
+        WHERE UserID = #{UserID} 

@@ -1,6 +1,6 @@
 package com.ll.groupware_renewal.controller;
 
-import com.ll.groupware_renewal.constant.ConstantScheduleController;
+import com.ll.groupware_renewal.config.ScheduleConfig;
 import com.ll.groupware_renewal.dto.Calender;
 import com.ll.groupware_renewal.dto.User;
 import com.ll.groupware_renewal.function.UserInfoMethod;
@@ -9,8 +9,7 @@ import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.StudentService;
 import com.ll.groupware_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,34 +21,19 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
+@RequiredArgsConstructor
 public class ScheduleController {
-
-	private ConstantScheduleController Constant;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private StudentService studentService;
-	@Autowired
-	private ProfessorService professorService;
-	@Autowired
-	private UserInfoMethod userInfoMethod;
-	@Autowired
-	private CalenderService calenderService;
+	private final UserService userService;
+	private final StudentService studentService;
+	private final ProfessorService professorService;
+	private final UserInfoMethod userInfoMethod;
+	private final CalenderService calenderService;
+	private final ScheduleConfig scheduleConfig;
 	
 	private String SRole;
 	private String PRole;
 	private String ARole;
-	private String Schedule;
-	
-	@SuppressWarnings("resource")
-	public ScheduleController() {
-	      GenericXmlApplicationContext Ctx = new GenericXmlApplicationContext();
-	      Ctx.load("classpath:/xmlForProperties/ScheduleController.xml");
-	      Ctx.refresh();
-	      // 빈 객체 받아오기
-	      this.Constant = (ConstantScheduleController) Ctx.getBean("ScheduleControllerID");
-	   }
-	
+
 	// 일정 화면
 	@RequestMapping(value = "/schedule/mySchedule", method = { RequestMethod.GET, RequestMethod.POST })
 	public String schedule(Locale locale, Model model, Principal principal, User user) {
@@ -58,15 +42,15 @@ public class ScheduleController {
 			String LoginID = principal.getName();// 로그인 한 아이디
 			int UserID = calenderService.SelectUserIdForCalender(LoginID);
 
-			model.addAttribute(this.Constant.getUserId(), UserID);
+			model.addAttribute(this.scheduleConfig.getFields().getUserId().toString(), UserID);
 
 			ArrayList<String> SelectUserProfileInfo = new ArrayList<String>();
 			SelectUserProfileInfo = userService.SelectUserProfileInfo(LoginID);
 			user.setUserLoginID(LoginID);
 			
-			this.SRole = this.Constant.getSRole();
-			this.PRole = this.Constant.getPRole();
-			this.ARole = this.Constant.getARole();
+			this.SRole = this.scheduleConfig.getFields().getSRole().toString();
+			this.PRole = this.scheduleConfig.getFields().getPRole().toString();
+			this.ARole = this.scheduleConfig.getFields().getARole().toString();
 
 			if (SelectUserProfileInfo.get(2).equals(SRole)) {
 				ArrayList<String> StudentInfo = new ArrayList<String>();
@@ -84,7 +68,7 @@ public class ScheduleController {
 			}
 
 		}
-		return this.Constant.getSchedule();
+		return this.scheduleConfig.getUrls().getSchedule().toString();
 	}
 
 	// 일정 받기
@@ -138,10 +122,10 @@ public class ScheduleController {
 	public int modifyTimeInMonth(Principal principal, @RequestBody Calender calender) {
 		Integer UserID = SelectUserIDForCalender(principal);
 		HashMap<String, String> Map = new HashMap<String, String>();
-		Map.put(this.Constant.getUserID(), Integer.toString(UserID));
-		Map.put(this.Constant.getScheduleID(), calender.getId());
-		Map.put(this.Constant.getStart(), calender.getStart());
-		Map.put(this.Constant.getEnd(), calender.getEnd());
+		Map.put(this.scheduleConfig.getFields().getUserId().toString(), Integer.toString(UserID));
+		Map.put(this.scheduleConfig.getFields().getScheduleId().toString(), calender.getId());
+		Map.put(this.scheduleConfig.getFields().getStart().toString(), calender.getStart());
+		Map.put(this.scheduleConfig.getFields().getEnd().toString(), calender.getEnd());
 		int Count = calenderService.UpdateTimeInMonth(Map);
 
 		return Count;

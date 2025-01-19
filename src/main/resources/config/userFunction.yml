@@ -1,0 +1,68 @@
+user-function:
+  urls:
+    home: /home
+    login: /signin/login
+    logout: /logout
+    signup: /signup/signup
+    signup-student: /signup/signupStudent
+    find-password: /signin/findPassword
+    show-password: /signin/showPassword
+    email-verification: /signup/emailAuthentication
+    email-verification-confirm: /signup/emailAuthentication
+    signup-select: /signup/signupSelect
+    withdrawal: /mypage/withdrawal
+    check-password: /mypage/checkPassword
+    check-password2: /mypage/checkPassword2
+    check-password3: /mypage/checkPassword3
+    modify-password: /mypage/modifyPassword
+    check-my-team: /mypage/checkMyTeam
+    my-post-list: /mypage/myPostList
+    my-inquiry-list: /mypage/myInquiryList
+    email-login: /email/emailLogin
+    email-list: /email/emailList
+    email-content: /email/emailContent
+    home-view: /homeView/home
+    
+    re-home: redirect:/home
+    re-login: redirect:/signin/login
+    re-withdrawal: redirect:withdrawal
+    re-modify-student: redirect:modifyStudent
+    re-modify-professor: redirect:modifyProfessor
+    re-modify-password: redirect:modifyPassword
+    re-mypage-student: redirect:myPageStudent
+    re-mypage-professor: redirect:myPageProfessor
+    re-email-list: redirect:/email/emailList
+    re-email-login: redirect:/email/emailLogin
+    
+  fields:
+    user-name: UserName
+    student-name: StudentName
+    professor-name: ProfessorName
+    user-login-id: UserLoginID
+    user-password: UserLoginPwd
+    user-new-password: UserNewPwd
+    user-new-password-check: UserNewPwdCheck
+    email-password: EmailLoginPwd
+    user-email: Email
+    user-phone-num: UserPhoneNum
+    student-num: StudentNum
+    professor-num: ProfessorNum
+    email-check: EmailCheck
+    email-valid: EmailValid
+    btn-agree: BtnAgree
+    agree-withdrawal: AgreeWithdrawal
+    auth-num: Number
+    
+  string:
+    student: STUDENT
+    professor: PROFESSOR
+    admin: ADMINISTRATOR
+    email-domain: @mju.ac.kr
+    notice-list: noticeList
+    community-list: communityList
+    my-board-list: MyBoardList
+    my-inquiry-list: MyInquiryList
+    
+  format:
+    date: yyyy-MM-dd
+    date-time: yyyy-MM-dd HH:mm:ss

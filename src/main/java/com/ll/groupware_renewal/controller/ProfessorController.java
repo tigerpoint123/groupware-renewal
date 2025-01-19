@@ -1,14 +1,13 @@
 package com.ll.groupware_renewal.controller;
 
-import com.ll.groupware_renewal.constant.admin.ConstantAdminProfessorController;
+import com.ll.groupware_renewal.config.ProfessorConfig;
 import com.ll.groupware_renewal.dto.Professor;
 import com.ll.groupware_renewal.dto.User;
 import com.ll.groupware_renewal.service.ProfessorService;
 import com.ll.groupware_renewal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,31 +17,20 @@ import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
+@RequiredArgsConstructor
 public class ProfessorController {
+	private final UserService userService;
+	private final ProfessorService professorService;
+	private final ProfessorConfig professorConfig;
 
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private ProfessorService professorService;
-
-	private ConstantAdminProfessorController Constant;
 	private String ProfessorColleges;
 	private String ProfessorRoom;
 	private String UserMajorForShow;
 	private String UserName;
 	
-	@SuppressWarnings("resource")
-	public ProfessorController() {
-		// 컨테이너 생성 및 xml 파일 로드
-		GenericXmlApplicationContext CTX = new GenericXmlApplicationContext();
-		CTX.load("classpath:/xmlForProperties/ProfessorController.xml");
-		CTX.refresh();
-		this.Constant = (ConstantAdminProfessorController) CTX.getBean("ProfessorControllerID");
-	}
-
 	@RequestMapping(value = "/signupProfessor", method = RequestMethod.GET)
 	public String signupProfessor() {
-		return this.Constant.getRSignupProfessor();
+		return this.professorConfig.getUrls().getSignupProfessor().toString();
 	}
 
 	/* 교수 마이페이지 */
@@ -84,13 +72,13 @@ public class ProfessorController {
 		String SelectOpenInfo = userService.SelectOpenInfo(UserID);
 		// jsp화면 설정
 		// 아이디 0
-		model.addAttribute(this.Constant.getUserLoginID(), SelectUserInfo.get(0));
+		model.addAttribute(this.professorConfig.getFields().getUserLoginID().toString(), SelectUserInfo.get(0));
 		// 이름 1
-		model.addAttribute(this.Constant.getUserName(), SelectUserInfo.get(1));
+		model.addAttribute(this.professorConfig.getFields().getUserName().toString(), SelectUserInfo.get(1));
 		// 교수실 전화번호 7
 		model.addAttribute("ProfessorRoomNum", SelectUserInfo.get(12));
 		// 연락처 2
-		model.addAttribute(this.Constant.getUserPhoneNum(), SelectUserInfo.get(2));
+		model.addAttribute(this.professorConfig.getFields().getUserPhoneNum().toString(), SelectUserInfo.get(2));
 		// 단과대학 9
 		model.addAttribute("ProfessorColleges", SelectUserInfo.get(9));
 		// 전공 10
@@ -100,13 +88,13 @@ public class ProfessorController {
 		// 이메일 3
 		int Idx = SelectUserInfo.get(3).indexOf("@"); // 메일에서 @의 인덱스 번호를 찾음
 		String Email = SelectUserInfo.get(3).substring(0, Idx);
-		model.addAttribute(this.Constant.getUserEmail(), Email);
+		model.addAttribute(this.professorConfig.getFields().getUserEmail().toString(), Email);
 
 		// 정보공개여부
 		if (!SelectOpenInfo.equals("Error")) {
 			model.addAttribute("UserInfoOpen", SelectOpenInfo);
 		}
-		return this.Constant.getRMyPageProfessor();
+		return this.professorConfig.getUrls().getMypageProfessor().toString();
 
 	}
 
@@ -123,14 +111,14 @@ public class ProfessorController {
 		String UserEmail = SelectUserProfileInfo.getUserEmail();
 		int Location = UserEmail.indexOf("@");
 		UserEmail = UserEmail.substring(0, Location);
-		model.addAttribute(this.Constant.getEmail(), UserEmail);
-		model.addAttribute(this.Constant.getUserPhoneNum(), professor.getUserPhoneNum());
+		model.addAttribute(this.professorConfig.getFields().getEmail().toString(), UserEmail);
+		model.addAttribute(this.professorConfig.getFields().getUserPhoneNum().toString(), professor.getUserPhoneNum());
 		model.addAttribute("ProfessorColleges", professor.getProfessorColleges());
 		model.addAttribute("ProfessorMajor", professor.getProfessorMajor());
 		// 연락처 공개
         model.addAttribute("OpenPhoneNum", SelectUserProfileInfo.getOpenPhoneNum());
 
-		return this.Constant.getRModifyProfessor();
+		return this.professorConfig.getUrls().getModifyProfessor().toString();
 	}
 
 	// 교수 정보 수정
@@ -149,8 +137,8 @@ public class ProfessorController {
 		professor.setUserID(Integer.parseInt(UserInfo.get(0)));
 
 		// 연락처
-		if (!((String) request.getParameter(this.Constant.getUserPhoneNum())).equals("")) {
-			user.setUserPhoneNum((String) request.getParameter(this.Constant.getUserPhoneNum()));
+		if (!((String) request.getParameter(this.professorConfig.getFields().getUserPhoneNum().toString())).equals("")) {
+			user.setUserPhoneNum((String) request.getParameter(this.professorConfig.getFields().getUserPhoneNum().toString()));
 			userService.updateUserPhoneNumber(user);
 		}
 		// 교수실
@@ -165,16 +153,16 @@ public class ProfessorController {
 		}
 
 		// 정보공개여부 선택
-		if (request.getParameter(this.Constant.getUserPhone()) != null) {
+		if (request.getParameter(this.professorConfig.getFields().getUserPhone().toString()) != null) {
 			String OpenPhoneNum = "전화번호";
 			user.setOpenPhoneNum(OpenPhoneNum);
 			userService.UpdateOpenPhoneNum(user);
-		} else if (request.getParameter(this.Constant.getUserPhone()) == null) {
+		} else if (request.getParameter(this.professorConfig.getFields().getUserPhone().toString()) == null) {
 			String NotOpen = "비공개";
 			user.setOpenPhoneNum(NotOpen);
 			userService.UpdateOpenPhoneNum(user);
 		}
-		return this.Constant.getRModifyProfessor();
+		return this.professorConfig.getUrls().getModifyProfessor().toString();
 	}
 
 }

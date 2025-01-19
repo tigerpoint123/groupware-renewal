@@ -1,0 +1,69 @@
+professor:
+  urls:
+    home: /professor/homeForProfessor
+    my-page: /professor/myPageProfessor
+    modify: /professor/modifyProfessor
+    modify-info: /professor/modifyProfessorInfo
+    re-home: redirect:/professor/homeForProfessor
+    re-my-page: redirect:/professor/myPageProfessor
+    re-modify: redirect:/professor/modifyProfessor
+    re-modify-info: redirect:/professor/modifyProfessorInfo
+    signup-professor: /signup/signupProfessor
+    mypage-professor: /mypage/myPageProfessor
+    modify-professor: /mypage/modifyProfessor
+    
+  fields:
+    user-name: UserName
+    user-name-for-open: UserNameForOpen
+    user-login-id: UserLoginID
+    user-phone-num: UserPhoneNum
+    user-phone: UserPhone
+    email: Email
+    user-email: UserEmail
+    user-major: UserMajor
+    user-college: UserColleges
+    professor-room: ProfessorRoom
+    professor-room-num: ProfessorRoomNum
+    open-phone-num: OpenPhoneNum
+    open-email: OpenEmail
+    
+  string:
+    professor: PROFESSOR
+    user: ROLE_USER
+    admin: ROLE_ADMIN
+    public: 공개
+    private: 비공개
+    
+  sql:
+    select:
+      professor-info: >
+        SELECT * FROM Professor
+        WHERE UserID = #{UserID}
+      professor-by-id: >
+        SELECT * FROM Professor
+        WHERE ProfessorID = #{ProfessorID}
+        
+    update:
+      professor-info: >
+        UPDATE Professor
+        SET ProfessorColleges = #{ProfessorColleges},
+            ProfessorMajor = #{ProfessorMajor},
+            ProfessorRoom = #{ProfessorRoom},
+            ProfessorRoomNum = #{ProfessorRoomNum}
+        WHERE UserID = #{UserID}
+      phone-num: >
+        UPDATE User
+        SET UserPhoneNum = #{UserPhoneNum}
+        WHERE UserID = #{UserID}
+      email: >
+        UPDATE User
+        SET UserEmail = #{UserEmail}
+        WHERE UserID = #{UserID}
+      open-phone: >
+        UPDATE User
+        SET OpenPhoneNum = #{OpenPhoneNum}
+        WHERE UserID = #{UserID}
+      open-email: >
+        UPDATE User
+        SET OpenEmail = #{OpenEmail}
+        WHERE UserID = #{UserID}

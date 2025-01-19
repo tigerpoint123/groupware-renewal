@@ -1,5 +1,6 @@
 package com.ll.groupware_renewal.controller;
 
+import com.ll.groupware_renewal.config.StudentConfig;
 import com.ll.groupware_renewal.constant.admin.ConstantAdminStudentController;
 import com.ll.groupware_renewal.dto.Student;
 import com.ll.groupware_renewal.dto.User;
@@ -19,10 +20,9 @@ import java.util.ArrayList;
 @Controller
 @RequiredArgsConstructor
 public class StudentController {
-
 	private final UserService userService;
 	private final StudentService studentService;
-	private final ConstantAdminStudentController constant;
+	private final StudentConfig studentConfig;
 
 	private String studentColleges;
 	private String studentGrade;
@@ -31,7 +31,7 @@ public class StudentController {
 
 	@RequestMapping(value = "/signupStudent", method = RequestMethod.GET)
 	public String signupStudent() {
-		return this.constant.getRSignupStudent();
+		return this.studentConfig.getUrls().getSignup().toString();
 	}
 
 	/* 학생 마이페이지 */
@@ -57,7 +57,7 @@ public class StudentController {
 		model.addAttribute("UserMajor", userMajorForShow);
 
 		studentGrade = StudentInfo.get(2);
-		model.addAttribute(this.constant.getGrade(), studentGrade);
+		model.addAttribute(this.studentConfig.getFields().getGrade().toString(), studentGrade);
 
 		// user role 가져오기
 		String UserLoginID = Principal.getName();
@@ -74,13 +74,13 @@ public class StudentController {
 		String SelectOpenInfo = userService.SelectOpenInfo(UserID);
 		// jsp화면 설정
 		// 아이디 0
-		model.addAttribute(this.constant.getUserLoginID(), SelectUserInfo.get(0));
+		model.addAttribute(this.studentConfig.getFields().getUserLoginId().toString(), SelectUserInfo.get(0));
 		// 이름 1
-		model.addAttribute(this.constant.getUserName(), SelectUserInfo.get(1));
+		model.addAttribute(this.studentConfig.getFields().getUserName().toString(), SelectUserInfo.get(1));
 		// 성별 8
 		model.addAttribute("StudentGender", SelectUserInfo.get(8));
 		// 연락처 2
-		model.addAttribute(this.constant.getUserPhoneNum(), SelectUserInfo.get(2));
+		model.addAttribute(this.studentConfig.getFields().getUserPhoneNum().toString(), SelectUserInfo.get(2));
 		// 학년 6
 		model.addAttribute("StudentGrade", SelectUserInfo.get(6));
 		// 단과대학 4
@@ -92,13 +92,13 @@ public class StudentController {
 		// 이메일 5
 		int Idx = SelectUserInfo.get(3).indexOf("@"); // 메일에서 @의 인덱스 번호를 찾음
 		String Email = SelectUserInfo.get(3).substring(0, Idx);
-		model.addAttribute(this.constant.getUserEmail(), Email);
+		model.addAttribute(this.studentConfig.getFields().getUserEmail().toString(), Email);
 
 		// 정보공개여부
 		if (!SelectOpenInfo.equals("Error")) {
 			model.addAttribute("UserInfoOpen", SelectOpenInfo);
 		}
-		return this.constant.getRMyPageStudent();
+		return this.studentConfig.getUrls().getMyPage().toString();
 	}
 
 	/* 학생 정보 수정 화면 */
@@ -115,7 +115,7 @@ public class StudentController {
 		String UserEmail = SelectUserProfileInfo.getUserEmail();
 		int Location = UserEmail.indexOf("@");
 		UserEmail = UserEmail.substring(0, Location);
-		model.addAttribute(this.constant.getEmail(), UserEmail);
+		model.addAttribute(this.studentConfig.getFields().getEmail().toString(), UserEmail);
 		// 성별
 		model.addAttribute("StudentGender", student.getStudentGender());
 		// 단과대학
@@ -128,7 +128,7 @@ public class StudentController {
         model.addAttribute("OpenPhoneNum", SelectUserProfileInfo.getOpenPhoneNum());
         // 학년 공개
         model.addAttribute("OpenGrade", SelectUserProfileInfo.getOpenGrade());
-		return this.constant.getRModifyStudent();
+		return this.studentConfig.getUrls().getModify().toString();
 	}
 
 	// 학생 정보 수정
@@ -146,8 +146,8 @@ public class StudentController {
 		student.setUserID(Integer.parseInt(UserInfo.get(0)));
 
 		// 연락처
-		if (!((String) request.getParameter(this.constant.getUserPhoneNum())).equals("")) {
-			user.setUserPhoneNum((String) request.getParameter(this.constant.getUserPhoneNum()));
+		if (!((String) request.getParameter(this.studentConfig.getFields().getUserPhoneNum().toString())).equals("")) {
+			user.setUserPhoneNum((String) request.getParameter(this.studentConfig.getFields().getUserPhoneNum().toString()));
 			userService.updateUserPhoneNumber(user);
 		}
 		// 학년
@@ -157,27 +157,27 @@ public class StudentController {
 		}
 
 		// 정보공개여부 선택
-		if (request.getParameter(this.constant.getUserPhone()) != null) {
+		if (request.getParameter(this.studentConfig.getFields().getUserPhone().toString()) != null) {
 			String OpenPhoneNum = "전화번호";
 			user.setOpenPhoneNum(OpenPhoneNum);
 			userService.UpdateOpenPhoneNum(user);
-		} else if (request.getParameter(this.constant.getUserPhone()) == null) {
+		} else if (request.getParameter(this.studentConfig.getFields().getUserPhone().toString()) == null) {
 			String NotOpen = "비공개";
 			user.setOpenPhoneNum(NotOpen);
 			userService.UpdateOpenPhoneNum(user);
 		}
 
-		if (request.getParameter(this.constant.getUserGrade()) != null) {
+		if (request.getParameter(this.studentConfig.getFields().getUserGrade().toString()) != null) {
 			String OpenGrade = "학년";
 			user.setOpenGrade(OpenGrade);
 			userService.UpdateOpenGrade(user);
-		} else if (request.getParameter(this.constant.getUserGrade()) == null) {
+		} else if (request.getParameter(this.studentConfig.getFields().getUserGrade().toString()) == null) {
 			String NotOpen = "비공개";
 			user.setOpenGrade(NotOpen);
 			userService.UpdateOpenGrade(user);
 		}
 
-		return this.constant.getRModifyStudent();
+		return this.studentConfig.getUrls().getModify().toString();
 	}
 
 }
